@@ -48,6 +48,15 @@ Both sides race to the ball-to-runner intercept.
 - Unscorable by construction: 740 recipient-less passes (mostly failed).
   Selection bias toward structured balls; noted, not fixed.
 
+## Replication (Euro2020 33,761 + LaLiga 28,694, frozen WC2022 bins)
+
+- Euro2020: monotone 0.204 -> 0.004 (53x). LaLiga: monotone 0.205 -> 0.003
+  (65x). Rank-0 failure 0.024 on all three datasets, rank curves
+  monotone to rank 6+ everywhere.
+- Verdict: the gradient is not a tournament artifact. Bottom-decile rate
+  pins at 0.20 on all three; top-decile floor varies 0.002-0.004.
+  Finding stands; absolute seconds still uncalibrated (standing starts).
+
 ## Open priors (fitted, not proven)
 
 - Constant 22 m/s strike for all distances. Short balls likely overtimed by

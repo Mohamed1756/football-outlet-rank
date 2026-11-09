@@ -79,6 +79,6 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `src/physics/biomechanics.py` — hip-pivot latency + angle wrap.
 - `src/core/geometry.py` — `PitchPoint` only.
 - `arrival.md` — research note: values, novelty, deleted priors.
-- `reports/fig1_decile_curves.svg`, `reports/fig2_rank_choice.svg` — figures (`docs/figs/` holds rendered copies).
+- `docs/figs/fig1_decile_curves.png`, `docs/figs/fig2_rank_example.png` — figures.
 - `data/wc2022`, `data/euro2020`, `data/laliga`, `data/euro2024`,
   `data/wwc2023` — open 360 freeze-frames (untracked, local only).

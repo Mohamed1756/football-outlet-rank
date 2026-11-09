@@ -1,4 +1,4 @@
-# Arrival Race
+# Football Outlet Rank
 
 Safety of a receiving outlet as a physical race, not a distance heuristic.
 Both sides race to the ball-to-runner intercept.

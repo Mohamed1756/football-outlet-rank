@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "arrival-race"
+name = "football-outlet-rank"
 version = "0.1.0"
-description = "Pass safety as a physical arrival race: margin = t_press - t_ball"
+description = "Rank every passing outlet by its arrival cushion: margin = t_press - t_ball"
 requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.26.0",

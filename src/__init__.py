@@ -1,3 +1,3 @@
-"""Arrival Race: pass-outlet safety as a physical race to the intercept."""
+"""Football Outlet Rank: rank every passing outlet by its arrival cushion."""
 
 __version__ = "0.1.0"

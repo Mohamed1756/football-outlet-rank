@@ -163,6 +163,9 @@ def arrival_margin(
     same intercept. Positions frozen at decision time except the receiver's
     run and ball flight: prep-latency presser motion (~1 m) is unmodeled,
     a documented pro-receiver bias.
+
+    marking_dist_m is the nearest opponent's distance to the intercept:
+    context for display, never ranked or calibrated on.
     """
     rec_vel, _ = gate_tracking_velocity(receiver.vel_ms, receiver.speed_capped)
     target, t_ball = intercept_target(

@@ -4,7 +4,8 @@ Safety of a receiving outlet as a physical race, not a distance heuristic.
 Both sides race to the ball-to-runner intercept.
 
 **Who this is for:** football analysts and researchers who rank passing
-options under pressure. If you score outlets, pick passes, or study
+options under pressure. Any player in possession can be the passer, not
+just the goalkeeper. If you score outlets, pick passes, or study
 progression against a press, this is a tested unit for "does the ball arrive
 before the defender" — calibrated on 173,440 open-data passes across five
 tournaments, men's and women's.
@@ -26,7 +27,7 @@ Example: a 0.8 s margin sits in decile 1 (edge 1.01 s). Historically ~20% of men
 
 Two scales. Play rank is relative to one freeze; decile is absolute against fixed WC2022 edges.
 
-- Play rank (`rank_outlets`): sort the outlets on one freeze by margin (`t_press - t_ball`) largest-first. Rank 0 = largest margin available on that play. `rank_outlets([2.6, 1.4, 0.7])` gives rank 0 to 2.6 s, rank 1 to 1.4 s, rank 2 to 0.7 s. Fitted failure: rank 0 ~2.4%, rank 1 ~4.3%, rank 2 ~7.5%, rising to ~21% by rank 6.
+- Play rank (`rank_outlets`): sort the outlets on one freeze by margin (`t_press - t_ball`) largest-first. Rank 0 is the best outlet on that play, the largest margin available. `rank_outlets([2.6, 1.4, 0.7])` gives rank 0 to 2.6 s, rank 1 to 1.4 s, rank 2 to 0.7 s. Fitted failure: rank 0 ~2.4%, rank 1 ~4.3%, rank 2 ~7.5%, rising to ~21% by rank 6.
 - Margin decile (`margin_decile`): bin one margin against fixed edges (1.01, 1.31, 1.52, 1.70, 1.85, 1.99, 2.13, 2.29, 2.50 s). Decile 1 = margin below 1.01 s; decile 10 = margin above 2.50 s. Fitted failure: decile 1 ~20.4% down to decile 10 ~0.2%, monotone.
 
 Rank answers which outlet is safest here. Decile answers how safe that margin is anywhere. A 1.4 s outlet is rank 0 on a tight play and rank 1 on the play below; its decile is 3 either way.
@@ -62,7 +63,7 @@ print(res.margin_s, res.t_ball_s, res.t_press_s, res.best_presser_id)
 print(ready.reception_latency_s, ready.post_cushion_s(res.margin_s))
 print(ready.retention_prob(res.margin_s))
 
-# Rank outlets on a play, price the chosen one:
+# Rank outlets on raw arrival margin; retention is diagnostic only, never ranked on:
 outlets = [1.9, 0.4, 1.2]  # margins per outlet
 ranks = rank_outlets(outlets)
 print([(r.rank, rank_risk(r.rank)) for r in ranks])

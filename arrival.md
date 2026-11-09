@@ -70,7 +70,9 @@ Both sides race to the ball-to-runner intercept.
   the women's game. Pace narrows real cushions the snapshot can't see, so
   equal measured shape means less true safety. Rank transfers; seconds don't.
 - Verdict: the method generalizes, the levels don't. Recalibrate decile
-  edges per pace environment; the ordering instrument is pace-free.
+  edges per pace environment; the ordering instrument is pace-free. Edges
+  are fixed within a fit (all five replications reuse the WC2022 bins);
+  a new environment gets its own fit, not shifted seconds.
 
 ## Open priors (fitted, not proven)
 

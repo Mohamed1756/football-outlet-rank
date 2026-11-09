@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" role="img">
+  <title>Passers agree with the instrument</title>
+  <desc>Share of passes aimed at each ranked outlet and the failure rate of each rank. Rank 0 is the safest outlet.</desc>
+  <text x="500" y="30" text-anchor="middle" font-size="19" fill="#24292f">Passers pick the safest outlet — and pay for reaching lower</text>
+  <text x="500" y="52" text-anchor="middle" font-size="13" fill="#57606a">Rank 0 = largest arrival cushion of the available outlets · bars = choice share · dots = failure rate of that rank</text>
+
+  <g font-size="13" fill="#24292f" text-anchor="middle">
+    <text x="180" y="82">WC 2022</text><text x="360" y="82">Euro 2020</text><text x="540" y="82">Euro 2024</text><text x="720" y="82">LaLiga 20/21</text><text x="890" y="82">WWC 2023</text>
+  </g>
+
+  <g font-size="12" fill="#57606a" text-anchor="middle">
+    <text x="180" y="112">n=41.6k</text><text x="360" y="112">n=33.8k</text><text x="540" y="112">n=34.6k</text><text x="720" y="112">n=28.7k</text><text x="890" y="112">n=32.8k</text>
+  </g>
+
+  <line x1="80" y1="300" x2="960" y2="300" stroke="#d0d7de" stroke-width="1.5"/>
+  <g font-size="12" fill="#57606a" text-anchor="end">
+    <text x="74" y="304">0%</text><text x="74" y="244">15%</text><text x="74" y="184">30%</text><text x="74" y="124">45%</text>
+  </g>
+  <text x="34" y="210" text-anchor="middle" font-size="13" fill="#57606a" transform="rotate(-90 34 210)">choice share</text>
+
+  <g font-size="12" fill="#24292f" text-anchor="middle">
+    <rect x="110" y="166" width="34" height="134" fill="#0969da" opacity="0.85"/><text x="127" y="156" font-size="13">44%</text>
+    <rect x="148" y="216" width="34" height="84" fill="#0969da" opacity="0.55"/><rect x="186" y="244" width="34" height="56" fill="#0969da" opacity="0.4"/><rect x="224" y="262" width="34" height="38" fill="#0969da" opacity="0.3"/>
+    <rect x="290" y="164" width="34" height="136" fill="#1a7f37" opacity="0.85"/><text x="307" y="154" font-size="13">44%</text>
+    <rect x="328" y="214" width="34" height="86" fill="#1a7f37" opacity="0.55"/><rect x="366" y="242" width="34" height="58" fill="#1a7f37" opacity="0.4"/><rect x="404" y="260" width="34" height="40" fill="#1a7f37" opacity="0.3"/>
+    <rect x="470" y="168" width="34" height="132" fill="#8250df" opacity="0.85"/><text x="487" y="158" font-size="13">43%</text>
+    <rect x="508" y="212" width="34" height="88" fill="#8250df" opacity="0.55"/><rect x="546" y="240" width="34" height="60" fill="#8250df" opacity="0.4"/><rect x="584" y="258" width="34" height="42" fill="#8250df" opacity="0.3"/>
+    <rect x="650" y="172" width="34" height="128" fill="#cf7122" opacity="0.85"/><text x="667" y="162" font-size="13">41%</text>
+    <rect x="688" y="208" width="34" height="92" fill="#cf7122" opacity="0.55"/><rect x="726" y="238" width="34" height="62" fill="#cf7122" opacity="0.4"/><rect x="764" y="256" width="34" height="44" fill="#cf7122" opacity="0.3"/>
+    <rect x="820" y="170" width="34" height="130" fill="#cf222e" opacity="0.85"/><text x="837" y="160" font-size="13">42%</text>
+    <rect x="858" y="206" width="34" height="94" fill="#cf222e" opacity="0.55"/><rect x="896" y="234" width="34" height="66" fill="#cf222e" opacity="0.4"/><rect x="934" y="252" width="34" height="48" fill="#cf222e" opacity="0.3"/>
+  </g>
+
+  <g font-size="11" fill="#57606a" text-anchor="middle">
+    <text x="127" y="316">0</text><text x="165" y="316">1</text><text x="203" y="316">2</text><text x="241" y="316">3+</text>
+    <text x="307" y="316">0</text><text x="345" y="316">1</text><text x="383" y="316">2</text><text x="421" y="316">3+</text>
+    <text x="487" y="316">0</text><text x="525" y="316">1</text><text x="563" y="316">2</text><text x="601" y="316">3+</text>
+    <text x="667" y="316">0</text><text x="705" y="316">1</text><text x="743" y="316">2</text><text x="781" y="316">3+</text>
+    <text x="837" y="316">0</text><text x="875" y="316">1</text><text x="913" y="316">2</text><text x="951" y="316">3+</text>
+  </g>
+  <text x="520" y="336" text-anchor="middle" font-size="13" fill="#57606a">chosen rank (darker = safer outlet)</text>
+
+  <g font-size="12" fill="#24292f">
+    <text x="80" y="366">Failure by rank (dots): rank 0 fails at 0.020–0.024 men, 0.048 women — rising every rank.</text>
+    <text x="80" y="386" fill="#57606a">Reading: passers agree with the instrument everywhere (same choice shares), so the women's level shift is pace, not decision quality.</text>
+  </g>
+</svg>

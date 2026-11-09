@@ -39,7 +39,9 @@ data/video_raw/
 
 # Archived Historical Research & Prototypes
 archive/
-docs/
+docs/*
+!docs/figs/
+!docs/figs/**
 
 # Internal Agent Framework, Skills & Specifications
 .agents/

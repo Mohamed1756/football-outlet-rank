@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img">
+  <title>Replication: margin decile vs incompletion, five datasets</title>
+  <desc>Log-scale incompletion rate by frozen-shape margin decile. Four men's competitions superimpose; the women's line runs parallel above.</desc>
+  <text x="500" y="32" text-anchor="middle" font-size="19" fill="#24292f">Tighter shape fails more — in every competition</text>
+  <text x="500" y="54" text-anchor="middle" font-size="13" fill="#57606a">Incompletion rate by frozen-shape margin decile (log scale) · 173,440 ground passes, frozen WC2022 bin edges</text>
+
+  <rect x="90" y="76" width="620" height="340" fill="none" stroke="#d0d7de" stroke-width="1.5"/>
+  <line x1="90" y1="416" x2="710" y2="416" stroke="#d0d7de" stroke-width="1.5"/>
+
+  <g font-size="12" fill="#24292f" text-anchor="middle">
+    <text x="121" y="436">1
+      <tspan x="121" dy="14" font-size="11" fill="#57606a">tightest</tspan>
+    </text>
+    <text x="183" y="436">2</text><text x="245" y="436">3</text><text x="307" y="436">4</text><text x="369" y="436">5</text><text x="431" y="436">6</text><text x="493" y="436">7</text><text x="555" y="436">8</text><text x="617" y="436">9</text><text x="679" y="436">10
+      <tspan x="679" dy="14" font-size="11" fill="#57606a">safest</tspan>
+    </text>
+  </g>
+  <text x="400" y="472" text-anchor="middle" font-size="13" fill="#57606a">margin decile (1 = smallest arrival cushion, 10 = largest)</text>
+
+  <g font-size="12" fill="#57606a" text-anchor="end">
+    <text x="82" y="420">0.001</text><text x="82" y="352">0.005</text><text x="82" y="284">0.02</text><text x="82" y="216">0.08</text><text x="82" y="148">0.3</text>
+  </g>
+  <text x="34" y="250" text-anchor="middle" font-size="13" fill="#57606a" transform="rotate(-90 34 250)">share of passes incomplete</text>
+
+  <g stroke="#d0d7de" stroke-width="1" stroke-dasharray="3 5">
+    <line x1="90" y1="416" x2="710" y2="416"/><line x1="90" y1="348" x2="710" y2="348"/><line x1="90" y1="280" x2="710" y2="280"/><line x1="90" y1="212" x2="710" y2="212"/><line x1="90" y1="144" x2="710" y2="144"/>
+  </g>
+
+  <polyline points="121,118 183,144 245,167 307,199 369,222 431,242 493,263 555,295 617,310 679,381" fill="none" stroke="#0969da" stroke-width="2.5"/>
+  <circle cx="121" cy="118" r="3.5" fill="#0969da"/><circle cx="679" cy="381" r="3.5" fill="#0969da"/>
+  <polyline points="121,119 183,145 245,176 307,192 369,223 431,247 493,274 555,302 617,341 679,341" fill="none" stroke="#1a7f37" stroke-width="2.5"/>
+  <circle cx="121" cy="119" r="3.5" fill="#1a7f37"/><circle cx="679" cy="341" r="3.5" fill="#1a7f37"/>
+  <polyline points="121,115 183,147 245,176 307,218 369,242 431,256 493,270 555,318 617,341 679,381" fill="none" stroke="#8250df" stroke-width="2.5"/>
+  <circle cx="121" cy="115" r="3.5" fill="#8250df"/><circle cx="679" cy="384" r="3.5" fill="#8250df"/>
+  <polyline points="121,120 183,144 245,180 307,199 369,215 431,245 493,279 555,302 617,329 679,381" fill="none" stroke="#cf7122" stroke-width="2.5"/>
+  <circle cx="121" cy="120" r="3.5" fill="#cf7122"/><circle cx="679" cy="384" r="3.5" fill="#cf7122"/>
+  <polyline points="121,102 183,118 245,140 307,159 369,180 431,196 493,214 555,250 617,289 679,329" fill="none" stroke="#cf222e" stroke-width="2.5" stroke-dasharray="8 5"/>
+  <circle cx="121" cy="102" r="4" fill="none" stroke="#cf222e" stroke-width="2.5"/><circle cx="679" cy="329" r="4" fill="none" stroke="#cf222e" stroke-width="2.5"/>
+
+  <g font-size="14" fill="#24292f">
+    <text x="740" y="110" font-weight="bold">How to read this</text>
+    <text x="740" y="132" font-size="13">Each pass is scored by its arrival</text>
+    <text x="740" y="150" font-size="13">cushion, binned into deciles.</text>
+    <text x="740" y="172" font-size="13">Lower decile = tighter shape.</text>
+    <text x="740" y="194" font-size="13">Y = share that failed.</text>
+    <text x="740" y="222" font-weight="bold">Legend</text>
+  </g>
+  <g font-size="13" fill="#24292f">
+    <line x1="740" y1="240" x2="768" y2="240" stroke="#0969da" stroke-width="3"/><text x="776" y="245">WC 2022 men · 41.6k</text>
+    <line x1="740" y1="262" x2="768" y2="262" stroke="#1a7f37" stroke-width="3"/><text x="776" y="267">Euro 2020 men · 33.8k</text>
+    <line x1="740" y1="284" x2="768" y2="284" stroke="#8250df" stroke-width="3"/><text x="776" y="289">Euro 2024 men · 34.6k</text>
+    <line x1="740" y1="306" x2="768" y2="306" stroke="#cf7122" stroke-width="3"/><text x="776" y="311">LaLiga 20/21 men · 28.7k</text>
+    <line x1="740" y1="328" x2="768" y2="328" stroke="#cf222e" stroke-width="3" stroke-dasharray="5 3"/><text x="776" y="333">WWC 2023 women · 32.8k</text>
+  </g>
+  <g font-size="13" fill="#24292f">
+    <text x="740" y="362" font-weight="bold">Takeaway</text>
+    <text x="740" y="384" font-size="13">Four men's lines superimpose.</text>
+    <text x="740" y="402" font-size="13">Women's runs parallel above:</text>
+    <text x="740" y="420" font-size="13">rank transfers, levels shift.</text>
+  </g>
+</svg>

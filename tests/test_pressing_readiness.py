@@ -51,12 +51,27 @@ def test_facing_is_pose_or_unknown():
     known = _actor(7, 80.0, 30.0, facing=0.5)
     assert resolve_facing(known) == (0.5, "pose")
 
-
 def test_unknown_facing_notes_not_discounts():
     lost = _actor(7, 80.0, 30.0, facing=None)
     res = receiver_readiness(lost, PitchPoint(x=80.0, y=10.0))
     assert res.facing_source == "unknown"
-    assert "+unknown-facing" in res.note
+    assert res.note == "unknown-facing"
+    assert res.turn_latency_s == 0.25
+
+
+def test_unknown_facing_bearing_independent():
+    # Same ignorance must price the same: the old -pi/2 default ran fiction
+    # through the hip curve (0.15 vs 0.40-0.70 by pass bearing).
+    lost = _actor(7, 80.0, 30.0, facing=None)
+    bearings = [
+        PitchPoint(x=90.0, y=30.0),
+        PitchPoint(x=80.0, y=20.0),
+        PitchPoint(x=70.0, y=30.0),
+    ]
+    latencies = {
+        receiver_readiness(lost, b).reception_latency_s for b in bearings
+    }
+    assert latencies == {0.70}
 
 
 def test_reception_latency_and_post_cushion():

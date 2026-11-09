@@ -87,11 +87,10 @@ def presser_engagement_latency_s(
     """Turn-plus-reaction latency before a presser can sprint at the target.
 
     Known facing prices the turn on the hip-pivot curve. Unknown facing pays
-    the human reaction floor: unknown is not engaged, and the distance-based
-    turn-while-sprinting overlap was an unverifiable prior.
+    the human reaction floor: unknown is not engaged.
     """
     facing, source = resolve_facing(presser)
-    if source == "unknown":
+    if facing is None:
         return GK_REACTION_TIME_DEFAULT_S, source
     required = math.atan2(target.y - presser.pos_m.y, target.x - presser.pos_m.x)
     return compute_hip_pivot_latency(facing, required), source
@@ -114,7 +113,7 @@ def presser_arrival_s(
     dy = target.y - presser.pos_m.y
     dist = math.hypot(dx, dy)
     if dist < 1e-3:
-        return 0.0, 0.0
+        return round(engagement_latency_s, 3), 0.0
 
     (vx, vy), _ = gate_tracking_velocity(presser.vel_ms, presser.speed_capped)
     closing = (vx * dx + vy * dy) / dist
@@ -144,21 +143,29 @@ def arrival_margin(
 ) -> ArrivalResult:
     """Per-outlet race: margin = t_press - t_ball, both timed to the lead.
 
-    Two-pass iteration: lead from t0, re-time the ball to the lead, re-lead.
-    Converges within ~30 ms (sprint case); the residual is an order of
-    magnitude below the 0.15 s retention threshold.
+    Fixed-point iteration: lead from flight, flight to lead, until the lead
+    moves <1 cm or 8 rounds. Ball and pressers then race to the same point.
     """
     rec_vel, _ = gate_tracking_velocity(receiver.vel_ms, receiver.speed_capped)
-    t0 = prep_latency_s + flight_time_s(
-        math.hypot(receiver.pos_m.x - passer_pos.x, receiver.pos_m.y - passer_pos.y),
-        v0_ms=pass_speed_ms,
-    )
-    lead = lead_target(receiver.pos_m, rec_vel, t0)
+    rx, ry = receiver.pos_m.x, receiver.pos_m.y
     t_ball = prep_latency_s + flight_time_s(
-        math.hypot(lead.x - passer_pos.x, lead.y - passer_pos.y),
+        math.hypot(rx - passer_pos.x, ry - passer_pos.y),
         v0_ms=pass_speed_ms,
     )
     target = lead_target(receiver.pos_m, rec_vel, t_ball)
+    for _ in range(8):
+        t_next = prep_latency_s + flight_time_s(
+            math.hypot(target.x - passer_pos.x, target.y - passer_pos.y),
+            v0_ms=pass_speed_ms,
+        )
+        if not math.isfinite(t_next):
+            t_ball = t_next
+            break
+        nxt = lead_target(receiver.pos_m, rec_vel, t_next)
+        if math.hypot(nxt.x - target.x, nxt.y - target.y) < 0.01:
+            t_ball, target = t_next, nxt
+            break
+        t_ball, target = t_next, nxt
 
     if not math.isfinite(t_ball):
         return ArrivalResult(

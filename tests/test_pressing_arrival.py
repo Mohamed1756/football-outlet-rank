@@ -92,6 +92,18 @@ def test_margin_falls_as_presser_accelerates():
     assert fast.margin_s < slow.margin_s
 
 
+def test_endpoints_converge_ball_and_pressers_share_target():
+    # Fixed-point invariant: the lead recomputed from the returned t_ball
+    # must reproduce t_ball through the flight model. Old one-pass code left
+    # up to 1.74 m endpoint gaps (15 m pass, 7 m/s receiver).
+    rec = _actor(9, 80.0, 30.0, vx=7.0, vy=0.0, team="own")
+    passer = PitchPoint(x=65.0, y=30.0)
+    res = arrival_margin(rec, [], passer)
+    recheck = lead_target(rec.pos_m, rec.vel_ms, res.t_ball_s)
+    t_recheck = flight_time_s(math.hypot(recheck.x - passer.x, recheck.y - passer.y))
+    assert t_recheck == pytest.approx(res.t_ball_s, abs=0.035)
+
+
 def test_presser_running_away_does_not_count():
     away = presser_arrival_s(
         _actor(1, 88.0, 27.0, vx=6.0, vy=6.0), PitchPoint(x=86.0, y=25.0)
@@ -195,6 +207,18 @@ def test_engagement_latency_delays_arrival():
     base, _ = presser_arrival_s(presser, target)
     delayed, _ = presser_arrival_s(presser, target, engagement_latency_s=0.3)
     assert delayed == pytest.approx(base + 0.3, abs=1e-3)
+
+
+def test_at_target_presser_keeps_engagement_latency():
+    # Standing on the lead is the most dangerous geometry: arrival must still
+    # price turn/reaction, not return 0. Zero displacement has no turn axis,
+    # so the measured minimum (plant 0.15) applies.
+    presser = _posed_actor(1, 80.0, 30.0, 0.0)
+    t, d = presser_arrival_s(
+        presser, PitchPoint(x=80.0, y=30.0), engagement_latency_s=0.3
+    )
+    assert d == 0.0
+    assert t == pytest.approx(0.3, abs=1e-3)
 
 
 def test_back_turned_pose_presser_arrives_later():

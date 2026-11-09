@@ -8,17 +8,19 @@ Both sides race to the same point: the receiver's lead.
 - `t_ball`: ground-pass flight, dist = 22t − 1.225t² (22 m/s strike, Coulomb
   turf decel 2.45 m/s²). Returns inf past the ~98.8 m stopping distance:
   no-ball reads as trapped (−99), never as a slow ball.
-- Lead: receiver pos + velocity × flight time, capped at 8.0 m. Two-pass
-  iteration (lead from t0, re-time to lead, re-lead) converges within ~30 ms.
+- Lead: receiver pos + velocity × flight time, capped at 8.0 m.
+  Fixed-point iteration (lead → flight → lead, <1 cm or 8 rounds): ball and
+  pressers share one endpoint by construction.
 - `t_press`: sprint burst 3.5 m/s² to an 8.5 m/s cap; only the closing
   velocity component counts. Known facing prices the turn on the hip-pivot
   curve (aligned 0.15 s, full flip 0.70 s). Unknown facing pays the 0.25 s
-  human reaction floor.
+  human reaction floor — no angle, no curve. Standing on the lead still pays
+  engagement latency (most dangerous geometry, never zero).
 - Inputs carry distrust: `gate_tracking_velocity` zeroes >8.5 m/s or flagged
   capped vectors and reports the gate. Invalid opponents are skipped, not scored.
-- Receipt: 0.45 s first touch plus hip-turn latency. `post_cushion_s`
-  subtracts it from margin; `retention_prob` maps the cushion through a
-  logistic (steepness 15, 50% at 0.15 s).
+- Receipt: 0.45 s first touch plus turn latency (0.25 s floor when unknown).
+  `post_cushion_s` subtracts it from margin; `retention_prob` maps the cushion
+  through a logistic (steepness 15, 50% at 0.15 s).
 
 ## Deleted as unverifiable
 

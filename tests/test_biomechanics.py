@@ -1,9 +1,8 @@
-"""Unit tests for hip-pivot latency and execution penalty (arrival inputs)."""
+"""Unit tests for hip-pivot latency (arrival input)."""
 
 import math
 
 from src.physics.biomechanics import (
-    compute_biomechanical_execution_penalty,
     compute_hip_pivot_latency,
     MIN_PLANT_FOOT_DELAY_S,
 )
@@ -28,25 +27,3 @@ def test_hip_pivot_latency():
 
     # Monotonicity test
     assert t_open <= t_mid <= t_closed
-
-
-def test_biomechanical_execution_penalty():
-    """Verifies completion multiplier drops on sharp turns and weak foot."""
-    body_angle = 0.0
-
-    # Open pass strong foot
-    p_open = compute_biomechanical_execution_penalty(
-        body_angle, 0.0, is_weak_foot=False
-    )
-    assert p_open == 1.0
-
-    # Closed pass strong foot
-    p_closed = compute_biomechanical_execution_penalty(
-        body_angle, math.radians(120.0), is_weak_foot=False
-    )
-    assert p_closed < 0.75
-
-    # Weak foot penalty applied
-    p_weak = compute_biomechanical_execution_penalty(body_angle, 0.0, is_weak_foot=True)
-    assert abs(p_weak - 0.88) < 0.02
-    assert p_weak < p_open

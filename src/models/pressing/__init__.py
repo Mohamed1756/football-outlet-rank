@@ -4,7 +4,7 @@ from src.models.pressing.types import PressingActor
 from src.models.pressing.arrival import (
     arrival_margin,
     flight_time_s,
-    lead_target,
+    intercept_target,
     presser_arrival_s,
     presser_engagement_latency_s,
     ArrivalResult,
@@ -15,7 +15,7 @@ __all__ = [
     "PressingActor",
     "arrival_margin",
     "flight_time_s",
-    "lead_target",
+    "intercept_target",
     "presser_arrival_s",
     "presser_engagement_latency_s",
     "ArrivalResult",

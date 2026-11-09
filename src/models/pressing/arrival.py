@@ -10,14 +10,12 @@ import math
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
-from src.config import PITCH_LENGTH_METERS, PITCH_WIDTH_METERS
 from src.core.geometry import PitchPoint
 from src.models.pressing.readiness import resolve_facing
 from src.models.pressing.types import PressingActor, gate_tracking_velocity
 from src.physics.biomechanics import compute_hip_pivot_latency
 from src.physics.gk_constraints import (
     GK_REACTION_TIME_DEFAULT_S,
-    MAX_LEAD_DISPLACEMENT_M,
     PASS_GROUND_INITIAL_SPEED_MS,
     PASS_TURF_ROLLING_DECELERATION_MSS,
     PRESSER_MAX_BURST_ACCEL_MSS,
@@ -55,29 +53,47 @@ def flight_time_s(
     return round((v0_ms - math.sqrt(disc)) / a_turf_mss, 3)
 
 
-def lead_target(
-    pos: PitchPoint,
-    vel_ms: Tuple[float, float],
-    flight_s: float,
-    max_displacement_m: float = MAX_LEAD_DISPLACEMENT_M,
-) -> PitchPoint:
-    """Receiver's lead position: current pos + velocity * ball flight time,
-    capped at max_displacement_m. Same-frame convention: both the ball and
-    the pressers race to this point, never to the stale current position.
-    """
-    if not math.isfinite(flight_s):
-        return PitchPoint(x=round(pos.x, 2), y=round(pos.y, 2))
-    dx = vel_ms[0] * flight_s
-    dy = vel_ms[1] * flight_s
-    disp = math.hypot(dx, dy)
-    if disp > max_displacement_m and disp > 1e-6:
-        scale = max_displacement_m / disp
-        dx *= scale
-        dy *= scale
+def intercept_target(
+    receiver_pos: PitchPoint,
+    receiver_vel_ms: Tuple[float, float],
+    passer_pos: PitchPoint,
+    prep_latency_s: float = 0.0,
+    pass_speed_ms: float = PASS_GROUND_INITIAL_SPEED_MS,
+    a_turf_mss: float = PASS_TURF_ROLLING_DECELERATION_MSS,
+) -> Tuple[PitchPoint, float]:
+    """Joint ball-to-runner intercept: the point where ball travel meets the
+    receiver's run. Solves dist(t) = v0*t - 0.5*a*t^2 by bisection.
 
-    lead_x = max(0.0, min(PITCH_LENGTH_METERS, pos.x + dx))
-    lead_y = max(0.0, min(PITCH_WIDTH_METERS, pos.y + dy))
-    return PitchPoint(x=round(lead_x, 2), y=round(lead_y, 2))
+    Ball speed (22 m/s falling) exceeds any gated run (<8.5 m/s) for the
+    first 5.4 s, so the gap is strictly decreasing there: unique root or
+    unreachable. Unreachable (ball stops first) returns (pos, inf).
+    Receiver runs during prep; pressers stay frozen (snapshot convention).
+    """
+    px = receiver_pos.x + receiver_vel_ms[0] * prep_latency_s
+    py = receiver_pos.y + receiver_vel_ms[1] * prep_latency_s
+    vx, vy = receiver_vel_ms
+
+    def gap(t: float) -> float:
+        d = math.hypot(px + vx * t - passer_pos.x, py + vy * t - passer_pos.y)
+        return d - (pass_speed_ms * t - 0.5 * a_turf_mss * t * t)
+
+    if gap(0.0) <= 0.0:
+        return PitchPoint(x=round(px, 2), y=round(py, 2)), prep_latency_s
+    t_hi = min(pass_speed_ms / a_turf_mss - 0.01, 5.4)
+    if gap(t_hi) > 0.0:
+        return PitchPoint(x=round(px, 2), y=round(py, 2)), math.inf
+    lo, hi = 0.0, t_hi
+    for _ in range(64):
+        mid = 0.5 * (lo + hi)
+        if gap(mid) > 0.0:
+            lo = mid
+        else:
+            hi = mid
+    tf = 0.5 * (lo + hi)
+    return (
+        PitchPoint(x=round(px + vx * tf, 2), y=round(py + vy * tf, 2)),
+        prep_latency_s + tf,
+    )
 
 
 def presser_engagement_latency_s(
@@ -141,31 +157,19 @@ def arrival_margin(
     pass_speed_ms: float = PASS_GROUND_INITIAL_SPEED_MS,
     prep_latency_s: float = 0.0,
 ) -> ArrivalResult:
-    """Per-outlet race: margin = t_press - t_ball, both timed to the lead.
+    """Per-outlet race: margin = t_press - t_ball at the joint intercept.
 
-    Fixed-point iteration: lead from flight, flight to lead, until the lead
-    moves <1 cm or 8 rounds. Ball and pressers then race to the same point.
+    Ball travel meets the receiver's run (no lead cap: the cap timed the
+    ball to a point the runner had already passed). Pressers race to the
+    same intercept. Positions frozen at decision time except the receiver's
+    run and ball flight: prep-latency presser motion (~1 m) is unmodeled,
+    a documented pro-receiver bias.
     """
     rec_vel, _ = gate_tracking_velocity(receiver.vel_ms, receiver.speed_capped)
-    rx, ry = receiver.pos_m.x, receiver.pos_m.y
-    t_ball = prep_latency_s + flight_time_s(
-        math.hypot(rx - passer_pos.x, ry - passer_pos.y),
-        v0_ms=pass_speed_ms,
+    target, t_ball = intercept_target(
+        receiver.pos_m, rec_vel, passer_pos, prep_latency_s, pass_speed_ms
     )
-    target = lead_target(receiver.pos_m, rec_vel, t_ball)
-    for _ in range(8):
-        t_next = prep_latency_s + flight_time_s(
-            math.hypot(target.x - passer_pos.x, target.y - passer_pos.y),
-            v0_ms=pass_speed_ms,
-        )
-        if not math.isfinite(t_next):
-            t_ball = t_next
-            break
-        nxt = lead_target(receiver.pos_m, rec_vel, t_next)
-        if math.hypot(nxt.x - target.x, nxt.y - target.y) < 0.01:
-            t_ball, target = t_next, nxt
-            break
-        t_ball, target = t_next, nxt
+
 
     if not math.isfinite(t_ball):
         return ArrivalResult(

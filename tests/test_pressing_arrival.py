@@ -8,7 +8,7 @@ from src.core.geometry import PitchPoint
 from src.models.pressing.arrival import (
     arrival_margin,
     flight_time_s,
-    lead_target,
+    intercept_target,
     presser_arrival_s,
 )
 from src.models.pressing.types import PressingActor
@@ -42,16 +42,31 @@ def test_flight_time_beyond_stopping_distance_is_no_ball():
     assert flight_time_s(98.8) == math.inf
 
 
-def test_lead_target_projects_velocity():
-    tgt = lead_target(PitchPoint(x=80.0, y=30.0), (4.0, 0.0), 1.0)
-    assert tgt.x == 84.0 and tgt.y == 30.0
+def test_intercept_meets_run_no_cap():
+    # 30 m pass, 5 m/s run-away: joint solve lands past the old 8 m cap.
+    # Ball travel meets the run at ~90.37, t ~ 2.075 (old capped: 88.0, 1.903).
+    tgt, t = intercept_target(
+        PitchPoint(x=80.0, y=30.0), (5.0, 0.0), PitchPoint(x=50.0, y=30.0)
+    )
+    assert tgt.x == pytest.approx(90.37, abs=0.05)
+    assert t == pytest.approx(2.075, abs=0.01)
 
 
-def test_lead_target_caps_runaway_displacement():
-    from src.physics.gk_constraints import MAX_LEAD_DISPLACEMENT_M
+def test_intercept_receiver_running_toward_passer():
+    # Run-into shortens the ball: intercept inside the raw 15 m.
+    tgt, t = intercept_target(
+        PitchPoint(x=80.0, y=30.0), (-3.0, 0.0), PitchPoint(x=65.0, y=30.0)
+    )
+    assert tgt.x == pytest.approx(78.14, abs=0.05)
+    assert t == pytest.approx(0.619, abs=0.01)
 
-    tgt = lead_target(PitchPoint(x=80.0, y=30.0), (10.42, 0.0), 3.0)
-    assert tgt.x - 80.0 == pytest.approx(MAX_LEAD_DISPLACEMENT_M, abs=1e-2)
+
+def test_intercept_unreachable_is_no_ball():
+    # Ball stops at ~98.8 m: far corner plus away run never meets.
+    _, t = intercept_target(
+        PitchPoint(x=100.0, y=60.0), (5.0, 0.0), PitchPoint(x=5.0, y=5.0)
+    )
+    assert t == math.inf
 
 
 def test_converging_3v1_is_trapped():
@@ -93,15 +108,14 @@ def test_margin_falls_as_presser_accelerates():
 
 
 def test_endpoints_converge_ball_and_pressers_share_target():
-    # Fixed-point invariant: the lead recomputed from the returned t_ball
-    # must reproduce t_ball through the flight model. Old one-pass code left
-    # up to 1.74 m endpoint gaps (15 m pass, 7 m/s receiver).
-    rec = _actor(9, 80.0, 30.0, vx=7.0, vy=0.0, team="own")
-    passer = PitchPoint(x=65.0, y=30.0)
+    # Intercept invariant: ball travel over t_ball covers the passer-to-
+    # target distance exactly. Old capped code timed the ball 2.4 m short
+    # of the runner (30 m pass, 5 m/s run).
+    rec = _actor(9, 80.0, 30.0, vx=5.0, vy=0.0, team="own")
+    passer = PitchPoint(x=50.0, y=30.0)
     res = arrival_margin(rec, [], passer)
-    recheck = lead_target(rec.pos_m, rec.vel_ms, res.t_ball_s)
-    t_recheck = flight_time_s(math.hypot(recheck.x - passer.x, recheck.y - passer.y))
-    assert t_recheck == pytest.approx(res.t_ball_s, abs=0.035)
+    dist = math.hypot(90.37 - passer.x, 30.0 - passer.y)
+    assert flight_time_s(dist) == pytest.approx(res.t_ball_s, abs=0.02)
 
 
 def test_presser_running_away_does_not_count():
@@ -128,14 +142,14 @@ def test_prep_latency_delays_ball_arrival_and_reduces_margin():
     assert res_with_latency.margin_s < res_no_latency.margin_s
 
 
-def test_margin_times_ball_to_lead_not_stale_position():
-    # Receiver sprinting at 5 m/s on a 30 m pass: stale timing underprices
-    # the ball by ~0.42 s (1.49 vs 1.90), multiple retention thresholds
+def test_margin_times_ball_to_intercept_not_stale_position():
+    # Receiver sprinting at 5 m/s on a 30 m pass: stale timing gives 1.487 s,
+    # joint intercept gives ~2.075 s. Old capped code gave 1.903 (2.4 m short).
     rec = _actor(9, 80.0, 30.0, vx=5.0, vy=0.0, team="own")
     passer = PitchPoint(x=50.0, y=30.0)
     res = arrival_margin(rec, [], passer)
-    stale = flight_time_s(30.0)
-    assert res.t_ball_s > stale + 0.30
+    assert res.t_ball_s == pytest.approx(2.075, abs=0.02)
+    assert res.t_ball_s > flight_time_s(30.0) + 0.30
 
 
 def test_ball_beyond_stopping_distance_is_trapped():

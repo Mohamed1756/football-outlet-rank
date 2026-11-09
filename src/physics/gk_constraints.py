@@ -28,7 +28,4 @@ PASS_TURF_ROLLING_DECELERATION_MSS: float = 2.45
 # Presser sprint acceleration profile (Morin et al. sprint biomechanics)
 # Peak burst acceleration from standing/jogging stance
 PRESSER_MAX_BURST_ACCEL_MSS: float = 3.5
-# Maximum sustained sprint speed for professional outfield presser (~30.6 km/h)
 PRESSER_SPRINT_MAX_SPEED_MS: float = 8.5
-# Maximum realistic lead passing sprint displacement before receiver checks/slows run
-MAX_LEAD_DISPLACEMENT_M: float = 8.0

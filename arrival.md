@@ -3,19 +3,21 @@
 Safety of a receiving outlet as a physical race, not a distance heuristic.
 
 `margin(j) = t_press(j) - t_ball(j)` — outlet `j` is viable iff margin > 0.
-Both sides race to the same point: the receiver's lead.
+Both sides race to the ball-to-runner intercept.
 
 - `t_ball`: ground-pass flight, dist = 22t − 1.225t² (22 m/s strike, Coulomb
   turf decel 2.45 m/s²). Returns inf past the ~98.8 m stopping distance:
   no-ball reads as trapped (−99), never as a slow ball.
-- Lead: receiver pos + velocity × flight time, capped at 8.0 m.
-  Fixed-point iteration (lead → flight → lead, <1 cm or 8 rounds): ball and
-  pressers share one endpoint by construction.
+- Intercept: bisection on the gap between receiver run and ball travel
+  (unique root: ball outruns any gated run for the first 5.4 s). No lead cap:
+  the cap timed the ball up to 2.4 m short of a sprinting runner.
+  Receiver runs during prep; pressers frozen (snapshot convention, ~1 m
+  pro-receiver bias, documented not modeled).
 - `t_press`: sprint burst 3.5 m/s² to an 8.5 m/s cap; only the closing
   velocity component counts. Known facing prices the turn on the hip-pivot
   curve (aligned 0.15 s, full flip 0.70 s). Unknown facing pays the 0.25 s
-  human reaction floor — no angle, no curve. Standing on the lead still pays
-  engagement latency (most dangerous geometry, never zero).
+  human reaction floor — no angle, no curve. Standing on the intercept still
+  pays engagement latency (most dangerous geometry, never zero).
 - Inputs carry distrust: `gate_tracking_velocity` zeroes >8.5 m/s or flagged
   capped vectors and reports the gate. Invalid opponents are skipped, not scored.
 - Receipt: 0.45 s first touch plus turn latency (0.25 s floor when unknown).
@@ -24,22 +26,18 @@ Both sides race to the same point: the receiver's lead.
 
 ## Deleted as unverifiable
 
-- Velocity-as-facing and ball-oriented facing fallbacks (travel is not
-  facing; ball-watching was assumed, never measured). Pose or unknown.
-- Shield/exposed/unknown-facing multipliers (1.10/0.80/0.85), the
-  turn-while-sprinting overlap formula, and the sprint-speed lead cap.
-- Defender role/task taxonomy and the snapshot wrapper: nothing assigned or
-  read them.
+- Lead cap + `lead_target` (timed the ball short of fast runners),
+  velocity-as-facing and ball-oriented facing fallbacks, `readiness_mult`
+  and the execution penalty (scored nothing downstream), shield/exposed/
+  unknown-facing multipliers, turn-while-sprinting overlap, defender
+  role/task taxonomy, snapshot wrapper.
+- Kept as provenance, not inputs: `facing_source` (pose vs floor) and `note`.
+  They tell calibration which margins used measured orientation.
 
 ## Open priors (fitted, not proven)
 
 - Constant 22 m/s strike for all distances. Short balls likely overtimed by
-  ~0.2 s. Caller override exists (`pass_speed_ms`); default needs a
-  distance-dependent strike model.
-- Facing unknown at 360 scale: pose data absent, so every presser pays the
-  floor. Calibrate the floor, don't decorate it.
-
-## Status
-
-Margin correct within stated priors. Next: feed 360 freeze-frames, fit
-margin → retention, fit the strike model.
+  ~0.2 s (needs a distance-dependent strike model; `pass_speed_ms` override exists).
+- Unknown-facing at 360 scale means every presser pays the floor.
+- 9 constants, every one referenced. Full video engine recoverable from tag
+  `last-full-system`.

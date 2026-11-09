@@ -22,12 +22,10 @@ def _actor(tid, x, y, facing=None, source="pose", vx=0.0, vy=0.0, team="own"):
         facing_source=source,
     )
 
-
 def test_open_cb_ready_now():
     rec = _actor(4, 80.0, 30.0, facing=0.0)
     res = receiver_readiness(rec, PitchPoint(x=100.0, y=29.0))
     assert res.turn_latency_s == 0.15
-    assert res.readiness_mult == 1.0
     assert res.facing_source == "pose"
     assert res.note == "open"
 
@@ -36,7 +34,6 @@ def test_back_to_passer_prices_turn_not_veto():
     rec = _actor(4, 80.0, 29.0, facing=math.pi)
     res = receiver_readiness(rec, PitchPoint(x=100.0, y=29.0))
     assert res.turn_latency_s == 0.70
-    assert res.readiness_mult == 0.35
     assert "needs-turn" in res.note
 
 

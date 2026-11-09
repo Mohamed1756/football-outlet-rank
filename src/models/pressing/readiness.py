@@ -13,10 +13,7 @@ from typing import Optional, Tuple
 
 from src.core.geometry import PitchPoint
 from src.models.pressing.types import PressingActor
-from src.physics.biomechanics import (
-    compute_biomechanical_execution_penalty,
-    compute_hip_pivot_latency,
-)
+from src.physics.biomechanics import compute_hip_pivot_latency
 from src.physics.gk_constraints import (
     GK_REACTION_TIME_DEFAULT_S,
     RECEIVER_FIRST_TOUCH_LATENCY_S,
@@ -28,7 +25,6 @@ from src.physics.gk_constraints import (
 @dataclass(frozen=True)
 class ReadinessResult:
     receiver_track_id: int
-    readiness_mult: float
     turn_latency_s: float
     facing_source: str
     note: str
@@ -67,6 +63,10 @@ def receiver_readiness(
     receiver: PressingActor,
     passer_pos: PitchPoint,
 ) -> ReadinessResult:
+    """Time cost of taking the ball on the front foot: 0.45 s first touch
+    plus hip-turn latency off measured pose, 0.25 s floor when unknown.
+    facing_source/note are provenance for calibration, not scored inputs.
+    """
     facing, source = resolve_facing(receiver)
     if facing is None:
         reception_latency = round(
@@ -74,7 +74,6 @@ def receiver_readiness(
         )
         return ReadinessResult(
             receiver_track_id=receiver.track_id,
-            readiness_mult=1.0,
             turn_latency_s=GK_REACTION_TIME_DEFAULT_S,
             facing_source=source,
             note="unknown-facing",
@@ -84,13 +83,11 @@ def receiver_readiness(
         passer_pos.y - receiver.pos_m.y, passer_pos.x - receiver.pos_m.x
     )
     turn_latency = compute_hip_pivot_latency(facing, pass_angle)
-    mult = compute_biomechanical_execution_penalty(facing, pass_angle)
 
     note = "open" if turn_latency <= 0.15 else "needs-turn"
     reception_latency = round(RECEIVER_FIRST_TOUCH_LATENCY_S + turn_latency, 3)
     return ReadinessResult(
         receiver_track_id=receiver.track_id,
-        readiness_mult=round(mult, 3),
         turn_latency_s=round(turn_latency, 3),
         facing_source=source,
         note=note,

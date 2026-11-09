@@ -32,15 +32,10 @@ print(ready.reception_latency_s, ready.post_cushion_s(res.margin_s))
 print(ready.retention_prob(res.margin_s))
 ```
 
-## Layout
-
-- `src/models/pressing/arrival.py` — `flight_time_s`, `lead_target`,
+- `src/models/pressing/arrival.py` — `flight_time_s`, `intercept_target`,
   `presser_engagement_latency_s`, `presser_arrival_s`, `arrival_margin`.
-- `src/models/pressing/readiness.py` — `resolve_facing`,
-  `receiver_readiness`, retention probability on `ReadinessResult`.
-- `src/models/pressing/types.py` — `PressingActor`, `gate_tracking_velocity`.
-- `src/physics/gk_constraints.py` — 10 arrival-race constants, single source.
-- `src/physics/biomechanics.py` — hip-pivot latency, execution penalty.
+- `src/physics/gk_constraints.py` — 9 arrival-race constants, single source.
+- `src/physics/biomechanics.py` — hip-pivot latency + angle wrap.
 - `src/core/geometry.py` — `PitchPoint` only.
 - `arrival.md` — research note: values, novelty, deleted priors.
 - `data/wc2022`, `data/euro2020`, `data/laliga` — open 360 freeze-frames

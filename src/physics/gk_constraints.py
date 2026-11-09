@@ -10,8 +10,6 @@ GK_REACTION_TIME_DEFAULT_S: float = 0.25
 # Receiver first-touch and control limits
 # McMorris et al. / elite motor control first-touch deceleration window
 RECEIVER_FIRST_TOUCH_LATENCY_S: float = 0.45
-# Minimum post-receipt cushion before an arriving presser disrupts ball control
-MIN_POST_RECEIPT_CUSHION_S: float = 0.20
 
 # Continuous first-touch retention logistic curve parameters
 # Steepness over a ~200ms physical disruption window

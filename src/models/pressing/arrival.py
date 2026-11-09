@@ -64,9 +64,10 @@ def intercept_target(
     """Joint ball-to-runner intercept: the point where ball travel meets the
     receiver's run. Solves dist(t) = v0*t - 0.5*a*t^2 by bisection.
 
-    Ball speed (22 m/s falling) exceeds any gated run (<8.5 m/s) for the
-    first 5.4 s, so the gap is strictly decreasing there: unique root or
-    unreachable. Unreachable (ball stops first) returns (pos, inf).
+    Monotone horizon: ball speed v0-a*t must exceed any gated run speed, so
+    t_hi = (v0 - max_run) / a, floored at 0. Past it the gap can go
+    non-monotone (dead ball, live runner): unreachable, not a slow ball.
+    Unclamped: the intercept is playable space, on or off the pitch.
     Receiver runs during prep; pressers stay frozen (snapshot convention).
     """
     px = receiver_pos.x + receiver_vel_ms[0] * prep_latency_s
@@ -79,8 +80,8 @@ def intercept_target(
 
     if gap(0.0) <= 0.0:
         return PitchPoint(x=round(px, 2), y=round(py, 2)), prep_latency_s
-    t_hi = min(pass_speed_ms / a_turf_mss - 0.01, 5.4)
-    if gap(t_hi) > 0.0:
+    t_hi = (pass_speed_ms - PRESSER_SPRINT_MAX_SPEED_MS) / a_turf_mss
+    if t_hi <= 0.0 or gap(t_hi) > 0.0:
         return PitchPoint(x=round(px, 2), y=round(py, 2)), math.inf
     lo, hi = 0.0, t_hi
     for _ in range(64):

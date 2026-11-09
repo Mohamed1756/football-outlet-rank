@@ -69,6 +69,30 @@ def test_intercept_unreachable_is_no_ball():
     assert t == math.inf
 
 
+def test_intercept_horizon_derived_from_strike_not_hardcoded():
+    # Weak strike the runner outruns: dead ball, live runner past the
+    # monotone horizon. Unreachable, not a slow ball.
+    _, t = intercept_target(
+        PitchPoint(x=80.0, y=30.0), (5.0, 0.0), PitchPoint(x=50.0, y=30.0),
+        0.0, 15.0, 2.45,
+    )
+    assert t == math.inf
+    # Same geometry at full strike meets at ~90.37.
+    _, t_full = intercept_target(
+        PitchPoint(x=80.0, y=30.0), (5.0, 0.0), PitchPoint(x=50.0, y=30.0)
+    )
+    assert t_full == pytest.approx(2.075, abs=0.01)
+
+
+def test_intercept_off_pitch_is_playable_space():
+    # Fast wide run solves past the touchline: no clamp, ball into space.
+    tgt, t = intercept_target(
+        PitchPoint(x=100.0, y=60.0), (0.0, 5.0), PitchPoint(x=80.0, y=30.0)
+    )
+    assert math.isfinite(t)
+    assert tgt.y > 68.0
+
+
 def test_converging_3v1_is_trapped():
     rec = _actor(9, 86.0, 25.0, team="own")
     passer = PitchPoint(x=100.0, y=29.0)

@@ -72,10 +72,7 @@ def test_unknown_facing_bearing_independent():
 
 
 def test_reception_latency_and_post_cushion():
-    from src.physics.gk_constraints import (
-        MIN_POST_RECEIPT_CUSHION_S,
-        RECEIVER_FIRST_TOUCH_LATENCY_S,
-    )
+    from src.physics.gk_constraints import RECEIVER_FIRST_TOUCH_LATENCY_S
 
     rec = _actor(4, 80.0, 30.0, facing=0.0)
     res = receiver_readiness(rec, PitchPoint(x=100.0, y=29.0))
@@ -85,12 +82,12 @@ def test_reception_latency_and_post_cushion():
     # Margin shorter than reception commitment leaves negative post-cushion
     short_margin_s = expected_reception + 0.10
     assert res.post_cushion_s(short_margin_s) == pytest.approx(0.10, abs=1e-3)
-    assert res.post_cushion_s(short_margin_s) < MIN_POST_RECEIPT_CUSHION_S
+    assert res.post_cushion_s(short_margin_s) < res.reception_latency_s
 
     # Generous margin leaves ample control cushion
     wide_margin_s = expected_reception + 0.80
     assert res.post_cushion_s(wide_margin_s) == pytest.approx(0.80, abs=1e-3)
-    assert res.post_cushion_s(wide_margin_s) >= MIN_POST_RECEIPT_CUSHION_S
+    assert res.post_cushion_s(wide_margin_s) >= res.reception_latency_s
 
 
 def test_hospital_pass_margin_math():

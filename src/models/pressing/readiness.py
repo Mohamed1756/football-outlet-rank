@@ -14,8 +14,8 @@ from typing import Optional, Tuple
 from src.core.geometry import PitchPoint
 from src.models.pressing.types import PressingActor
 from src.physics.biomechanics import compute_hip_pivot_latency
-from src.physics.gk_constraints import (
-    GK_REACTION_TIME_DEFAULT_S,
+from src.physics.arrival_constants import (
+    HUMAN_REACTION_FLOOR_S,
     RECEIVER_FIRST_TOUCH_LATENCY_S,
     RETENTION_CRITICAL_CUSHION_S,
     RETENTION_LOGISTIC_STEEPNESS_K,
@@ -70,11 +70,11 @@ def receiver_readiness(
     facing, source = resolve_facing(receiver)
     if facing is None:
         reception_latency = round(
-            RECEIVER_FIRST_TOUCH_LATENCY_S + GK_REACTION_TIME_DEFAULT_S, 3
+            RECEIVER_FIRST_TOUCH_LATENCY_S + HUMAN_REACTION_FLOOR_S, 3
         )
         return ReadinessResult(
             receiver_track_id=receiver.track_id,
-            turn_latency_s=GK_REACTION_TIME_DEFAULT_S,
+            turn_latency_s=HUMAN_REACTION_FLOOR_S,
             facing_source=source,
             note="unknown-facing",
             reception_latency_s=reception_latency,

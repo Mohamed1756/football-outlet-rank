@@ -34,7 +34,7 @@ print(ready.retention_prob(res.margin_s))
 
 - `src/models/pressing/arrival.py` — `flight_time_s`, `intercept_target`,
   `presser_engagement_latency_s`, `presser_arrival_s`, `arrival_margin`.
-- `src/physics/gk_constraints.py` — 8 arrival-race constants, single source.
+- `src/physics/arrival_constants.py` — 8 arrival-race constants, single source.
 - `src/physics/biomechanics.py` — hip-pivot latency + angle wrap.
 - `src/core/geometry.py` — `PitchPoint` only.
 - `arrival.md` — research note: values, novelty, deleted priors.

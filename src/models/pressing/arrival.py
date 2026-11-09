@@ -14,8 +14,8 @@ from src.core.geometry import PitchPoint
 from src.models.pressing.readiness import resolve_facing
 from src.models.pressing.types import PressingActor, gate_tracking_velocity
 from src.physics.biomechanics import compute_hip_pivot_latency
-from src.physics.gk_constraints import (
-    GK_REACTION_TIME_DEFAULT_S,
+from src.physics.arrival_constants import (
+    HUMAN_REACTION_FLOOR_S,
     PASS_GROUND_INITIAL_SPEED_MS,
     PASS_TURF_ROLLING_DECELERATION_MSS,
     PRESSER_MAX_BURST_ACCEL_MSS,
@@ -108,7 +108,7 @@ def presser_engagement_latency_s(
     """
     facing, source = resolve_facing(presser)
     if facing is None:
-        return GK_REACTION_TIME_DEFAULT_S, source
+        return HUMAN_REACTION_FLOOR_S, source
     required = math.atan2(target.y - presser.pos_m.y, target.x - presser.pos_m.x)
     return compute_hip_pivot_latency(facing, required), source
 

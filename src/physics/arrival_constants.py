@@ -4,8 +4,8 @@ Arrival-race physics constants (single source; import, never redefine).
 
 from __future__ import annotations
 
-# Human reaction floor paid when presser orientation is unknown (s).
-GK_REACTION_TIME_DEFAULT_S: float = 0.25
+# Human reaction floor paid when orientation is unknown (s).
+HUMAN_REACTION_FLOOR_S: float = 0.25
 
 # Receiver first-touch and control limits
 # McMorris et al. / elite motor control first-touch deceleration window
@@ -18,7 +18,7 @@ RETENTION_LOGISTIC_STEEPNESS_K: float = 15.0
 RETENTION_CRITICAL_CUSHION_S: float = 0.15
 
 # Kinematic ball mechanics & turf friction parameters
-# Initial strike velocity for professional driven goalkeeper ground passes (~79.2 km/h)
+# Initial strike velocity for professional driven ground passes (~79.2 km/h)
 PASS_GROUND_INITIAL_SPEED_MS: float = 22.0
 # Coulomb rolling friction on FIFA standard hybrid turf: mu_roll ~ 0.25 * 9.81 m/s^2
 PASS_TURF_ROLLING_DECELERATION_MSS: float = 2.45

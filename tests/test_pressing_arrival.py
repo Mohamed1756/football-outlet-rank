@@ -229,14 +229,14 @@ def test_back_turned_presser_pays_full_flip():
 
 def test_unknown_orientation_pays_reaction_floor():
     from src.models.pressing.arrival import presser_engagement_latency_s
-    from src.physics.gk_constraints import GK_REACTION_TIME_DEFAULT_S
+    from src.physics.arrival_constants import HUMAN_REACTION_FLOOR_S
 
     presser = _actor(1, 80.0, 30.0)
     lat, source = presser_engagement_latency_s(
         presser, PitchPoint(x=70.0, y=30.0)
     )
     assert source == "unknown"
-    assert lat == GK_REACTION_TIME_DEFAULT_S
+    assert lat == HUMAN_REACTION_FLOOR_S
 
 
 def test_engagement_latency_delays_arrival():

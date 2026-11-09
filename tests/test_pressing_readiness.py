@@ -72,7 +72,7 @@ def test_unknown_facing_bearing_independent():
 
 
 def test_reception_latency_and_post_cushion():
-    from src.physics.gk_constraints import RECEIVER_FIRST_TOUCH_LATENCY_S
+    from src.physics.arrival_constants import RECEIVER_FIRST_TOUCH_LATENCY_S
 
     rec = _actor(4, 80.0, 30.0, facing=0.0)
     res = receiver_readiness(rec, PitchPoint(x=100.0, y=29.0))
@@ -108,7 +108,7 @@ def test_hospital_pass_margin_math():
 
 
 def test_retention_probability_calibration():
-    from src.physics.gk_constraints import RETENTION_CRITICAL_CUSHION_S
+    from src.physics.arrival_constants import RETENTION_CRITICAL_CUSHION_S
 
     ready = receiver_readiness(_actor(4, 80.0, 30.0, facing=0.0), PitchPoint(x=100.0, y=29.0))
 

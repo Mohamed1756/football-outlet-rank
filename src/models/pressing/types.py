@@ -7,7 +7,7 @@ from typing import Optional, Tuple
 
 import math
 from src.core.geometry import PitchPoint
-from src.physics.gk_constraints import PRESSER_SPRINT_MAX_SPEED_MS
+from src.physics.arrival_constants import PRESSER_SPRINT_MAX_SPEED_MS
 
 
 def gate_tracking_velocity(

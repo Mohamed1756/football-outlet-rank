@@ -1,8 +1,4 @@
-"""
-Biomechanical Execution Cost and Physical Latency Models.
-Calculates hip rotation latency, foot plant delay, and compressed presser
-interception distance for goalkeeper distribution execution.
-"""
+"""Hip-pivot latency and angle utilities for arrival-race engagement pricing."""
 
 from __future__ import annotations
 import math
@@ -27,8 +23,7 @@ def compute_hip_pivot_latency(
     body_facing_angle_rad: float, target_pass_angle_rad: float
 ) -> float:
     """
-    Computes physical execution latency (seconds) required for a goalkeeper
-    to align hips, plant the standing foot, and strike the pass.
+    Turn-plus-plant latency (seconds) to align hips with a target direction.
     """
     diff_rad = abs(wrap_angle_rad(target_pass_angle_rad - body_facing_angle_rad))
 

@@ -35,6 +35,19 @@ Both sides race to the ball-to-runner intercept.
 - Kept as provenance, not inputs: `facing_source` (pose vs floor) and `note`.
   They tell calibration which margins used measured orientation.
 
+## Rank-space calibration (WC2022, 41,561 ground passes)
+
+- Absolute frozen-shape seconds are inflated (standing starts both sides),
+  so the honest unit is rank. Margin decile -> incompletion: 20.4% (bottom)
+  to 0.2% (top), monotone across all 10 deciles, ~100x gradient.
+- Gradient holds within short/mid/long pass-length terciles: not a proxy.
+- Passers choose the safest outlet 44% of the time; failure rises
+  monotonically with chosen rank (0.024 at rank 0 to ~0.21 at rank 6+).
+- `src/models/pressing/calibration.py`: `rank_outlets`, `margin_decile`,
+  `decile_risk`, `rank_risk`. Edges are sample-descriptive, not physics.
+- Unscorable by construction: 740 recipient-less passes (mostly failed).
+  Selection bias toward structured balls; noted, not fixed.
+
 ## Open priors (fitted, not proven)
 
 - Constant 22 m/s strike for all distances. Short balls likely overtimed by

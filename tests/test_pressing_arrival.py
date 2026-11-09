@@ -197,3 +197,33 @@ def test_back_turned_pose_presser_arrives_later():
     away = arrival_margin(rec, [facing_away], passer)
     toward = arrival_margin(rec, [facing_toward], passer)
     assert away.t_press_s > toward.t_press_s
+
+
+def test_gated_velocity_treated_as_stationary():
+    from src.models.pressing.types import gate_tracking_velocity
+
+    assert gate_tracking_velocity((10.42, 0.25), False) == ((0.0, 0.0), True)
+    assert gate_tracking_velocity((2.0, 0.0), True) == ((0.0, 0.0), True)
+    assert gate_tracking_velocity((2.0, 0.0), False) == ((2.0, 0.0), False)
+
+
+def test_lead_target_curbs_superhuman_implied_speed():
+    tgt = lead_target(PitchPoint(x=80.0, y=30.0), (10.42, 0.0), 0.3)
+    assert tgt.x - 80.0 <= round(8.5 * 0.3 + 0.01, 2)
+
+
+def test_unknown_engagement_near_pays_turn_far_pays_floor():
+    from src.models.pressing.arrival import presser_engagement_latency_s
+
+    near = _actor(1, 0.0, 0.0)
+    lat_near, src_near = presser_engagement_latency_s(
+        near, PitchPoint(x=0.5, y=0.0), None
+    )
+    far = _actor(2, 0.0, 0.0)
+    lat_far, src_far = presser_engagement_latency_s(
+        far, PitchPoint(x=20.0, y=0.0), None
+    )
+    assert src_near == "unknown" and src_far == "unknown"
+    assert lat_near > lat_far
+    assert lat_far == 0.25
+    assert lat_near <= 0.40

@@ -14,19 +14,24 @@ from dataclasses import dataclass
 from typing import Optional, Tuple
 
 from src.core.geometry import PitchPoint
-from src.models.perception.visual_field import wrap_angle_rad
-from src.models.pressing.types import PressingActor
+from src.models.pressing.types import PressingActor, gate_tracking_velocity
 from src.physics.biomechanics import (
     compute_biomechanical_execution_penalty,
     compute_hip_pivot_latency,
+    wrap_angle_rad,
 )
-from src.physics.gk_constraints import RECEIVER_FIRST_TOUCH_LATENCY_S
+from src.physics.gk_constraints import (
+    EXPOSED_MULTIPLIER,
+    RECEIVER_FIRST_TOUCH_LATENCY_S,
+    RETENTION_CRITICAL_CUSHION_S,
+    RETENTION_LOGISTIC_STEEPNESS_K,
+    SHIELD_ANGLE_DEG,
+    SHIELD_BONUS,
+    UNKNOWN_FACING_MULTIPLIER,
+    VELOCITY_FACING_FLOOR_MS,
+)
 
-VELOCITY_FACING_FLOOR_MS = 0.5
-UNKNOWN_FACING_MULTIPLIER = 0.85
-SHIELD_BONUS = 1.10
-EXPOSED_MULTIPLIER = 0.80
-SHIELD_ANGLE_RAD = math.radians(45.0)
+SHIELD_ANGLE_RAD = math.radians(SHIELD_ANGLE_DEG)
 
 
 @dataclass(frozen=True)
@@ -41,6 +46,21 @@ class ReadinessResult:
     def post_cushion_s(self, arrival_margin_s: float) -> float:
         return round(arrival_margin_s - self.reception_latency_s, 3)
 
+    def retention_prob(self, arrival_margin_s: float) -> float:
+        """First-touch retention probability from post-receipt cushion."""
+        cushion = self.post_cushion_s(arrival_margin_s)
+        return round(
+            1.0
+            / (
+                1.0
+                + math.exp(
+                    -RETENTION_LOGISTIC_STEEPNESS_K
+                    * (cushion - RETENTION_CRITICAL_CUSHION_S)
+                )
+            ),
+            4,
+        )
+
 
 def resolve_facing(
     actor: PressingActor,
@@ -48,8 +68,8 @@ def resolve_facing(
 ) -> Tuple[float, str]:
     if actor.facing_rad is not None:
         return actor.facing_rad, actor.facing_source or "pose"
-    vx, vy = actor.vel_ms
-    if math.hypot(vx, vy) >= VELOCITY_FACING_FLOOR_MS:
+    (vx, vy), gated = gate_tracking_velocity(actor.vel_ms, actor.speed_capped)
+    if not gated and math.hypot(vx, vy) >= VELOCITY_FACING_FLOOR_MS:
         return math.atan2(vy, vx), "velocity"
     if ball_pos is not None:
         dx = ball_pos.x - actor.pos_m.x

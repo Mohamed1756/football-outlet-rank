@@ -6,7 +6,9 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional, Tuple
 
+import math
 from src.core.geometry import PitchPoint
+from src.physics.gk_constraints import PRESSER_SPRINT_MAX_SPEED_MS
 
 
 class DefenderRole(str, Enum):
@@ -47,6 +49,22 @@ class DefenderTask:
     role: Optional[DefenderRole] = None
 
 
+def gate_tracking_velocity(
+    vel_ms: Tuple[float, float],
+    speed_capped: bool = False,
+) -> Tuple[Tuple[float, float], bool]:
+    """Trust gate for tracker velocity. Speeds above a sustained elite sprint
+    (teleport jitter, keyframe disagreement) or flagged capped carry no
+    directional information, so the body is treated as stationary and the
+    caller is told it was gated. Prior: genuine 8.5+ m/s buildup sprints are
+    rarer than tracker spikes at these magnitudes (observed 8.8-10.5 m/s
+    lateral jumps on standing players).
+    """
+    if speed_capped or math.hypot(*vel_ms) > PRESSER_SPRINT_MAX_SPEED_MS:
+        return (0.0, 0.0), True
+    return vel_ms, False
+
+
 @dataclass(frozen=True)
 class PressingActor:
     track_id: int
@@ -55,6 +73,7 @@ class PressingActor:
     vel_ms: Tuple[float, float] = (0.0, 0.0)
     facing_rad: Optional[float] = None
     facing_source: str = "unknown"
+    speed_capped: bool = False
     is_keeper: bool = False
     pitch_valid: bool = True
     role: Optional[DefenderRole] = None

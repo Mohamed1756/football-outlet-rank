@@ -13,7 +13,7 @@ from typing import List, Optional, Tuple
 from src.config import PITCH_LENGTH_METERS, PITCH_WIDTH_METERS
 from src.core.geometry import PitchPoint
 from src.models.pressing.readiness import resolve_facing
-from src.models.pressing.types import PressingActor
+from src.models.pressing.types import PressingActor, gate_tracking_velocity
 from src.physics.biomechanics import compute_hip_pivot_latency
 from src.physics.gk_constraints import (
     GK_REACTION_TIME_DEFAULT_S,
@@ -22,11 +22,10 @@ from src.physics.gk_constraints import (
     PASS_TURF_ROLLING_DECELERATION_MSS,
     PRESSER_MAX_BURST_ACCEL_MSS,
     PRESSER_SPRINT_MAX_SPEED_MS,
+    UNKNOWN_MEAN_TURN_S,
 )
 
 PASS_SPEED_MS = PASS_GROUND_INITIAL_SPEED_MS
-MIN_PASS_SPEED_MS = 5.0
-MIN_PRESSER_SPEED_MS = 1.0
 
 
 @dataclass(frozen=True)
@@ -68,8 +67,12 @@ def lead_target(
     dx = vel_ms[0] * flight_s
     dy = vel_ms[1] * flight_s
     disp = math.hypot(dx, dy)
-    if disp > max_displacement_m and disp > 1e-6:
-        scale = max_displacement_m / disp
+    # Implied-speed cap: a lead projecting faster than a sprint can run is
+    # tracker noise, not a run. Bounds every caller without signature changes.
+    speed_cap_m = PRESSER_SPRINT_MAX_SPEED_MS * flight_s
+    cap_m = min(max_displacement_m, speed_cap_m)
+    if disp > cap_m and disp > 1e-6:
+        scale = cap_m / disp
         dx *= scale
         dy *= scale
 
@@ -93,7 +96,9 @@ def presser_engagement_latency_s(
     """
     facing, source = resolve_facing(presser, ball_pos)
     if source == "unknown":
-        return GK_REACTION_TIME_DEFAULT_S, source
+        dist = math.hypot(target.x - presser.pos_m.x, target.y - presser.pos_m.y)
+        overlap = dist / (2.0 * PRESSER_SPRINT_MAX_SPEED_MS)
+        return max(GK_REACTION_TIME_DEFAULT_S, UNKNOWN_MEAN_TURN_S - overlap), source
     required = math.atan2(target.y - presser.pos_m.y, target.x - presser.pos_m.x)
     return compute_hip_pivot_latency(facing, required), source
 
@@ -116,7 +121,7 @@ def presser_arrival_s(
     if dist < 1e-3:
         return 0.0, 0.0
 
-    vx, vy = presser.vel_ms
+    (vx, vy), _ = gate_tracking_velocity(presser.vel_ms, presser.speed_capped)
     closing = (vx * dx + vy * dy) / dist
     v0 = max(0.0, min(max_speed_ms, closing))
 
@@ -152,10 +157,11 @@ def arrival_margin(
     )
     flight_s = flight_time_s(raw_dist, v0_ms=pass_speed_ms)
     t_ball = prep_latency_s + flight_s
+    rec_vel, _ = gate_tracking_velocity(receiver.vel_ms, receiver.speed_capped)
     target = (
         target_pos
         if target_pos is not None
-        else lead_target(receiver.pos_m, receiver.vel_ms, t_ball)
+        else lead_target(receiver.pos_m, rec_vel, t_ball)
     )
 
     t_receipt = t_ball

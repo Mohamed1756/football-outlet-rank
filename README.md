@@ -1,39 +1,52 @@
-# GK Decision-Value Engine
+# Arrival Race
 
-Goalkeeper distribution valuation and decision-making engine conditioned on opponent press geometry and physics.
-
-## Images
-
-![Tracking & bounding boxes](tracking_bounding_boxes.png)
-
-![Keeper optimal distribution path](keeper_optimal_distribution_path.png)
-
-## Core Analytical Architecture
-
-- **Video-based CV pipeline**: YOLO detection, multi-object tracking, pitch homography, and pose estimation.
-- **Press geometry & kinematics**: Hungarian bipartite presser-to-outlet assignment and sprint burst acceleration vs decelerating Coulomb turf rolling friction ($\Delta t = t_{\text{press}} - t_{\text{receipt}}$).
-- **Multi-objective decision frontier**: Pareto optimization balancing defensive safety cushion ($\Delta t$) against net expected threat progression ($\Delta\text{xG}$), enforcing saturation caps, baseline clearance floors, raycast occlusion, and touchline survival decay.
-- **Continuous temporal passing windows**: 25 Hz sequence evaluation with differential separation kinematics ($\dot{d}_{\text{sep}}$), IFAB Law 11 kick-instant offside tracking, dynamic lateral interceptor detection, and decoupled physical moving-average smoothing.
-- **Quantitative cockpit dashboard**: Interactive multi-episode HTML report integrating SVG Pareto frontiers, spatial physics radar/occlusion maps, and synchronized video playback.
+Safety of a receiving outlet as a physical race, not a distance heuristic.
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/Mohamed1756/open-gk.git
-cd open-gk
 python3.11 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python3 scripts/evaluate_distribution.py --episode all
-open reports/goalkeeper_distribution_valuation.html
+pytest -q
 ```
 
-## Running Tests
+## Usage
 
-```bash
-pytest -x -q
-ruff check src/ tests/
-ruff format --check src/ tests/
+```python
+from src.core.geometry import PitchPoint
+from src.models.pressing.arrival import arrival_margin
+from src.models.pressing.readiness import receiver_readiness
+from src.models.pressing.types import PressingActor
+
+receiver = PressingActor(track_id=9, team_id="own", pos_m=PitchPoint(86.0, 25.0))
+presser = PressingActor(
+    track_id=1, team_id="opp",
+    pos_m=PitchPoint(87.5, 26.5), vel_ms=(-4.0, -2.0),
+)
+res = arrival_margin(receiver, [presser], PitchPoint(100.0, 29.0))
+ready = receiver_readiness(receiver, PitchPoint(100.0, 29.0))
+print(res.margin_s, res.t_press_s, res.t_ball_s, res.best_presser_id)
+print(ready.reception_latency_s, ready.post_cushion_s(res.margin_s))
+print(ready.retention_prob(res.margin_s))
 ```
 
+## Layout
 
+- `src/models/pressing/arrival.py` — `flight_time_s`, `lead_target`,
+  `presser_engagement_latency_s`, `presser_arrival_s`, `arrival_margin`.
+- `src/models/pressing/readiness.py` — `resolve_facing`,
+  `receiver_readiness`, retention probability on `ReadinessResult`.
+- `src/models/pressing/types.py` — `PressingActor`, `PressingSnapshot`,
+  `gate_tracking_velocity`.
+- `src/physics/gk_constraints.py` — 16 arrival-race constants, single source.
+- `src/physics/biomechanics.py` — hip-pivot latency, execution penalty.
+- `src/core/geometry.py` — `PitchPoint` only.
+- `arrival.md` — research note: values and novelty.
+- `data/wc2022`, `data/euro2020`, `data/laliga` — open 360 freeze-frames
+  for margin-to-retention calibration (untracked, local only).
+
+## Full system
+
+The deleted video engine (detection, tracking, homography, dashboard) is
+recoverable from tag `last-full-system`.

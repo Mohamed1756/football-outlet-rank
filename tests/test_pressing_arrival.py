@@ -73,8 +73,12 @@ def test_intercept_horizon_derived_from_strike_not_hardcoded():
     # Weak strike the runner outruns: dead ball, live runner past the
     # monotone horizon. Unreachable, not a slow ball.
     _, t = intercept_target(
-        PitchPoint(x=80.0, y=30.0), (5.0, 0.0), PitchPoint(x=50.0, y=30.0),
-        0.0, 15.0, 2.45,
+        PitchPoint(x=80.0, y=30.0),
+        (5.0, 0.0),
+        PitchPoint(x=50.0, y=30.0),
+        0.0,
+        15.0,
+        2.45,
     )
     assert t == math.inf
     # Same geometry at full strike meets at ~90.37.
@@ -209,9 +213,7 @@ def test_engaged_presser_pays_only_plant():
 
     # Sprinting straight at the target: open body shape, foot plant only
     presser = _posed_actor(1, 80.0, 30.0, math.pi)
-    lat, source = presser_engagement_latency_s(
-        presser, PitchPoint(x=70.0, y=30.0)
-    )
+    lat, source = presser_engagement_latency_s(presser, PitchPoint(x=70.0, y=30.0))
     assert source == "pose"
     assert lat <= 0.15
 
@@ -221,9 +223,7 @@ def test_back_turned_presser_pays_full_flip():
 
     # Facing +x, target at -x: 180-degree flip through the shared pivot curve
     presser = _posed_actor(1, 80.0, 30.0, 0.0)
-    lat, _ = presser_engagement_latency_s(
-        presser, PitchPoint(x=70.0, y=30.0)
-    )
+    lat, _ = presser_engagement_latency_s(presser, PitchPoint(x=70.0, y=30.0))
     assert lat == pytest.approx(0.70, abs=1e-3)
 
 
@@ -232,9 +232,7 @@ def test_unknown_orientation_pays_reaction_floor():
     from src.physics.arrival_constants import HUMAN_REACTION_FLOOR_S
 
     presser = _actor(1, 80.0, 30.0)
-    lat, source = presser_engagement_latency_s(
-        presser, PitchPoint(x=70.0, y=30.0)
-    )
+    lat, source = presser_engagement_latency_s(presser, PitchPoint(x=70.0, y=30.0))
     assert source == "unknown"
     assert lat == HUMAN_REACTION_FLOOR_S
 

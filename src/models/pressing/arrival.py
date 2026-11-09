@@ -23,8 +23,6 @@ from src.physics.arrival_constants import (
 )
 
 
-
-
 @dataclass(frozen=True)
 class ArrivalResult:
     receiver_track_id: int
@@ -170,7 +168,6 @@ def arrival_margin(
     target, t_ball = intercept_target(
         receiver.pos_m, rec_vel, passer_pos, prep_latency_s, pass_speed_ms
     )
-
 
     if not math.isfinite(t_ball):
         return ArrivalResult(

@@ -22,6 +22,7 @@ def _actor(tid, x, y, facing=None, source="pose", vx=0.0, vy=0.0, team="own"):
         facing_source=source,
     )
 
+
 def test_open_cb_ready_now():
     rec = _actor(4, 80.0, 30.0, facing=0.0)
     res = receiver_readiness(rec, PitchPoint(x=100.0, y=29.0))
@@ -48,6 +49,7 @@ def test_facing_is_pose_or_unknown():
     known = _actor(7, 80.0, 30.0, facing=0.5)
     assert resolve_facing(known) == (0.5, "pose")
 
+
 def test_unknown_facing_notes_not_discounts():
     lost = _actor(7, 80.0, 30.0, facing=None)
     res = receiver_readiness(lost, PitchPoint(x=80.0, y=10.0))
@@ -65,9 +67,7 @@ def test_unknown_facing_bearing_independent():
         PitchPoint(x=80.0, y=20.0),
         PitchPoint(x=70.0, y=30.0),
     ]
-    latencies = {
-        receiver_readiness(lost, b).reception_latency_s for b in bearings
-    }
+    latencies = {receiver_readiness(lost, b).reception_latency_s for b in bearings}
     assert latencies == {0.70}
 
 
@@ -110,7 +110,9 @@ def test_hospital_pass_margin_math():
 def test_retention_probability_calibration():
     from src.physics.arrival_constants import RETENTION_CRITICAL_CUSHION_S
 
-    ready = receiver_readiness(_actor(4, 80.0, 30.0, facing=0.0), PitchPoint(x=100.0, y=29.0))
+    ready = receiver_readiness(
+        _actor(4, 80.0, 30.0, facing=0.0), PitchPoint(x=100.0, y=29.0)
+    )
 
     # Inflection point at critical cushion gives exactly 50%
     margin_at_inflection = ready.reception_latency_s + RETENTION_CRITICAL_CUSHION_S

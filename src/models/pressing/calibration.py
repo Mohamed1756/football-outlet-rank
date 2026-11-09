@@ -21,18 +21,43 @@ from typing import List, Sequence, Tuple
 # Decile upper edges (seconds) from the WC2022 fit, fitted values.
 # Boundaries are descriptive of the calibration sample, not physics.
 DECILE_EDGES_S: Tuple[float, ...] = (
-    1.01, 1.31, 1.52, 1.70, 1.85, 1.99, 2.13, 2.29, 2.50, float("inf"),
+    1.01,
+    1.31,
+    1.52,
+    1.70,
+    1.85,
+    1.99,
+    2.13,
+    2.29,
+    2.50,
+    float("inf"),
 )
 
 # Observed incompletion rate per decile (index 0 = tightest).
 DECILE_INCOMPLETION_RATE: Tuple[float, ...] = (
-    0.204, 0.131, 0.085, 0.049, 0.033, 0.023, 0.016, 0.009, 0.006, 0.002,
+    0.204,
+    0.131,
+    0.085,
+    0.049,
+    0.033,
+    0.023,
+    0.016,
+    0.009,
+    0.006,
+    0.002,
 )
 
 # Observed incompletion rate by chosen rank (0 = safest outlet).
 # Ranks 7+ pooled (n < 300 each).
 RANK_INCOMPLETION_RATE: Tuple[float, ...] = (
-    0.024, 0.043, 0.075, 0.107, 0.149, 0.183, 0.212, 0.208,
+    0.024,
+    0.043,
+    0.075,
+    0.107,
+    0.149,
+    0.183,
+    0.212,
+    0.208,
 )
 
 
@@ -48,7 +73,9 @@ def rank_outlets(margins_s: Sequence[float]) -> List[OutletRank]:
     order = sorted(range(len(margins_s)), key=lambda i: margins_s[i], reverse=True)
     ranks: List[OutletRank] = [None] * len(margins_s)  # type: ignore[list-item]
     for rank, idx in enumerate(order):
-        ranks[idx] = OutletRank(margin_s=margins_s[idx], rank=rank, n_outlets=len(margins_s))
+        ranks[idx] = OutletRank(
+            margin_s=margins_s[idx], rank=rank, n_outlets=len(margins_s)
+        )
     return ranks
 
 

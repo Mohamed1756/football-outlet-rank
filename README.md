@@ -20,6 +20,19 @@ Passers pick the safest outlet ~43% of the time.
 
 **Reading the chart:** decile 1 = tightest frozen-shape cushion, decile 10 = safest. Absolute seconds are inflated (frozen shape, standing starts) — trust the ordering, not the clock. Women's curve runs parallel above men's: same ranking power, higher levels, so recalibrate edges per pace environment.
 
+Example: a 0.8 s margin sits in decile 1 (edge 1.01 s). Historically ~20% of men's and ~27% of women's passes there went incomplete. The 0.8 s is `t_press - t_ball` to the intercept, not presser distance to the receiver; incomplete means any failure, not a turnover to that presser.
+
+### Rank 0 vs decile 10
+
+Two scales. Play rank is relative to one freeze; decile is absolute against fixed WC2022 edges.
+
+- Play rank (`rank_outlets`): sort the outlets on one freeze by margin (`t_press - t_ball`) largest-first. Rank 0 = largest margin available on that play. `rank_outlets([2.6, 1.4, 0.7])` gives rank 0 to 2.6 s, rank 1 to 1.4 s, rank 2 to 0.7 s. Fitted failure: rank 0 ~2.4%, rank 1 ~4.3%, rank 2 ~7.5%, rising to ~21% by rank 6.
+- Margin decile (`margin_decile`): bin one margin against fixed edges (1.01, 1.31, 1.52, 1.70, 1.85, 1.99, 2.13, 2.29, 2.50 s). Decile 1 = margin below 1.01 s; decile 10 = margin above 2.50 s. Fitted failure: decile 1 ~20.4% down to decile 10 ~0.2%, monotone.
+
+Rank answers which outlet is safest here. Decile answers how safe that margin is anywhere. A 1.4 s outlet is rank 0 on a tight play and rank 1 on the play below; its decile is 3 either way.
+
+![Worked example: rank is order on the play, decile is the fixed bin](docs/figs/fig2_rank_example.png)
+
 ## Quick Start
 
 ```bash
@@ -66,11 +79,6 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `src/physics/biomechanics.py` — hip-pivot latency + angle wrap.
 - `src/core/geometry.py` — `PitchPoint` only.
 - `arrival.md` — research note: values, novelty, deleted priors.
-- `reports/fig1_decile_curves.svg`, `reports/fig2_rank_choice.svg` — figures.
+- `reports/fig1_decile_curves.svg`, `reports/fig2_rank_choice.svg` — figures (`docs/figs/` holds rendered copies).
 - `data/wc2022`, `data/euro2020`, `data/laliga`, `data/euro2024`,
   `data/wwc2023` — open 360 freeze-frames (untracked, local only).
-
-## Full system
-
-The deleted video engine (detection, tracking, homography, dashboard) is
-recoverable from tag `last-full-system`.

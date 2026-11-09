@@ -22,10 +22,9 @@ from src.physics.gk_constraints import (
     PASS_TURF_ROLLING_DECELERATION_MSS,
     PRESSER_MAX_BURST_ACCEL_MSS,
     PRESSER_SPRINT_MAX_SPEED_MS,
-    UNKNOWN_MEAN_TURN_S,
 )
 
-PASS_SPEED_MS = PASS_GROUND_INITIAL_SPEED_MS
+
 
 
 @dataclass(frozen=True)
@@ -43,15 +42,17 @@ def flight_time_s(
     v0_ms: float = PASS_GROUND_INITIAL_SPEED_MS,
     a_turf_mss: float = PASS_TURF_ROLLING_DECELERATION_MSS,
 ) -> float:
-    """Calculates physical rolling ground pass flight time using Coulomb turf friction.
+    """Rolling ground-pass flight time: dist = v0 * t - 0.5 * a * t^2.
 
-    Kinematic formula: dist = v0 * t - 0.5 * a_turf * t^2
+    Returns inf when the ball cannot arrive (beyond stopping distance).
+    Callers treat inf as no-ball, not a slow ball.
     """
     if dist_m <= 0.0:
         return 0.0
-    disc = max(1.0, v0_ms * v0_ms - 2.0 * a_turf_mss * dist_m)
-    t = (v0_ms - math.sqrt(disc)) / a_turf_mss
-    return round(max(0.05, t), 3)
+    disc = v0_ms * v0_ms - 2.0 * a_turf_mss * dist_m
+    if disc <= 0.0:
+        return math.inf
+    return round((v0_ms - math.sqrt(disc)) / a_turf_mss, 3)
 
 
 def lead_target(
@@ -60,19 +61,17 @@ def lead_target(
     flight_s: float,
     max_displacement_m: float = MAX_LEAD_DISPLACEMENT_M,
 ) -> PitchPoint:
-    """Projects the receiver's running lead position, bounding displacement to
-
-    prevent runaway out-of-bounds projections.
+    """Receiver's lead position: current pos + velocity * ball flight time,
+    capped at max_displacement_m. Same-frame convention: both the ball and
+    the pressers race to this point, never to the stale current position.
     """
+    if not math.isfinite(flight_s):
+        return PitchPoint(x=round(pos.x, 2), y=round(pos.y, 2))
     dx = vel_ms[0] * flight_s
     dy = vel_ms[1] * flight_s
     disp = math.hypot(dx, dy)
-    # Implied-speed cap: a lead projecting faster than a sprint can run is
-    # tracker noise, not a run. Bounds every caller without signature changes.
-    speed_cap_m = PRESSER_SPRINT_MAX_SPEED_MS * flight_s
-    cap_m = min(max_displacement_m, speed_cap_m)
-    if disp > cap_m and disp > 1e-6:
-        scale = cap_m / disp
+    if disp > max_displacement_m and disp > 1e-6:
+        scale = max_displacement_m / disp
         dx *= scale
         dy *= scale
 
@@ -84,21 +83,16 @@ def lead_target(
 def presser_engagement_latency_s(
     presser: PressingActor,
     target: PitchPoint,
-    ball_pos: Optional[PitchPoint] = None,
 ) -> Tuple[float, str]:
     """Turn-plus-reaction latency before a presser can sprint at the target.
 
-    Geometry-only arrival treats a back-turned jogger as an engaged sprinter.
-    Facing resolves pose -> velocity -> ball-oriented -> unknown (shared with
-    receiver readiness); the hip-pivot curve prices the turn, and unknown
-    orientation takes the human reaction floor instead of zero (unknown is
-    not engaged).
+    Known facing prices the turn on the hip-pivot curve. Unknown facing pays
+    the human reaction floor: unknown is not engaged, and the distance-based
+    turn-while-sprinting overlap was an unverifiable prior.
     """
-    facing, source = resolve_facing(presser, ball_pos)
+    facing, source = resolve_facing(presser)
     if source == "unknown":
-        dist = math.hypot(target.x - presser.pos_m.x, target.y - presser.pos_m.y)
-        overlap = dist / (2.0 * PRESSER_SPRINT_MAX_SPEED_MS)
-        return max(GK_REACTION_TIME_DEFAULT_S, UNKNOWN_MEAN_TURN_S - overlap), source
+        return GK_REACTION_TIME_DEFAULT_S, source
     required = math.atan2(target.y - presser.pos_m.y, target.x - presser.pos_m.x)
     return compute_hip_pivot_latency(facing, required), source
 
@@ -110,10 +104,11 @@ def presser_arrival_s(
     max_speed_ms: float = PRESSER_SPRINT_MAX_SPEED_MS,
     engagement_latency_s: float = 0.0,
 ) -> Tuple[float, float]:
-    """Calculates defender arrival time using sprint acceleration kinematics.
+    """Defender arrival time under sprint acceleration kinematics.
 
-    Kinematic profile: d = v0 * t + 0.5 * a * t^2 up to max_speed_ms, plus an
+    Profile: d = v0 * t + 0.5 * a * t^2 up to max_speed_ms, plus an
     engagement latency for turn/reaction (see presser_engagement_latency_s).
+    Only the closing velocity component counts; running away starts at 0.
     """
     dx = target.x - presser.pos_m.x
     dy = target.y - presser.pos_m.y
@@ -146,28 +141,34 @@ def arrival_margin(
     passer_pos: PitchPoint,
     pass_speed_ms: float = PASS_GROUND_INITIAL_SPEED_MS,
     prep_latency_s: float = 0.0,
-    target_pos: Optional[PitchPoint] = None,
 ) -> ArrivalResult:
-    raw_dist = (
-        math.hypot(target_pos.x - passer_pos.x, target_pos.y - passer_pos.y)
-        if target_pos is not None
-        else math.hypot(
-            receiver.pos_m.x - passer_pos.x, receiver.pos_m.y - passer_pos.y
-        )
-    )
-    flight_s = flight_time_s(raw_dist, v0_ms=pass_speed_ms)
-    t_ball = prep_latency_s + flight_s
-    rec_vel, _ = gate_tracking_velocity(receiver.vel_ms, receiver.speed_capped)
-    target = (
-        target_pos
-        if target_pos is not None
-        else lead_target(receiver.pos_m, rec_vel, t_ball)
-    )
+    """Per-outlet race: margin = t_press - t_ball, both timed to the lead.
 
-    t_receipt = t_ball
-    if target_pos is not None:
-        t_rec, _ = presser_arrival_s(receiver, target)
-        t_receipt = max(t_ball, t_rec)
+    Two-pass iteration: lead from t0, re-time the ball to the lead, re-lead.
+    Converges within ~30 ms (sprint case); the residual is an order of
+    magnitude below the 0.15 s retention threshold.
+    """
+    rec_vel, _ = gate_tracking_velocity(receiver.vel_ms, receiver.speed_capped)
+    t0 = prep_latency_s + flight_time_s(
+        math.hypot(receiver.pos_m.x - passer_pos.x, receiver.pos_m.y - passer_pos.y),
+        v0_ms=pass_speed_ms,
+    )
+    lead = lead_target(receiver.pos_m, rec_vel, t0)
+    t_ball = prep_latency_s + flight_time_s(
+        math.hypot(lead.x - passer_pos.x, lead.y - passer_pos.y),
+        v0_ms=pass_speed_ms,
+    )
+    target = lead_target(receiver.pos_m, rec_vel, t_ball)
+
+    if not math.isfinite(t_ball):
+        return ArrivalResult(
+            receiver_track_id=receiver.track_id,
+            margin_s=-99.0,
+            t_ball_s=math.inf,
+            t_press_s=math.inf,
+            best_presser_id=None,
+            marking_dist_m=99.0,
+        )
 
     best_presser: Optional[int] = None
     t_press = math.inf
@@ -175,7 +176,7 @@ def arrival_margin(
     for op in opponents:
         if not op.pitch_valid:
             continue
-        engage, _ = presser_engagement_latency_s(op, target, passer_pos)
+        engage, _ = presser_engagement_latency_s(op, target)
         arrival, dist = presser_arrival_s(op, target, engagement_latency_s=engage)
         if dist < marking:
             marking = dist
@@ -189,7 +190,7 @@ def arrival_margin(
         marking = 99.0
     return ArrivalResult(
         receiver_track_id=receiver.track_id,
-        margin_s=round(t_press - t_receipt, 3),
+        margin_s=round(t_press - t_ball, 3),
         t_ball_s=round(t_ball, 3),
         t_press_s=round(t_press, 3),
         best_presser_id=best_presser,

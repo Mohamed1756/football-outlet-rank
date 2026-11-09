@@ -30,22 +30,5 @@ PASS_TURF_ROLLING_DECELERATION_MSS: float = 2.45
 PRESSER_MAX_BURST_ACCEL_MSS: float = 3.5
 # Maximum sustained sprint speed for professional outfield presser (~30.6 km/h)
 PRESSER_SPRINT_MAX_SPEED_MS: float = 8.5
-# Mean hip-turn latency under uniform orientation: the expectation of the
-# compute_hip_pivot_latency curve over [0, pi] is ~0.39 s. An unknown-facing
-# presser pays this minus turn-while-sprinting overlap, floored at the human
-# reaction floor. Prior; replaces the flat 0.25 s that assumed the presser
-# already faced its target.
-UNKNOWN_MEAN_TURN_S: float = 0.40
 # Maximum realistic lead passing sprint displacement before receiver checks/slows run
 MAX_LEAD_DISPLACEMENT_M: float = 8.0
-# Receiver facing fallback floor in m/s. Relocated unchanged.
-VELOCITY_FACING_FLOOR_MS: float = 0.5
-# Readiness multiplier for unknown receiver orientation. Relocated unchanged.
-UNKNOWN_FACING_MULTIPLIER: float = 0.85
-# Readiness bonus when the receiver shields back-to-presser. Relocated unchanged.
-SHIELD_BONUS: float = 1.10
-# Readiness multiplier when open-chested to a converging presser. Relocated unchanged.
-EXPOSED_MULTIPLIER: float = 0.80
-# Shield cone half-angle in degrees. Relocated unchanged.
-SHIELD_ANGLE_DEG: float = 45.0
-

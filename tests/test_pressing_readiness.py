@@ -1,6 +1,7 @@
 """Tests for receiver readiness body model (hand-verified angles)."""
 
 import math
+
 import pytest
 
 from src.core.geometry import PitchPoint
@@ -39,38 +40,23 @@ def test_back_to_passer_prices_turn_not_veto():
     assert "needs-turn" in res.note
 
 
-def test_back_to_presser_shields():
-    rec = _actor(9, 86.0, 25.0, facing=-3.0 * math.pi / 4.0)
-    presser = _actor(21, 88.0, 27.0, team="opp")
-    res = receiver_readiness(rec, PitchPoint(x=100.0, y=29.0), nearest_presser=presser)
-    assert "shielded" in res.note
-    assert res.readiness_mult > 0.35
-
-
-def test_chest_open_to_closing_presser_exposed():
-    rec = _actor(9, 86.0, 25.0, facing=0.0)
-    presser = _actor(21, 90.0, 25.0, team="opp")
-    res = receiver_readiness(
-        rec,
-        PitchPoint(x=100.0, y=29.0),
-        nearest_presser=presser,
-        presser_closing=True,
-    )
-    assert "exposed" in res.note
-    assert res.readiness_mult == round(1.0 * 0.80, 3)
-
-
-def test_facing_fallback_chain():
+def test_facing_is_pose_or_unknown():
+    # Velocity is travel, not facing: a sprinter without pose data is
+    # unknown, not velocity-oriented. Ball-oriented facing assumed an
+    # unmeasured ball-watching receiver. Both fallbacks deleted.
     moving = _actor(7, 80.0, 30.0, facing=None, vx=3.0, vy=0.0)
-    assert resolve_facing(moving)[1] == "velocity"
+    assert resolve_facing(moving)[1] == "unknown"
     static = _actor(7, 80.0, 30.0, facing=None)
-    angle, source = resolve_facing(static, PitchPoint(x=100.0, y=30.0))
-    assert source == "ball"
-    assert angle == 0.0
+    assert resolve_facing(static)[1] == "unknown"
+    known = _actor(7, 80.0, 30.0, facing=0.5)
+    assert resolve_facing(known) == (0.5, "pose")
+
+
+def test_unknown_facing_notes_not_discounts():
     lost = _actor(7, 80.0, 30.0, facing=None)
     res = receiver_readiness(lost, PitchPoint(x=80.0, y=10.0))
     assert res.facing_source == "unknown"
-    assert res.readiness_mult == round(1.0 * 0.85, 3)
+    assert "+unknown-facing" in res.note
 
 
 def test_reception_latency_and_post_cushion():
@@ -84,13 +70,14 @@ def test_reception_latency_and_post_cushion():
     expected_reception = round(RECEIVER_FIRST_TOUCH_LATENCY_S + res.turn_latency_s, 3)
     assert res.reception_latency_s == expected_reception
 
-    # Margin shorter than reception commitment yields negative or sub-threshold post-cushion
+    # Margin shorter than reception commitment leaves negative post-cushion
     short_margin_s = expected_reception + 0.10
     assert res.post_cushion_s(short_margin_s) == pytest.approx(0.10, abs=1e-3)
     assert res.post_cushion_s(short_margin_s) < MIN_POST_RECEIPT_CUSHION_S
 
     # Generous margin leaves ample control cushion
     wide_margin_s = expected_reception + 0.80
+    assert res.post_cushion_s(wide_margin_s) == pytest.approx(0.80, abs=1e-3)
     assert res.post_cushion_s(wide_margin_s) >= MIN_POST_RECEIPT_CUSHION_S
 
 
@@ -122,9 +109,7 @@ def test_retention_probability_calibration():
 
     # Monotonicity and C^1 continuity across the physical cushion range
     steps = [round(-0.20 + i * 0.01, 3) for i in range(81)]  # [-0.20, +0.60]
-    vals = [
-        ready.retention_prob(ready.reception_latency_s + t) for t in steps
-    ]
+    vals = [ready.retention_prob(ready.reception_latency_s + t) for t in steps]
 
     for i in range(len(vals) - 1):
         assert vals[i] < vals[i + 1], "Retention must be strictly monotonic"

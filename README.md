@@ -1,6 +1,7 @@
 # Arrival Race
 
 Safety of a receiving outlet as a physical race, not a distance heuristic.
+Both sides race to the receiver's lead point.
 
 ## Quick Start
 
@@ -26,7 +27,7 @@ presser = PressingActor(
 )
 res = arrival_margin(receiver, [presser], PitchPoint(100.0, 29.0))
 ready = receiver_readiness(receiver, PitchPoint(100.0, 29.0))
-print(res.margin_s, res.t_press_s, res.t_ball_s, res.best_presser_id)
+print(res.margin_s, res.t_ball_s, res.t_press_s, res.best_presser_id)
 print(ready.reception_latency_s, ready.post_cushion_s(res.margin_s))
 print(ready.retention_prob(res.margin_s))
 ```
@@ -37,12 +38,11 @@ print(ready.retention_prob(res.margin_s))
   `presser_engagement_latency_s`, `presser_arrival_s`, `arrival_margin`.
 - `src/models/pressing/readiness.py` — `resolve_facing`,
   `receiver_readiness`, retention probability on `ReadinessResult`.
-- `src/models/pressing/types.py` — `PressingActor`, `PressingSnapshot`,
-  `gate_tracking_velocity`.
-- `src/physics/gk_constraints.py` — 16 arrival-race constants, single source.
+- `src/models/pressing/types.py` — `PressingActor`, `gate_tracking_velocity`.
+- `src/physics/gk_constraints.py` — 10 arrival-race constants, single source.
 - `src/physics/biomechanics.py` — hip-pivot latency, execution penalty.
 - `src/core/geometry.py` — `PitchPoint` only.
-- `arrival.md` — research note: values and novelty.
+- `arrival.md` — research note: values, novelty, deleted priors.
 - `data/wc2022`, `data/euro2020`, `data/laliga` — open 360 freeze-frames
   for margin-to-retention calibration (untracked, local only).
 

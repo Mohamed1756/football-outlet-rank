@@ -16,12 +16,9 @@ bottom decile fails at 20–27%; the top at 0.2–0.5% — monotone across all
 five datasets. Rank 0 fails at 0.02–0.05; failure rises every rank.
 Passers pick the safest outlet ~43% of the time.
 
+![Margin decile vs incompletion, five datasets](docs/figs/fig1_decile_curves.png)
 
-![Margin decile vs incompletion, five datasets](docs/figs/fig1_decile_curves.svg)
-
-![Rank-0 choice share and failure, per dataset](docs/figs/fig2_rank_choice.svg)
-
-**Reading the charts:** decile 1 = tightest frozen-shape cushion, decile 10 = safest. Rank 0 = the best outlet available on that play. Absolute seconds are inflated (frozen shape, standing starts) — trust the ordering, not the clock. Women's curve runs parallel above men's: same ranking power, higher levels, so recalibrate edges per pace environment.
+**Reading the chart:** decile 1 = tightest frozen-shape cushion, decile 10 = safest. Absolute seconds are inflated (frozen shape, standing starts) — trust the ordering, not the clock. Women's curve runs parallel above men's: same ranking power, higher levels, so recalibrate edges per pace environment.
 
 ## Quick Start
 

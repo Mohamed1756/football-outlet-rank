@@ -1,6 +1,6 @@
 """Arrival-time core: margin(j) = t_press(j) - t_ball(j), per outlet.
 
-A pass is trapped when any opponent reaches the receiver's lead target
+A pass is trapped when any opponent reaches the ball-to-runner intercept
 before the ball does, regardless of the static cushion at decision time.
 """
 

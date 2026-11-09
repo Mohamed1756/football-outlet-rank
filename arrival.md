@@ -51,11 +51,26 @@ Both sides race to the ball-to-runner intercept.
 ## Replication (Euro2020 33,761 + LaLiga 28,694, frozen WC2022 bins)
 
 - Euro2020: monotone 0.204 -> 0.004 (53x). LaLiga: monotone 0.205 -> 0.003
-  (65x). Rank-0 failure 0.024 on all three datasets, rank curves
-  monotone to rank 6+ everywhere.
+  (65x). Rank-0 failure 0.024 on all three datasets; rank curves monotone
+  to rank 6, pooled tail (7+, n < 300 per set) noisy — LaLiga rank 7 dips
+  to 0.157 on n=210 before rank 9 spikes on n=8.
 - Verdict: the gradient is not a tournament artifact. Bottom-decile rate
   pins at 0.20 on all three; top-decile floor varies 0.002-0.004.
   Finding stands; absolute seconds still uncalibrated (standing starts).
+
+## Cross-pace replication (Euro 2024 34,617 + WWC 2023 32,807, frozen bins)
+
+- Euro2024: monotone 0.214 -> 0.002 (121x). Closest comparator to Euro2020;
+  bins hold across tournaments four years apart. Rank-0 failure 0.020.
+- WWC2023: monotone 0.273 -> 0.005 (52x) but the whole curve shifts up:
+  bottom decile 0.27 (vs 0.20 men), rank-0 failure 0.048 (vs 0.020-0.024).
+  Global incompletion 0.102 vs ~0.05-0.06 men.
+- Reading: rank ordering survives slower pace — the gradient is shape, not
+  speed. Absolute levels shift: same frozen-shape margin fails ~2x more in
+  the women's game. Pace narrows real cushions the snapshot can't see, so
+  equal measured shape means less true safety. Rank transfers; seconds don't.
+- Verdict: the method generalizes, the levels don't. Recalibrate decile
+  edges per pace environment; the ordering instrument is pace-free.
 
 ## Open priors (fitted, not proven)
 

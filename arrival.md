@@ -97,13 +97,18 @@ Both sides race to the ball-to-runner intercept.
   alternative (k ~ 0.044 fit on ball track, vs Spearman 0.0138) is finite
   everywhere but mistimes pass windows worse (no clean winner on n=797:
   both models near-linear over real windows, differing only in the noisy
-  long-ball tail). Coulomb stays; refit needs a bigger labeled tracking
-  set. Two-game live gradient (G1+G2, n=864 reachable, joint intercept +
+  long-ball tail). Coulomb stays; broadcast tracking is that bigger set.
+  Two-game Metrica gradient (G1+G2, n=864 reachable, joint intercept +
   live pressers + measured speed): d1 0.16 falling to d7 0.02 with a noisy
   tail (d8/d10 ~0.07-0.09, ~6 failures per bin — noise at this n). Shape
-  consistent with frozen, too weak to refit on. `pass_speed_ms` and
-  `live_pressers` stay tested mechanisms awaiting that refit; the frozen
-  calibration stands.
+  consistent with frozen, too weak to refit on.
+- SkillCorner broadcast replication (20 A-League matches, n=14,814 labeled
+  passes, targeted receivers, 10 fps): frozen d1 0.24 to d10 0.02 (14x),
+  live d1 0.22 to d10 0.02 (10x), monotone except d2-dip/d3-bump noise.
+  Nearest-to-end recipient heuristic caused the earlier U-shape; intended
+  targets fix it. Gradient transfers to broadcast tracking at lower power
+  (base rate 16% vs 5% elite). `pass_speed_ms` and `live_pressers` stay
+  tested mechanisms awaiting that refit; the frozen calibration stands.
 - Unknown-facing at 360 scale means every presser pays the floor.
 - `outlet_value` (retention times forward progress) is a descriptive
   reordering aid: rank-0-by-value is the safest progressive ball, not a

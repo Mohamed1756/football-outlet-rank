@@ -82,6 +82,8 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `src/io/metrica.py` — Metrica sample-data loader: tracking frames to
   `PressingActor`s with measured per-pass ball speed (wakes `pass_speed_ms`
   and `live_pressers`; facing stays unknown).
+- `src/io/skillcorner.py` — SkillCorner Open Data loader: 10 fps broadcast
+  tracking with roster sides, measured ball peaks, real pass outcomes.
 - `src/physics/arrival_constants.py` — 8 arrival-race constants, single source.
 - `src/physics/biomechanics.py` — hip-pivot latency + angle wrap.
 - `src/core/geometry.py` — `PitchPoint`, pitch dimensions.
@@ -100,4 +102,6 @@ time-to-control concept); Morin et al. 2016 + Samozino et al. 2021 (sprint
 force-velocity profiling method); FIFA Quality Programme for Football Turf
 (ball-surface interaction is regulated); Lees & Nolan 1998 (kicking
 biomechanics, hip-pivot latencies). Pass data: StatsBomb Open Data 360
-freeze-frames (WC 2022, Euro 2020/2024, LaLiga 20/21, WWC 2023).
+freeze-frames (WC 2022, Euro 2020/2024, LaLiga 20/21, WWC 2023);
+SkillCorner Open Data (MIT, 10+ broadcast-tracked A-League matches,
+dynamic events with real pass outcomes).

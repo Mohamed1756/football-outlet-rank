@@ -1,4 +1,4 @@
-"""Canonical pitch coordinates (meters, origin at center, attack left-to-right)."""
+"""Canonical pitch coordinates (meters, corner origin, attack left-to-right)."""
 
 from __future__ import annotations
 

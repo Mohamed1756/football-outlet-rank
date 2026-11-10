@@ -77,6 +77,9 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `src/models/pressing/readiness.py` — `resolve_facing`,
   `receiver_readiness`, retention probability on `ReadinessResult`.
 - `src/models/pressing/types.py` — `PressingActor`, `gate_tracking_velocity`.
+- `src/io/metrica.py` — Metrica sample-data loader: tracking frames to
+  `PressingActor`s with measured per-pass ball speed (wakes `pass_speed_ms`
+  and `live_pressers`; facing stays unknown).
 - `src/physics/arrival_constants.py` — 8 arrival-race constants, single source.
 - `src/physics/biomechanics.py` — hip-pivot latency + angle wrap.
 - `src/core/geometry.py` — `PitchPoint` only.

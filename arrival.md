@@ -87,7 +87,8 @@ Both sides race to the ball-to-runner intercept.
   unphysical for driven long balls. Outcome-fitting cannot identify strike
   speed (bands become sorting knobs), so no band model is adopted and the
   old ~0.2 s short-ball prior is cut; `pass_speed_ms` override stays for
-  live tracking data.
+  live tracking data (`src/io/metrica.py` measures per-pass peak ball
+  speed, capped at 35 m/s shot-max against tracker spikes).
 - Unknown-facing at 360 scale means every presser pays the floor.
 - `outlet_value` (retention times forward progress) is a descriptive
   reordering aid: rank-0-by-value is the safest progressive ball, not a

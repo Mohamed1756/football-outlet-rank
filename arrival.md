@@ -98,8 +98,12 @@ Both sides race to the ball-to-runner intercept.
   everywhere but mistimes pass windows worse (no clean winner on n=797:
   both models near-linear over real windows, differing only in the noisy
   long-ball tail). Coulomb stays; refit needs a bigger labeled tracking
-  set. `pass_speed_ms` and `live_pressers` stay tested mechanisms awaiting
-  that refit; the frozen calibration stands.
+  set. Two-game live gradient (G1+G2, n=864 reachable, joint intercept +
+  live pressers + measured speed): d1 0.16 falling to d7 0.02 with a noisy
+  tail (d8/d10 ~0.07-0.09, ~6 failures per bin — noise at this n). Shape
+  consistent with frozen, too weak to refit on. `pass_speed_ms` and
+  `live_pressers` stay tested mechanisms awaiting that refit; the frozen
+  calibration stands.
 - Unknown-facing at 360 scale means every presser pays the floor.
 - `outlet_value` (retention times forward progress) is a descriptive
   reordering aid: rank-0-by-value is the safest progressive ball, not a

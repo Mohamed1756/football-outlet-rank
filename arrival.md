@@ -72,10 +72,12 @@ Both sides race to the ball-to-runner intercept.
   speed. Absolute levels shift: same frozen-shape margin fails ~2x more in
   the women's game. Pace narrows real cushions the snapshot can't see, so
   equal measured shape means less true safety. Rank transfers; seconds don't.
-- Verdict: the method generalizes, the levels don't. Recalibrate decile
-  edges per pace environment; the ordering instrument is pace-free. Edges
-  are fixed within a fit (all five replications reuse the WC2022 bins);
-  a new environment gets its own fit, not shifted seconds.
+- Verdict: the method generalizes, the levels don't. Edges stay frozen
+  within a fit (all five replications reuse the WC2022 bins); a slower
+  environment takes a level multiplier instead (`decile_risk` pace_k,
+  WWC ~1.5x), not shifted edges: endpoint-proxy refit shows WWC edges
+  coincide with WC2022 while rates sit uniformly higher. The ordering
+  instrument is pace-free.
 
 ## Open priors (fitted, not proven)
 
@@ -87,5 +89,8 @@ Both sides race to the ball-to-runner intercept.
   old ~0.2 s short-ball prior is cut; `pass_speed_ms` override stays for
   live tracking data.
 - Unknown-facing at 360 scale means every presser pays the floor.
+- `outlet_value` (retention times forward progress) is a descriptive
+  reordering aid: rank-0-by-value is the safest progressive ball, not a
+  fitted outcome — no progression outcome exists in the event data to fit it.
 - 8 constants, every one referenced. Full video engine recoverable from tag
   `last-full-system`.

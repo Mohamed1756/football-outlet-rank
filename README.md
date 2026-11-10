@@ -72,7 +72,8 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `src/models/pressing/arrival.py` — `flight_time_s`, `intercept_target`,
   `presser_engagement_latency_s`, `presser_arrival_s`, `arrival_margin`.
 - `src/models/pressing/calibration.py` — `rank_outlets`, `margin_decile`,
-  `decile_risk`, `rank_risk` (WC2022 fit; re-bin per pace environment).
+  `decile_risk`, `rank_risk` (WC2022 fit; `pace_k` scales levels per pace
+  environment), `outlet_value` (safety-times-upside, descriptive).
 - `src/models/pressing/readiness.py` — `resolve_facing`,
   `receiver_readiness`, retention probability on `ReadinessResult`.
 - `src/models/pressing/types.py` — `PressingActor`, `gate_tracking_velocity`.
@@ -81,5 +82,17 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `src/core/geometry.py` — `PitchPoint` only.
 - `arrival.md` — research note: values, novelty, deleted priors.
 - `docs/figs/fig1_decile_curves.png`, `docs/figs/fig2_rank_example.png` — figures.
+
 - `data/wc2022`, `data/euro2020`, `data/laliga`, `data/euro2024`,
   `data/wwc2023` — open 360 freeze-frames (untracked, local only).
+
+## Sources
+
+Physics concepts are borrowed, values are assumed (see
+`src/physics/arrival_constants.py` for per-constant notes):
+Spearman et al. 2017 (Hudl SSAC, physics-based pass probabilities —
+time-to-control concept); Morin et al. 2016 + Samozino et al. 2021 (sprint
+force-velocity profiling method); FIFA Quality Programme for Football Turf
+(ball-surface interaction is regulated); Lees & Nolan 1998 (kicking
+biomechanics, hip-pivot latencies). Pass data: StatsBomb Open Data 360
+freeze-frames (WC 2022, Euro 2020/2024, LaLiga 20/21, WWC 2023).

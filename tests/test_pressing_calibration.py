@@ -8,6 +8,7 @@ from src.models.pressing.calibration import (
     RANK_INCOMPLETION_RATE,
     decile_risk,
     margin_decile,
+    outlet_value,
     rank_outlets,
     rank_risk,
 )
@@ -38,6 +39,27 @@ def test_decile_risk_monotone_fitted_gradient():
     assert decile_risk(10) == DECILE_INCOMPLETION_RATE[-1]
     with pytest.raises(ValueError):
         decile_risk(0)
+
+
+def test_decile_risk_pace_scales_level_not_order():
+    # Default is the WC2022 rate; WWC k=1.5 reproduces the observed level
+    # shift (0.27 vs 0.20 bottom) without touching edges or order.
+    assert decile_risk(1) == pytest.approx(0.204, abs=1e-3)
+    assert decile_risk(1, 1.5) == pytest.approx(0.306, abs=1e-3)
+    assert decile_risk(1, 99.0) == 1.0
+
+
+def test_outlet_value_prefers_progressive_safety():
+    # Same retention, farther forward wins; identical geometry ties.
+    assert outlet_value(0.9, 80.0) > outlet_value(0.9, 30.0)
+    assert outlet_value(0.9, 80.0) == pytest.approx(0.9 * 80.0 / 105.0, abs=1e-4)
+    # Safer backward ball loses to decent forward ball.
+    assert outlet_value(0.99, 20.0) < outlet_value(0.8, 80.0)
+
+
+def test_outlet_value_clamps_off_pitch():
+    assert outlet_value(0.9, 200.0) == pytest.approx(0.9, abs=1e-4)
+    assert outlet_value(0.9, -10.0) == 0.0
 
 
 def test_rank_risk_monotone_to_pool():

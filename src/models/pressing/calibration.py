@@ -18,6 +18,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Sequence, Tuple
 
+from src.core.geometry import PITCH_LENGTH_M
+
 # Decile upper edges (seconds) from the WC2022 fit, fitted values.
 # Boundaries are descriptive of the calibration sample, not physics.
 DECILE_EDGES_S: Tuple[float, ...] = (
@@ -87,11 +89,17 @@ def margin_decile(margin_s: float) -> int:
     return 10
 
 
-def decile_risk(decile: int) -> float:
-    """Fitted incompletion rate for a margin decile (1-10)."""
+def decile_risk(decile: int, pace_k: float = 1.0) -> float:
+    """Fitted incompletion rate for a margin decile (1-10).
+
+    pace_k scales the WC2022 rate for a slower/faster environment as a
+    descriptive level shift, not physics: WWC 2023 fails ~1.5x the WC2022
+    rate at equal frozen-shape margin (0.27 vs 0.20 bottom decile). Edges
+    stay frozen; only levels move. Capped at 1.0.
+    """
     if not 1 <= decile <= 10:
         raise ValueError(f"decile must be 1-10, got {decile}")
-    return DECILE_INCOMPLETION_RATE[decile - 1]
+    return min(1.0, DECILE_INCOMPLETION_RATE[decile - 1] * pace_k)
 
 
 def rank_risk(rank: int) -> float:
@@ -99,3 +107,14 @@ def rank_risk(rank: int) -> float:
     if rank < 0:
         raise ValueError(f"rank must be >= 0, got {rank}")
     return RANK_INCOMPLETION_RATE[min(rank, 7)]
+
+
+def outlet_value(retention_prob: float, target_x_m: float) -> float:
+    """Safety-times-upside for one outlet: retention probability at the
+    intercept times forward progress (intercept x over pitch length,
+    clamped to [0, 1]). Rank-0-by-margin is safest; rank-0-by-value is the
+    safest progressive ball. Descriptive reordering aid, not a fitted
+    outcome model.
+    """
+    progress = min(1.0, max(0.0, target_x_m / PITCH_LENGTH_M))
+    return round(retention_prob * progress, 4)

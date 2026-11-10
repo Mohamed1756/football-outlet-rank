@@ -72,8 +72,8 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `src/models/pressing/arrival.py` — `flight_time_s`, `intercept_target`,
   `presser_engagement_latency_s`, `presser_arrival_s`, `arrival_margin`.
 - `src/models/pressing/calibration.py` — `rank_outlets`, `margin_decile`,
-  `decile_risk`, `rank_risk` (WC2022 fit; `pace_k` scales levels per pace
-  environment), `outlet_value` (safety-times-upside, descriptive).
+  `decile_risk`, `rank_risk` (WC2022 fit; `pace_k` re-scales levels per
+  pace environment), `outlet_value` (safety-times-upside, descriptive).
 - `src/models/pressing/readiness.py` — `resolve_facing`,
   `receiver_readiness`, retention probability on `ReadinessResult`.
 - `src/models/pressing/types.py` — `PressingActor`, `gate_tracking_velocity`.

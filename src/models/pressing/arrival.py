@@ -7,7 +7,7 @@ before the ball does, regardless of the static cushion at decision time.
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import List, Optional, Tuple
 
 from src.core.geometry import PitchPoint
@@ -126,6 +126,8 @@ def presser_arrival_s(
     Only the closing velocity component counts; running away starts at 0.
     lead_s advances the start position by gated velocity times lead_s
     (live presser motion during ball flight); 0.0 keeps the frozen shape.
+    Standing on the intercept (dist < 1 mm) skips the sprint and prices
+    engagement latency only: the most dangerous geometry, never zero.
     """
     (vx, vy), _ = gate_tracking_velocity(presser.vel_ms, presser.speed_capped)
     sx = presser.pos_m.x + vx * lead_s
@@ -170,10 +172,11 @@ def arrival_margin(
     the receiver's run and ball flight, a documented pro-receiver bias.
     live_pressers advances each presser by gated velocity times t_ball
     (needs live tracking velocities; 360 snapshots carry none, so the
-    calibration stays frozen).
+    calibration stays frozen). t_ball chains at full precision into the
+    presser advance; only the reported t_ball_s is rounded to ms.
 
-    marking_dist_m is the nearest opponent's distance to the intercept:
-    context for display, never ranked or calibrated on.
+    marking_dist_m is the nearest opponent's frozen-snapshot distance to
+    the intercept: context for display, never ranked or calibrated on.
     """
     rec_vel, _ = gate_tracking_velocity(receiver.vel_ms, receiver.speed_capped)
     target, t_ball = intercept_target(
@@ -196,15 +199,20 @@ def arrival_margin(
     for op in opponents:
         if not op.pitch_valid:
             continue
-        engage, _ = presser_engagement_latency_s(op, target)
-        arrival, dist = presser_arrival_s(
-            op,
-            target,
-            engagement_latency_s=engage,
-            lead_s=t_ball if live_pressers else 0.0,
-        )
-        if dist < marking:
-            marking = dist
+        # Live advance once: engagement angle and sprint share the advanced
+        # start; marking stays frozen-snapshot by definition.
+        runner = op
+        if live_pressers:
+            (vx, vy), _ = gate_tracking_velocity(op.vel_ms, op.speed_capped)
+            runner = replace(
+                op,
+                pos_m=PitchPoint(op.pos_m.x + vx * t_ball, op.pos_m.y + vy * t_ball),
+            )
+        engage, _ = presser_engagement_latency_s(runner, target)
+        arrival, _ = presser_arrival_s(runner, target, engagement_latency_s=engage)
+        frozen_dist = math.dist((op.pos_m.x, op.pos_m.y), (target.x, target.y))
+        if frozen_dist < marking:
+            marking = frozen_dist
         if arrival < t_press:
             t_press = arrival
             best_presser = op.track_id

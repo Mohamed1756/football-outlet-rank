@@ -42,8 +42,9 @@ def test_decile_risk_monotone_fitted_gradient():
 
 
 def test_decile_risk_pace_scales_level_not_order():
-    # Default is the WC2022 rate; WWC k=1.5 reproduces the observed level
-    # shift (0.27 vs 0.20 bottom) without touching edges or order.
+    # Default is the WC2022 rate; WWC k=1.5 approximates the observed
+    # level shift (0.27 vs 0.20 bottom; 0.306 fitted vs 0.27 observed,
+    # ~13% high) without touching edges or order.
     assert decile_risk(1) == pytest.approx(0.204, abs=1e-3)
     assert decile_risk(1, 1.5) == pytest.approx(0.306, abs=1e-3)
     assert decile_risk(1, 99.0) == 1.0

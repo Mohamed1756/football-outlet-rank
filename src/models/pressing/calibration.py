@@ -111,9 +111,11 @@ def rank_risk(rank: int) -> float:
 
 def outlet_value(retention_prob: float, target_x_m: float) -> float:
     """Safety-times-upside for one outlet: retention probability at the
-    intercept times forward progress (intercept x over pitch length,
-    clamped to [0, 1]). Rank-0-by-margin is safest; rank-0-by-value is the
-    safest progressive ball. Descriptive reordering aid, not a fitted
+    intercept times forward progress (intercept x over pitch length).
+    Inputs outside [0, pitch length] clip silently to [0, 1]: off-pitch
+    or behind-goal x is a caller error, scored as boundary, never raised.
+    Rank-0-by-margin is safest; rank-0-by-value is the safest
+    progressive ball. Descriptive reordering aid, not a fitted
     outcome model.
     """
     progress = min(1.0, max(0.0, target_x_m / PITCH_LENGTH_M))

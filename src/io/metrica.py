@@ -14,6 +14,7 @@ and downstream geometry is direction-agnostic (distances only).
 from __future__ import annotations
 
 import csv
+import math
 from dataclasses import dataclass, replace
 from typing import Dict, List, Tuple
 from src.core.geometry import PITCH_LENGTH_M, PITCH_WIDTH_M, PitchPoint
@@ -144,14 +145,43 @@ def _velocity(
     )
 
 
+def assign_sides(
+    actors: List[PressingActor], end_pos_m: PitchPoint
+) -> Tuple[List[PressingActor], List[PressingActor]]:
+    """Split actors into (receiving side, opposing side).
+
+    Heuristic: the side with a player nearest the pass end position is
+    the receiving side. Works because the recipient runs onto the ball;
+    fails on interceptions (nearest man is a defender), so callers
+    scoring turnovers should pass sides explicitly instead.
+    """
+
+    def nearest(side: str) -> float:
+        return min(
+            (
+                math.dist((a.pos_m.x, a.pos_m.y), (end_pos_m.x, end_pos_m.y))
+                for a in actors
+                if a.team_id == side
+            ),
+            default=math.inf,
+        )
+
+    sides = {a.team_id for a in actors}
+    rec_side = min(sides, key=nearest, default="")
+    return (
+        [a for a in actors if a.team_id == rec_side],
+        [a for a in actors if a.team_id != rec_side],
+    )
+
+
 def load_passes(
     home_path: str, away_path: str, events_path: str
 ) -> List[Tuple[MetricaPass, List[PressingActor]]]:
     """Every pass paired with actors at its start frame.
 
-    Team assignment is the caller's job (names alone don't mark the
-    passer side); all players load with their tracked velocity.
-    Ball speed is the measured peak over the pass window.
+    Team assignment via assign_sides (nearest-to-end heuristic; see its
+    docstring for the interception caveat). Ball speed is the measured
+    peak over the pass window.
     """
     home = _read_tracking(home_path)
     away = _read_tracking(away_path)

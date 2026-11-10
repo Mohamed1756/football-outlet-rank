@@ -123,3 +123,17 @@ def test_load_passes_pairs_actors(tracking_files):
     assert p.ball_speed_ms == pytest.approx(15.75, abs=0.01)
     names = {a.pos_m.x for a in actors}
     assert len(actors) == 4  # 2 players x 2 team files
+
+
+def test_assign_sides_picks_nearest_to_end():
+    from src.core.geometry import PitchPoint
+    from src.io.metrica import assign_sides
+    from src.models.pressing.types import PressingActor
+
+    def actor(tid, team, x):
+        return PressingActor(track_id=tid, team_id=team, pos_m=PitchPoint(x, 34.0))
+
+    actors = [actor(0, "home", 80.0), actor(1, "away", 50.0)]
+    rec, opp = assign_sides(actors, PitchPoint(85.0, 34.0))
+    assert [a.team_id for a in rec] == ["home"]
+    assert [a.team_id for a in opp] == ["away"]

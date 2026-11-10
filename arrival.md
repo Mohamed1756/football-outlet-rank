@@ -103,5 +103,6 @@ Both sides race to the ball-to-runner intercept.
 - `outlet_value` (retention times forward progress) is a descriptive
   reordering aid: rank-0-by-value is the safest progressive ball, not a
   fitted outcome — no progression outcome exists in the event data to fit it.
-- 8 constants, every one referenced. Full video engine recoverable from tag
-  `last-full-system`.
+- 8 arrival-race constants (`arrival_constants.py`, plus hip-pivot, pitch
+  and loader constants alongside), every one referenced. Full video engine
+  recoverable from tag `last-full-system`.

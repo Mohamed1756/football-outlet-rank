@@ -89,6 +89,16 @@ Both sides race to the ball-to-runner intercept.
   old ~0.2 s short-ball prior is cut; `pass_speed_ms` override stays for
   live tracking data (`src/io/metrica.py` measures per-pass peak ball
   speed, capped at 35 m/s shot-max against tracker spikes).
+- Flight model blocks live speeds. Metrica Sample Game 1 (799 passes,
+  measured peak ball speed median 12.4 m/s): Coulomb rolling friction
+  at 2.45 m/s^2 strands ~50% of real completions past the stopping
+  distance (t_ball inf, margin -99). Of 400 reachable balls the live
+  margin gradient is flat-to-noisy (d1 0.10, mid 0.00-0.13, no monotone
+  fall). Coulomb was tuned with 22 m/s, not measured; refit needs drag
+  physics (cf. Spearman et al. 2017) or a jointly-fit decel, plus
+  outcome labels the sample game lacks at scale (n=797, ~6% base rate).
+  `pass_speed_ms` and `live_pressers` stay tested mechanisms awaiting
+  that refit; the frozen calibration stands.
 - Unknown-facing at 360 scale means every presser pays the floor.
 - `outlet_value` (retention times forward progress) is a descriptive
   reordering aid: rank-0-by-value is the safest progressive ball, not a

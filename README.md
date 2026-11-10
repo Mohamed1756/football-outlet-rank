@@ -8,7 +8,8 @@ options under pressure. Any player in possession can be the passer, not
 just the goalkeeper. If you score outlets, pick passes, or study
 progression against a press, this is a tested unit for "does the ball arrive
 before the defender" — calibrated on 173,440 open-data passes across five
-tournaments, men's and women's.
+tournaments, men's and women's, replicated on 14,814 broadcast-tracked
+passes with real outcomes (20 A-League matches, SkillCorner Open Data).
 
 ## What it says
 
@@ -17,9 +18,9 @@ bottom decile fails at 20–27%; the top at 0.2–0.5% — monotone across all
 five datasets. Rank 0 fails at 0.02–0.05; failure rises every rank.
 Passers pick the safest outlet ~43% of the time.
 
-![Margin decile vs incompletion, five datasets](docs/figs/fig1_decile_curves.png)
+![Margin decile vs incompletion, six datasets](docs/figs/fig1_decile_curves.png)
 
-**Reading the chart:** decile 1 = tightest frozen-shape cushion, decile 10 = safest. Absolute seconds are inflated (frozen shape, standing starts) — trust the ordering, not the clock. Women's curve runs parallel above men's: same ranking power, higher levels, so scale levels per pace environment (`pace_k`), not edges.
+**Reading the chart:** decile 1 = tightest frozen-shape cushion, decile 10 = safest. Absolute seconds are inflated (frozen shape, standing starts) — trust the ordering, not the clock. Women's curve runs parallel above men's: same ranking power, higher levels, so scale levels per pace environment (`pace_k`), not edges. The broadcast line (frozen geometry, WC2022 edges, n=14,814) falls d1 0.22 to d10 0.03 — same shape at a higher base rate (16% vs 5%).
 
 Example: a 0.8 s margin sits in decile 1 (edge 1.01 s). Historically ~20% of men's and ~27% of women's passes there went incomplete. The 0.8 s is `t_press - t_ball` to the intercept, not presser distance to the receiver; incomplete means any failure, not a turnover to that presser.
 

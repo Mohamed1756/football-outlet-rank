@@ -92,13 +92,13 @@ Both sides race to the ball-to-runner intercept.
   speed, capped at 35 m/s shot-max against tracker spikes).
 - Flight model blocks live speeds. Metrica Sample Game 1 (799 passes,
   measured peak ball speed median 12.4 m/s): Coulomb rolling friction
-  at 2.45 m/s^2 strands ~50% of real completions past the stopping
-  distance (t_ball inf, margin -99). Of 400 reachable balls the live
-  margin gradient is flat-to-noisy (d1 0.10, mid 0.00-0.13, no monotone
-  fall). Coulomb was tuned with 22 m/s, not measured; refit needs drag
-  physics (cf. Spearman et al. 2017) or a jointly-fit decel, plus
-  outcome labels the sample game lacks at scale (n=797, ~6% base rate).
-  `pass_speed_ms` and `live_pressers` stay tested mechanisms awaiting
+  at 2.45 m/s^2 strands ~12% of real completions past the stopping
+  distance (t_ball inf, margin -99) with peak-v0 speeds. Quadratic-drag
+  alternative (k ~ 0.044 fit on ball track, vs Spearman 0.0138) is finite
+  everywhere but mistimes pass windows worse (no clean winner on n=797:
+  both models near-linear over real windows, differing only in the noisy
+  long-ball tail). Coulomb stays; refit needs a bigger labeled tracking
+  set. `pass_speed_ms` and `live_pressers` stay tested mechanisms awaiting
   that refit; the frozen calibration stands.
 - Unknown-facing at 360 scale means every presser pays the floor.
 - `outlet_value` (retention times forward progress) is a descriptive

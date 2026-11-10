@@ -117,20 +117,25 @@ def presser_arrival_s(
     max_accel_mss: float = PRESSER_MAX_BURST_ACCEL_MSS,
     max_speed_ms: float = PRESSER_SPRINT_MAX_SPEED_MS,
     engagement_latency_s: float = 0.0,
+    lead_s: float = 0.0,
 ) -> Tuple[float, float]:
     """Defender arrival time under sprint acceleration kinematics.
 
     Profile: d = v0 * t + 0.5 * a * t^2 up to max_speed_ms, plus an
     engagement latency for turn/reaction (see presser_engagement_latency_s).
     Only the closing velocity component counts; running away starts at 0.
+    lead_s advances the start position by gated velocity times lead_s
+    (live presser motion during ball flight); 0.0 keeps the frozen shape.
     """
-    dx = target.x - presser.pos_m.x
-    dy = target.y - presser.pos_m.y
+    (vx, vy), _ = gate_tracking_velocity(presser.vel_ms, presser.speed_capped)
+    sx = presser.pos_m.x + vx * lead_s
+    sy = presser.pos_m.y + vy * lead_s
+    dx = target.x - sx
+    dy = target.y - sy
     dist = math.hypot(dx, dy)
     if dist < 1e-3:
         return round(engagement_latency_s, 3), 0.0
 
-    (vx, vy), _ = gate_tracking_velocity(presser.vel_ms, presser.speed_capped)
     closing = (vx * dx + vy * dy) / dist
     v0 = max(0.0, min(max_speed_ms, closing))
 
@@ -155,14 +160,17 @@ def arrival_margin(
     passer_pos: PitchPoint,
     pass_speed_ms: float = PASS_GROUND_INITIAL_SPEED_MS,
     prep_latency_s: float = 0.0,
+    live_pressers: bool = False,
 ) -> ArrivalResult:
     """Per-outlet race: margin = t_press - t_ball at the joint intercept.
 
     Ball travel meets the receiver's run (no lead cap: the cap timed the
     ball to a point the runner had already passed). Pressers race to the
-    same intercept. Positions frozen at decision time except the receiver's
-    run and ball flight: prep-latency presser motion (~1 m) is unmodeled,
-    a documented pro-receiver bias.
+    same intercept. Frozen by default: positions at decision time except
+    the receiver's run and ball flight, a documented pro-receiver bias.
+    live_pressers advances each presser by gated velocity times t_ball
+    (needs live tracking velocities; 360 snapshots carry none, so the
+    calibration stays frozen).
 
     marking_dist_m is the nearest opponent's distance to the intercept:
     context for display, never ranked or calibrated on.
@@ -189,7 +197,12 @@ def arrival_margin(
         if not op.pitch_valid:
             continue
         engage, _ = presser_engagement_latency_s(op, target)
-        arrival, dist = presser_arrival_s(op, target, engagement_latency_s=engage)
+        arrival, dist = presser_arrival_s(
+            op,
+            target,
+            engagement_latency_s=engage,
+            lead_s=t_ball if live_pressers else 0.0,
+        )
         if dist < marking:
             marking = dist
         if arrival < t_press:

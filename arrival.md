@@ -19,6 +19,9 @@ Both sides race to the ball-to-runner intercept.
   curve (aligned 0.15 s, full flip 0.70 s). Unknown facing pays the 0.25 s
   human reaction floor — no angle, no curve. Standing on the intercept still
   pays engagement latency (most dangerous geometry, never zero).
+  `live_pressers` advances pressers by gated velocity over ball flight
+  (mechanism tested, default off; 360 carries no velocities, so the
+  calibration stays frozen).
 - Inputs carry distrust: `gate_tracking_velocity` zeroes >8.5 m/s or flagged
   capped vectors and reports the gate. Invalid opponents are skipped, not scored.
 - Receipt: 0.45 s first touch plus turn latency (0.25 s floor when unknown).
@@ -76,8 +79,13 @@ Both sides race to the ball-to-runner intercept.
 
 ## Open priors (fitted, not proven)
 
-- Constant 22 m/s strike for all distances. Short balls likely overtimed by
-  ~0.2 s (needs a distance-dependent strike model; `pass_speed_ms` override exists).
+- Constant 22 m/s strike for all distances. Distance-band grid on the WC2022
+  endpoint proxy (42,374 passes) prefers an unphysical inverted optimum
+  (26/20/16 m/s short/mid/long); flat-speed sweep peaks at 14 m/s,
+  unphysical for driven long balls. Outcome-fitting cannot identify strike
+  speed (bands become sorting knobs), so no band model is adopted and the
+  old ~0.2 s short-ball prior is cut; `pass_speed_ms` override stays for
+  live tracking data.
 - Unknown-facing at 360 scale means every presser pays the floor.
 - 8 constants, every one referenced. Full video engine recoverable from tag
   `last-full-system`.

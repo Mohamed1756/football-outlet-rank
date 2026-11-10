@@ -170,6 +170,45 @@ def test_prep_latency_delays_ball_arrival_and_reduces_margin():
     assert res_with_latency.margin_s < res_no_latency.margin_s
 
 
+def test_live_pressers_closing_defender_shortens_margin():
+    # 20 m ball, t_ball ~0.96 s. Presser 10 m out closing at 4 m/s:
+    # frozen arrival 1.767 s; live he covers ~3.8 m during flight, 1.304 s.
+    rec = _actor(9, 80.0, 30.0, team="own")
+    passer = PitchPoint(x=60.0, y=30.0)
+    presser = _actor(1, 90.0, 30.0, vx=-4.0, vy=0.0)
+
+    frozen = arrival_margin(rec, [presser], passer)
+    live = arrival_margin(rec, [presser], passer, live_pressers=True)
+
+    assert live.t_press_s == 1.304
+    assert live.margin_s < frozen.margin_s
+
+
+def test_live_pressers_fleeing_defender_starts_farther():
+    # Same geometry, presser running away at 4 m/s: live start is farther,
+    # so arrival is later than frozen, not earlier.
+    rec = _actor(9, 80.0, 30.0, team="own")
+    passer = PitchPoint(x=60.0, y=30.0)
+    presser = _actor(1, 90.0, 30.0, vx=4.0, vy=0.0)
+
+    frozen = arrival_margin(rec, [presser], passer)
+    live = arrival_margin(rec, [presser], passer, live_pressers=True)
+
+    assert live.t_press_s > frozen.t_press_s
+
+
+def test_frozen_default_unchanged_by_live_flag():
+    # Default path equals explicit frozen.
+    rec = _actor(9, 80.0, 30.0, team="own")
+    passer = PitchPoint(x=60.0, y=30.0)
+    presser = _actor(1, 90.0, 30.0, vx=-4.0, vy=0.0)
+
+    default = arrival_margin(rec, [presser], passer)
+    explicit = arrival_margin(rec, [presser], passer, live_pressers=False)
+
+    assert default == explicit
+
+
 def test_margin_times_ball_to_intercept_not_stale_position():
     # Receiver sprinting at 5 m/s on a 30 m pass: stale timing gives 1.487 s,
     # joint intercept gives ~2.075 s. Old capped code gave 1.903 (2.4 m short).

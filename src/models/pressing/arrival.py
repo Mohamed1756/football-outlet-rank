@@ -126,6 +126,8 @@ def presser_arrival_s(
     Only the closing velocity component counts; running away starts at 0.
     lead_s advances the start position by gated velocity times lead_s
     (live presser motion during ball flight); 0.0 keeps the frozen shape.
+    `arrival_margin` pre-advances and passes 0; lead_s is the escape hatch
+    for direct external callers only.
     Standing on the intercept (dist < 1 mm) skips the sprint and prices
     engagement latency only: the most dangerous geometry, never zero.
     """

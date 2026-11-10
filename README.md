@@ -19,7 +19,7 @@ Passers pick the safest outlet ~43% of the time.
 
 ![Margin decile vs incompletion, five datasets](docs/figs/fig1_decile_curves.png)
 
-**Reading the chart:** decile 1 = tightest frozen-shape cushion, decile 10 = safest. Absolute seconds are inflated (frozen shape, standing starts) — trust the ordering, not the clock. Women's curve runs parallel above men's: same ranking power, higher levels, so recalibrate edges per pace environment.
+**Reading the chart:** decile 1 = tightest frozen-shape cushion, decile 10 = safest. Absolute seconds are inflated (frozen shape, standing starts) — trust the ordering, not the clock. Women's curve runs parallel above men's: same ranking power, higher levels, so scale levels per pace environment (`pace_k`), not edges.
 
 Example: a 0.8 s margin sits in decile 1 (edge 1.01 s). Historically ~20% of men's and ~27% of women's passes there went incomplete. The 0.8 s is `t_press - t_ball` to the intercept, not presser distance to the receiver; incomplete means any failure, not a turnover to that presser.
 
@@ -33,6 +33,8 @@ Two scales. Play rank is relative to one freeze; decile is absolute against fixe
 Rank answers which outlet is safest here. Decile answers how safe that margin is anywhere. A 1.4 s outlet is rank 0 on a tight play and rank 1 on the play below; its decile is 3 either way.
 
 ![Worked example: rank is order on the play, decile is the fixed bin](docs/figs/fig2_rank_example.png)
+
+Same bin, higher level elsewhere: a decile-1 margin fails ~20% in men's ball, ~27% in women's (`pace_k` ≈ 1.5) — the bin travels, the level doesn't.
 
 ## Quick Start
 
@@ -82,7 +84,7 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
   and `live_pressers`; facing stays unknown).
 - `src/physics/arrival_constants.py` — 8 arrival-race constants, single source.
 - `src/physics/biomechanics.py` — hip-pivot latency + angle wrap.
-- `src/core/geometry.py` — `PitchPoint` only.
+- `src/core/geometry.py` — `PitchPoint`, pitch dimensions.
 - `arrival.md` — research note: values, novelty, deleted priors.
 - `docs/figs/fig1_decile_curves.png`, `docs/figs/fig2_rank_example.png` — figures.
 

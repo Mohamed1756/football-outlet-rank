@@ -13,7 +13,8 @@ Both sides race to the ball-to-runner intercept.
   outrun any gated run or the gap can go non-monotone (dead ball, live
   runner returns inf, not a slow ball). Unclamped: the intercept is playable
   space, on or off the pitch. Receiver runs during prep; pressers frozen
-  (snapshot convention, ~1 m pro-receiver bias, documented not modeled).
+  in the default snapshot convention (~1 m pro-receiver bias, documented
+  not modeled; lifted by `live_pressers` with tracking velocities).
 - `t_press`: sprint burst 3.5 m/s² to an 8.5 m/s cap; only the closing
   velocity component counts. Known facing prices the turn on the hip-pivot
   curve (aligned 0.15 s, full flip 0.70 s). Unknown facing pays the 0.25 s

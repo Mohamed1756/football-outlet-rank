@@ -31,6 +31,7 @@ class SkillCornerPass:
 
     passer: str
     passer_team: str
+    target_id: str
     start_frame: int
     end_frame: int
     passer_pos_m: PitchPoint
@@ -120,6 +121,7 @@ def _read_passes(path: str, length: float, width: float) -> List[SkillCornerPass
                 SkillCornerPass(
                     passer=row.get("player_name", ""),
                     passer_team=row.get("team_shortname", ""),
+                    target_id=str(row.get("player_targeted_id") or "").split(".")[0],
                     start_frame=sf,
                     end_frame=ef,
                     passer_pos_m=PitchPoint(sx, sy),
@@ -223,8 +225,8 @@ def load_passes(
                     team_id=team_of.get(pid, "unknown"),
                     pos_m=PitchPoint(pos[0], pos[1]),
                     vel_ms=vel,
+                    provider_id=pid,
                 )
             )
-            tid += 1
         out.append((replace(p, ball_speed_ms=speed), actors))
     return out

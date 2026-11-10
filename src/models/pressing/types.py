@@ -36,3 +36,4 @@ class PressingActor:
     facing_source: str = "unknown"
     speed_capped: bool = False
     pitch_valid: bool = True
+    provider_id: str = ""

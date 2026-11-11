@@ -6,8 +6,9 @@ Safety of a receiving outlet as a physical race, not a distance heuristic.
 Both sides race to the ball-to-runner intercept.
 
 - `t_ball`: ground-pass flight, dist = 22t − 1.225t² (22 m/s strike, Coulomb
-  turf decel 2.45 m/s²). Returns inf past the ~98.8 m stopping distance:
-  no-ball reads as trapped (−99), never as a slow ball.
+  turf decel 2.45 m/s² — frozen-shape estimator, not physics; see Open
+  priors for the tracking-data verdict). Returns inf past the ~98.8 m
+  stopping distance: no-ball reads as trapped (−99), never as a slow ball.
 - Intercept: bisection on the gap between receiver run and ball travel.
   Monotone horizon derived from the strike, t_hi = (v0 − 8.5) / a: ball must
   outrun any gated run or the gap can go non-monotone (dead ball, live

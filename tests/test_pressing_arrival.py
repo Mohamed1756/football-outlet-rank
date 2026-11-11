@@ -206,6 +206,28 @@ def test_frozen_default_unchanged_by_live_flag():
     default = arrival_margin(rec, [presser], passer)
     explicit = arrival_margin(rec, [presser], passer, live_pressers=False)
 
+    assert default == explicit
+
+
+def test_measured_live_combines_known_point_with_running_presser():
+    # Tracking-data production path: measured reception plus live pressers.
+    rec = _actor(9, 80.0, 30.0, team="own")
+    passer = PitchPoint(x=60.0, y=30.0)
+    presser = _actor(1, 90.0, 30.0, vx=-4.0, vy=0.0)
+
+    res = arrival_margin(
+        rec,
+        [presser],
+        passer,
+        measured=(PitchPoint(x=80.0, y=30.0), 0.96),
+        live_pressers=True,
+    )
+
+    # Presser closes 4 m/s over 0.96 s from 10 m: arrival 1.304 s.
+    assert res.t_ball_s == 0.96
+    assert res.t_press_s == 1.304
+    assert res.margin_s == pytest.approx(0.344, abs=1e-3)
+
 
 def test_measured_bypasses_flight_model():
     # Same geometry, measured t_ball replaces the model: no stopping trap.

@@ -238,11 +238,13 @@ def _reception_point(
 ) -> Optional[Tuple[PitchPoint, int]]:
     """First ball position within 2 m of the target after start.
 
-    Reception = ball meets runner inside one second of flight. Later
-    meetings are next-phase coincidence (target lingering near a settled
-    ball), not this pass arriving. Returns point and frame, or None.
+    Reception = ball meets runner inside one second of flight. Search
+    starts one frame after the event: at frame zero the ball is still
+    at the passer's feet, which would false-match a nearby target.
+    Later meetings are next-phase coincidence (target lingering near a
+    settled ball), not this pass arriving. Returns point and frame.
     """
-    for f in range(start, start + window + 1):
+    for f in range(start + 1, start + window + 1):
         b = ball.get(f)
         r = frames.get(f, {}).get(target_id)
         if b is None or r is None:

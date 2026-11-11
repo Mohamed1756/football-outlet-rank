@@ -35,7 +35,7 @@ Rank answers which outlet is safest here. Decile answers how safe that margin is
 
 ![Worked example: rank is order on the play, decile is the fixed bin](docs/figs/fig2_rank_example.png)
 
-Same bin, higher level elsewhere: a decile-1 margin fails ~20% in men's ball, ~27% in women's (`pace_k` ≈ 1.5) — the bin travels, the level doesn't.
+Same bin, higher level elsewhere: a decile-1 margin fails ~20% in men's ball, ~27% in women's (`pace_k` ≈ 1.5) — the bin stays fixed, the level doesn't.
 
 ## Quick Start
 
@@ -103,9 +103,9 @@ Each dataset exists because the previous one hit a specific wall:
 - StatsBomb 360 (173,440 passes) gave the frozen gradient — rank orders
   risk at ~100x — but snapshots carry no velocities, so seconds stay
   inflated and pressers stay frozen.
-- Metrica (2 games) gave 25 Hz velocities and measured ball peaks
-  (median 12.4 m/s vs the assumed 22), but no outcomes — labels had to
-  be derived from event chains.
+- Metrica (Sample Game 1, plus a second-game probe) gave 25 Hz velocities
+  and measured ball peaks (median 12.4 m/s vs the assumed 22), but no
+  outcomes — labels had to be derived from event chains.
 - SkillCorner (20 matches, n=14,814) gave real outcomes at broadcast
   10 fps: the gradient transfers (14x frozen, 10x live) but the ball
   track is too smooth for strike speed, and nearest-to-end recipient

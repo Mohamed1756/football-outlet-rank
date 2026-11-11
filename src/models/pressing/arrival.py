@@ -180,7 +180,9 @@ def arrival_margin(
 
     measured=(intercept, t_ball_s) bypasses the flight model with tracking
     truth (release-to-reception time and point): no stopping-distance
-    trap, no strike assumption. Frozen path unchanged.
+    trap, no strike assumption. Frozen path unchanged. With live_pressers,
+    measured mode is the right counterfactual: receiver fixed at the known
+    reception point while pressers run the measured flight time.
 
     marking_dist_m is the nearest opponent's frozen-snapshot distance to
     the intercept: context for display, never ranked or calibrated on.

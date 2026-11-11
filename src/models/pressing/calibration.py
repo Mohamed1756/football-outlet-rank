@@ -109,14 +109,17 @@ def rank_risk(rank: int) -> float:
     return RANK_INCOMPLETION_RATE[min(rank, 7)]
 
 
-def outlet_value(retention_prob: float, target_x_m: float) -> float:
+def outlet_value(retention_prob: float, intercept_x_m: float) -> float:
     """Safety-times-upside for one outlet: retention probability at the
     intercept times forward progress (intercept x over pitch length).
-    Inputs outside [0, pitch length] clip silently to [0, 1]: off-pitch
-    or behind-goal x is a caller error, scored as boundary, never raised.
+    intercept_x_m is where the ball is received, not where the target
+    stands at decision time: on tracking data use the reception point,
+    on frozen shape the computed intercept. Inputs outside [0, pitch
+    length] clip silently to [0, 1]: off-pitch or behind-goal x is a
+    caller error, scored as boundary, never raised.
     Rank-0-by-margin is safest; rank-0-by-value is the safest
     progressive ball. Descriptive reordering aid, not a fitted
     outcome model.
     """
-    progress = min(1.0, max(0.0, target_x_m / PITCH_LENGTH_M))
+    progress = min(1.0, max(0.0, intercept_x_m / PITCH_LENGTH_M))
     return round(retention_prob * progress, 4)

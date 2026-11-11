@@ -97,7 +97,9 @@ Both sides race to the ball-to-runner intercept.
   alternative (k ~ 0.044 fit on ball track, vs Spearman 0.0138) is finite
   everywhere but mistimes pass windows worse (no clean winner on n=797:
   both models near-linear over real windows, differing only in the noisy
-  long-ball tail). Coulomb stays; broadcast tracking is that bigger set.
+  long-ball tail). IDSSE J03WPY reception points (n=157 measured,
+  median v0 10.9 m/s over 12.8 m): 31% strand past Coulomb stopping
+  distance. Coulomb stays; broadcast tracking is that bigger set.
   Two-game Metrica gradient (G1+G2, n=864 reachable, joint intercept +
   live pressers + measured speed): d1 0.16 falling to d7 0.02 with a noisy
   tail (d8/d10 ~0.07-0.09, ~6 failures per bin — noise at this n). Shape

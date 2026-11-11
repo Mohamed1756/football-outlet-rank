@@ -85,6 +85,8 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
   and `live_pressers`; facing stays unknown).
 - `src/io/skillcorner.py` — SkillCorner Open Data loader: 10 fps broadcast
   tracking with roster sides, measured ball peaks, real pass outcomes.
+- `src/io/idsse.py` — IDSSE loader: DFL TRACAB 25 fps tracking +
+  synchronized events (Bassek et al. 2025), targeted receivers.
 - `src/physics/arrival_constants.py` — 8 arrival-race constants, single source.
 - `src/physics/biomechanics.py` — hip-pivot latency + angle wrap.
 - `src/core/geometry.py` — `PitchPoint`, pitch dimensions.
@@ -105,4 +107,6 @@ force-velocity profiling method); FIFA Quality Programme for Football Turf
 biomechanics, hip-pivot latencies). Pass data: StatsBomb Open Data 360
 freeze-frames (WC 2022, Euro 2020/2024, LaLiga 20/21, WWC 2023);
 SkillCorner Open Data (MIT, 10+ broadcast-tracked A-League matches,
-dynamic events with real pass outcomes).
+dynamic events with real pass outcomes); IDSSE (Bassek et al. 2025,
+Scientific Data 12:195 — 7 Bundesliga 22/23 matches, TRACAB 25 fps
+tracking with synchronized events, CC-BY 4.0, via Hugging Face).

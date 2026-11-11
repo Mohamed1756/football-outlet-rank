@@ -96,7 +96,28 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `data/wc2022`, `data/euro2020`, `data/laliga`, `data/euro2024`,
   `data/wwc2023` — open 360 freeze-frames (untracked, local only).
 
-## Sources
+## Why these sources
+
+Each dataset exists because the previous one hit a specific wall:
+
+- StatsBomb 360 (173,440 passes) gave the frozen gradient — rank orders
+  risk at ~100x — but snapshots carry no velocities, so seconds stay
+  inflated and pressers stay frozen.
+- Metrica (2 games) gave 25 Hz velocities and measured ball peaks
+  (median 12.4 m/s vs the assumed 22), but no outcomes — labels had to
+  be derived from event chains.
+- SkillCorner (20 matches, n=14,814) gave real outcomes at broadcast
+  10 fps: the gradient transfers (14x frozen, 10x live) but the ball
+  track is too smooth for strike speed, and nearest-to-end recipient
+  matching produced a U-shape until intended targets fixed it.
+- IDSSE (Bassek et al. 2025, 7 Bundesliga matches, TRACAB 25 fps) gives
+  synchronized elite tracking with outcomes: reception points are
+  measured, ball speeds agree across both optical systems (~11-12 m/s),
+  and the flight equation is bypassed with tracking truth where the
+  frozen model strands 31% of real completions.
+
+The chain converges on one instrument: rank from frozen shape, levels
+per pace, seconds from measurement.
 
 Physics concepts are borrowed, values are assumed (see
 `src/physics/arrival_constants.py` for per-constant notes):

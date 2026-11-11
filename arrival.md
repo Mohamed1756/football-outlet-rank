@@ -134,11 +134,15 @@ Both sides race to the ball-to-runner intercept.
 - `outlet_value` (retention times forward progress) is a descriptive
   reordering aid: rank-0-by-value is the safest progressive ball, not a
   fitted outcome. Individual value-added fails as a trait on IDSSE
-  (51 passers, n>=5): rank-0 choice rates cluster 0.00-0.21 (choice set
-  of nearest mates is rarely the true best — passers see options the
-  snapshot misses), and value-choice rate correlates 0.01 with
-  completion. The instrument ranks outlets; it cannot rank passers
-  without the full choice set.
+  (51 passers, n>=5, full-pitch choice sets averaging 8.8 outlets):
+  rank-0 choice 0.00-0.20, value-choice vs completion corr 0.01-0.02.
+  Passers complete 70-100% while almost never taking the model's safest
+  outlet — they optimize something the margin doesn't see (receive-ability
+  under specific marking, the next action, options the snapshot misses).
+  Edge, stated plainly: every trait here conditions on attempting. When
+  or whether to pass is unobserved — no event+tracking dataset records
+  the ball not played. The instrument ranks outlets given an attempt;
+  it cannot rank the decision to attempt.
 - 8 arrival-race constants (`arrival_constants.py`, plus hip-pivot, pitch
   and loader constants alongside), every one referenced. Full video engine
   recoverable from tag `last-full-system`.

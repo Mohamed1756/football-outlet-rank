@@ -91,9 +91,8 @@ def test_ball_speed_peak_and_cap(sc_files):
     assert _ball_speed({100: (0.0, 0.0), 101: (43.0, 0.0)}, 100, 101) == 35.0
 
 
-def test_load_passes_uses_roster_sides(sc_files):
+def test_passes_keep_labeled_outcomes(sc_files):
     track, events, match = sc_files
-    out = load_passes(track, events, match)
     passes = _read_passes(events, 105.0, 68.0)
     assert len(passes) == 2  # blank-outcome row dropped
     assert passes[0].complete is True
@@ -102,9 +101,7 @@ def test_load_passes_uses_roster_sides(sc_files):
     assert (passes[0].end_pos_m.x, passes[0].end_pos_m.y) == pytest.approx((60.0, 34.0))
 
 
-def test_load_passes_uses_roster_sides(sc_files):
-    from src.io.metrica import load_passes as _  # noqa: F401 (name check)
-
+def test_load_passes_pairs_actors_with_sides(sc_files):
     track, events, match = sc_files
     out = load_passes(track, events, match)
     assert len(out) == 2

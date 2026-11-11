@@ -121,7 +121,6 @@ def test_load_passes_pairs_actors(tracking_files):
     assert len(out) == 1
     p, actors = out[0]
     assert p.ball_speed_ms == pytest.approx(15.75, abs=0.01)
-    names = {a.pos_m.x for a in actors}
     assert len(actors) == 4  # 2 players x 2 team files
 
 

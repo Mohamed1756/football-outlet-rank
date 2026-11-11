@@ -133,7 +133,12 @@ Both sides race to the ball-to-runner intercept.
 - Unknown-facing at 360 scale means every presser pays the floor.
 - `outlet_value` (retention times forward progress) is a descriptive
   reordering aid: rank-0-by-value is the safest progressive ball, not a
-  fitted outcome — no progression outcome exists in the event data to fit it.
+  fitted outcome. Individual value-added fails as a trait on IDSSE
+  (51 passers, n>=5): rank-0 choice rates cluster 0.00-0.21 (choice set
+  of nearest mates is rarely the true best — passers see options the
+  snapshot misses), and value-choice rate correlates 0.01 with
+  completion. The instrument ranks outlets; it cannot rank passers
+  without the full choice set.
 - 8 arrival-race constants (`arrival_constants.py`, plus hip-pivot, pitch
   and loader constants alongside), every one referenced. Full video engine
   recoverable from tag `last-full-system`.

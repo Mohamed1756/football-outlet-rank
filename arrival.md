@@ -101,8 +101,11 @@ Both sides race to the ball-to-runner intercept.
   median v0 10.9 m/s over 12.8 m): 31% strand past Coulomb stopping
   distance. Resolution: on tracking data t_ball is observed
   (release-to-reception), not modeled — `arrival_margin(measured=...)`
-  bypasses the flight equation (3-match measured pool, n=311: d1 0.42
-  falling to d10 0.00, monotone-ish). Coulomb stays for frozen snapshots.
+  bypasses the flight equation. 7-match IDSSE measured pool (n=673,
+  live pressers, observed times): d1 0.48 falling to d10 0.00, bumpy
+  mid-deciles on ~67/bin. Tightest measured cushions fail near half
+  the time — the inflated frozen model smoothed this away. Coulomb
+  stays for frozen snapshots.
   Two-game Metrica gradient (G1+G2, n=864 reachable, joint intercept +
   live pressers + measured speed): d1 0.16 falling to d7 0.02 with a noisy
   tail (d8/d10 ~0.07-0.09, ~6 failures per bin — noise at this n). Shape

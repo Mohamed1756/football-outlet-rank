@@ -104,8 +104,13 @@ Both sides race to the ball-to-runner intercept.
   bypasses the flight equation. 7-match IDSSE measured pool (n=673,
   live pressers, observed times): d1 0.48 falling to d10 0.00, bumpy
   mid-deciles on ~67/bin. Tightest measured cushions fail near half
-  the time — the inflated frozen model smoothed this away. Coulomb
-  stays for frozen snapshots.
+  the time — the inflated frozen model smoothed this away.
+  Drag rematch on 656 measured receptions: Coulomb-22 strands 0% at
+  0.30 s MAE; Coulomb-measured strands 11% at 0.45 s; combined
+  (a=0.6, k=0.04) strands 4% at 0.66 s. No model wins both: Coulomb-22
+  stays the frozen estimator (covers everything, wrong reasons),
+  measured truth rules tracking data. No seventh fig1 line: IDSSE
+  differs in level, not shape (d1 0.48 vs 0.20, same fall).
   Two-game Metrica gradient (G1+G2, n=864 reachable, joint intercept +
   live pressers + measured speed): d1 0.16 falling to d7 0.02 with a noisy
   tail (d8/d10 ~0.07-0.09, ~6 failures per bin — noise at this n). Shape

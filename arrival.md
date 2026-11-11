@@ -112,17 +112,20 @@ Both sides race to the ball-to-runner intercept.
   long-ball tail). IDSSE J03WPY reception points (n=157 measured,
   median v0 10.9 m/s over 12.8 m): 31% strand past Coulomb stopping
   distance. Resolution: on tracking data t_ball is observed
-  (release-to-reception), not modeled — `arrival_margin(measured=...)`
-  bypasses the flight equation. 7-match IDSSE measured pool (n=673,
-  live pressers, observed times): d1 0.48 falling to d10 0.00, bumpy
-  mid-deciles on ~67/bin. Tightest measured cushions fail near half
-  the time — the inflated frozen model smoothed this away.
-  Drag rematch on 656 measured receptions: Coulomb-22 strands 0% at
-  0.30 s MAE; Coulomb-measured strands 11% at 0.45 s; combined
-  (a=0.6, k=0.04) strands 4% at 0.66 s. No model wins both: Coulomb-22
-  stays the frozen estimator (covers everything, wrong reasons),
-  measured truth rules tracking data. No seventh fig1 line: IDSSE
-  differs in level, not shape (d1 0.48 vs 0.20, same fall).
+  (release-to-reception), not modeled.
+- Drag rematch on 1,128 measured receptions (all 7 IDSSE matches):
+  Coulomb-22 strands 0% at 0.38 s median error; Coulomb-measured strands
+  18% at 0.56 s; combined (grid best a=0.0, k=0.005 — near-ballistic)
+  strands 1% at 0.63 s. Coulomb-22 wins coverage and timing jointly,
+  wrong physics and all. No flight model adopted; measured truth stands
+  for tracking, Coulomb-22 stays the frozen estimator.
+- 7-match measured pool (n=1,160, live pressers, observed times): d1 0.40
+  falling to d10 0.01, monotone except d2 dip and d6 bump. Shape holds at
+  2x the earlier n; still too weak to refit deciles on.
+- Team fingerprints blocked: loaders key actors by file side (home/away),
+  not identity — per-team splits need a roster join the sample sizes
+  (1-2 matches per team) don't justify. SkillCorner's 20 same-league
+  matches are the right fingerprint data when run.
   Two-game Metrica gradient (G1+G2, n=864 reachable, joint intercept +
   live pressers + measured speed): d1 0.16 falling to d7 0.02 with a noisy
   tail (d8/d10 ~0.07-0.09, ~6 failures per bin — noise at this n). Shape

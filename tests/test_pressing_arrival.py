@@ -206,7 +206,25 @@ def test_frozen_default_unchanged_by_live_flag():
     default = arrival_margin(rec, [presser], passer)
     explicit = arrival_margin(rec, [presser], passer, live_pressers=False)
 
-    assert default == explicit
+
+def test_measured_bypasses_flight_model():
+    # Same geometry, measured t_ball replaces the model: no stopping trap.
+    rec = _actor(9, 80.0, 30.0, team="own")
+    passer = PitchPoint(x=50.0, y=30.0)
+    presser = _actor(1, 85.0, 30.0)
+
+    modeled = arrival_margin(rec, [presser], passer, pass_speed_ms=22.0)
+    measured = arrival_margin(
+        rec,
+        [presser],
+        passer,
+        pass_speed_ms=22.0,
+        measured=(PitchPoint(x=80.0, y=30.0), 0.5),
+    )
+
+    # Measured 0.5 s beats modeled flight for the 30 m ball.
+    assert measured.t_ball_s == 0.5
+    assert measured.margin_s > modeled.margin_s
 
 
 def test_margin_times_ball_to_intercept_not_stale_position():

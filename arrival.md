@@ -99,7 +99,10 @@ Both sides race to the ball-to-runner intercept.
   both models near-linear over real windows, differing only in the noisy
   long-ball tail). IDSSE J03WPY reception points (n=157 measured,
   median v0 10.9 m/s over 12.8 m): 31% strand past Coulomb stopping
-  distance. Coulomb stays; broadcast tracking is that bigger set.
+  distance. Resolution: on tracking data t_ball is observed
+  (release-to-reception), not modeled — `arrival_margin(measured=...)`
+  bypasses the flight equation (3-match measured pool, n=311: d1 0.42
+  falling to d10 0.00, monotone-ish). Coulomb stays for frozen snapshots.
   Two-game Metrica gradient (G1+G2, n=864 reachable, joint intercept +
   live pressers + measured speed): d1 0.16 falling to d7 0.02 with a noisy
   tail (d8/d10 ~0.07-0.09, ~6 failures per bin — noise at this n). Shape

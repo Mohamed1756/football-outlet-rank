@@ -165,6 +165,7 @@ def arrival_margin(
     pass_speed_ms: float = PASS_GROUND_INITIAL_SPEED_MS,
     prep_latency_s: float = 0.0,
     live_pressers: bool = False,
+    measured: Optional[Tuple[PitchPoint, float]] = None,
 ) -> ArrivalResult:
     """Per-outlet race: margin = t_press - t_ball at the joint intercept.
 
@@ -177,13 +178,20 @@ def arrival_margin(
     calibration stays frozen). t_ball chains at full precision into the
     presser advance; only the reported t_ball_s is rounded to ms.
 
+    measured=(intercept, t_ball_s) bypasses the flight model with tracking
+    truth (release-to-reception time and point): no stopping-distance
+    trap, no strike assumption. Frozen path unchanged.
+
     marking_dist_m is the nearest opponent's frozen-snapshot distance to
     the intercept: context for display, never ranked or calibrated on.
     """
     rec_vel, _ = gate_tracking_velocity(receiver.vel_ms, receiver.speed_capped)
-    target, t_ball = intercept_target(
-        receiver.pos_m, rec_vel, passer_pos, prep_latency_s, pass_speed_ms
-    )
+    if measured is not None:
+        target, t_ball = measured
+    else:
+        target, t_ball = intercept_target(
+            receiver.pos_m, rec_vel, passer_pos, prep_latency_s, pass_speed_ms
+        )
 
     if not math.isfinite(t_ball):
         return ArrivalResult(

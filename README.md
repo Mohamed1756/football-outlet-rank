@@ -35,7 +35,7 @@ Rank answers which outlet is safest here. Decile answers how safe that margin is
 
 ![Worked example: rank is order on the play, decile is the fixed bin](docs/figs/fig2_rank_example.png)
 
-Same bin, higher level elsewhere: a decile-1 margin fails ~20% in men's ball, ~27% in women's (`pace_k` ≈ 1.5) — the bin stays fixed, the level doesn't.
+Same mechanism as above, one freeze instead of ten deciles.
 
 ## Quick Start
 
@@ -93,8 +93,9 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `arrival.md` — research note: values, novelty, deleted priors.
 - `docs/figs/fig1_decile_curves.png`, `docs/figs/fig2_rank_example.png` — figures.
 
-- `data/wc2022`, `data/euro2020`, `data/laliga`, `data/euro2024`,
-  `data/wwc2023` — open 360 freeze-frames (untracked, local only).
+- `data/pooled/` — banked margins+labels (SkillCorner n=14,814,
+  IDSSE n=673): the broadcast sixth line and measured pool, no
+  tracking files needed. See `data/pooled/README.md`.
 
 ## Why these sources
 

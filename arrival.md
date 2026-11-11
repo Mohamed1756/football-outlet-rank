@@ -81,6 +81,17 @@ Both sides race to the ball-to-runner intercept.
   coincide with WC2022 while rates sit uniformly higher. The ordering
   instrument is pace-free.
 
+## Broadcast replication (20 A-League matches, n=14,814, targeted receivers)
+
+- Sixth dataset, first with real outcomes at tracking scale: frozen d1
+  0.24 to d10 0.02 (14x), live d1 0.22 to d10 0.02 (10x), monotone
+  except d2-dip/d3-bump noise. Pooled margins banked in
+  `data/pooled/skillcorner_frozen_live.pkl`.
+- Nearest-to-end recipient heuristic caused a U-shape on first scoring;
+  intended targets fix it: recipient identity loads the gradient, not
+  the geometry. Base rate 16% (open league + broadcast noise) vs 5%
+  elite — same shape, higher floor.
+
 ## Open priors (fitted, not proven)
 
 - Constant 22 m/s strike for all distances. Distance-band grid on the WC2022
@@ -116,13 +127,9 @@ Both sides race to the ball-to-runner intercept.
   live pressers + measured speed): d1 0.16 falling to d7 0.02 with a noisy
   tail (d8/d10 ~0.07-0.09, ~6 failures per bin — noise at this n). Shape
   consistent with frozen, too weak to refit on.
-- SkillCorner broadcast replication (20 A-League matches, n=14,814 labeled
-  passes, targeted receivers, 10 fps): frozen d1 0.24 to d10 0.02 (14x),
-  live d1 0.22 to d10 0.02 (10x), monotone except d2-dip/d3-bump noise.
-  Nearest-to-end recipient heuristic caused the earlier U-shape; intended
-  targets fix it. Gradient transfers to broadcast tracking at lower power
-  (base rate 16% vs 5% elite). `pass_speed_ms` and `live_pressers` stay
-  tested mechanisms awaiting that refit; the frozen calibration stands.
+- Broadcast replication graduated to its own section above (pooled
+  margins in `data/pooled/`); `pass_speed_ms` and `live_pressers` stay
+  tested mechanisms awaiting a tracking-data refit.
 - Unknown-facing at 360 scale means every presser pays the floor.
 - `outlet_value` (retention times forward progress) is a descriptive
   reordering aid: rank-0-by-value is the safest progressive ball, not a

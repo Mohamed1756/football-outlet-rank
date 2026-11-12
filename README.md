@@ -100,6 +100,8 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 
 Right = safer choices (median attempted cushion), down = better finishing (base incompletion rate). Melbourne City sits alone in the safe-and-clinical corner; Auckland plays on the edge and pays; Perth chooses safe and still fails — execution, not decision.
 
+Rank predicts arrival, not points: [`docs/table-vs-fingerprints.md`](docs/table-vs-fingerprints.md).
+
 - `data/pooled/` — banked margins+labels (SkillCorner n=14,814,
   IDSSE n=673): the broadcast sixth line and measured pool, no
   tracking files needed. See `data/pooled/README.md`.

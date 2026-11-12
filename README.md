@@ -94,6 +94,12 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `arrival.md` — research note: values, novelty, deleted priors.
 - `docs/figs/fig1_decile_curves.png`, `docs/figs/fig2_rank_example.png` — figures.
 
+### Team fingerprints: decisions vs finishing
+
+![Team decisions vs finishing, A-League](docs/figs/fig3_team_fingerprints.svg)
+
+Right = safer choices (median attempted cushion), down = better finishing (base incompletion rate). Melbourne City sits alone in the safe-and-clinical corner; Auckland plays on the edge and pays; Perth chooses safe and still fails — execution, not decision.
+
 - `data/pooled/` — banked margins+labels (SkillCorner n=14,814,
   IDSSE n=673): the broadcast sixth line and measured pool, no
   tracking files needed. See `data/pooled/README.md`.

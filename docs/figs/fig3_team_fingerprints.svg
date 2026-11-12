@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" role="img">
+  <title>Team fingerprints: decision vs execution</title>
+  <desc>Scatter of 13 A-League teams: x is median attempted margin (decision), y is base incompletion rate (execution). Melbourne City sits alone in the safe-and-clinical corner.</desc>
+  <text x="500" y="34" text-anchor="middle" font-size="22" fill="#24292f">Decisions vs finishing, by team</text>
+  <text x="500" y="58" text-anchor="middle" font-size="14" fill="#57606a">A-League 24/25, SkillCorner broadcast tracking, n=13,122 labeled passes · right = safer choices, down = better finishing</text>
+
+  <rect x="90" y="90" width="560" height="420" fill="none" stroke="#d0d7de" stroke-width="1.5"/>
+
+  <g font-size="13" fill="#57606a" text-anchor="middle">
+    <text x="150" y="530">0.4</text><text x="290" y="530">0.55</text><text x="430" y="530">0.7</text><text x="570" y="530">0.85</text>
+  </g>
+  <text x="370" y="554" text-anchor="middle" font-size="14" fill="#57606a">median attempted cushion, s (safer choice &#8594;)</text>
+
+  <g font-size="13" fill="#57606a" text-anchor="end">
+    <text x="82" y="514">0.22</text><text x="82" y="404">0.18</text><text x="82" y="294">0.14</text><text x="82" y="184">0.10</text>
+  </g>
+  <text x="30" y="300" text-anchor="middle" font-size="14" fill="#57606a" transform="rotate(-90 30 300)">base incompletion rate (better finishing &#8595;)</text>
+
+  <g stroke="#d0d7de" stroke-width="1" stroke-dasharray="3 5">
+    <line x1="90" y1="510" x2="650" y2="510"/><line x1="90" y1="400" x2="650" y2="400"/><line x1="90" y1="290" x2="650" y2="290"/><line x1="90" y1="180" x2="650" y2="180"/>
+  </g>
+
+  <g font-family="sans-serif">
+    <circle cx="462" cy="208" r="7" fill="#0969da"/><text x="474" y="212" font-size="13" fill="#24292f">Melbourne City · 1.5k</text>
+    <circle cx="494" cy="210" r="6" fill="#1a7f37"/><text x="482" y="230" font-size="13" fill="#24292f" text-anchor="end">Western Sydney · 814</text>
+    <circle cx="556" cy="265" r="6" fill="#57606a"/><text x="568" y="269" font-size="13" fill="#24292f">Brisbane FC · 1.2k</text>
+    <circle cx="451" cy="356" r="6" fill="#57606a"/><text x="439" y="376" font-size="13" fill="#24292f" text-anchor="end">Sydney FC · 798</text>
+    <circle cx="373" cy="309" r="6" fill="#57606a"/><text x="361" y="329" font-size="13" fill="#24292f" text-anchor="end">Melbourne V FC · 1.5k</text>
+    <circle cx="358" cy="350" r="6" fill="#57606a"/><text x="370" y="354" font-size="13" fill="#24292f">Wellington P FC · 1.0k</text>
+    <circle cx="423" cy="238" r="6" fill="#57606a"/><text x="411" y="258" font-size="13" fill="#24292f" text-anchor="end">Newcastle · 364</text>
+    <circle cx="171" cy="340" r="7" fill="#cf222e"/><text x="159" y="360" font-size="13" fill="#24292f" text-anchor="end">Auckland FC · 2.5k</text>
+    <circle cx="446" cy="367" r="6" fill="#57606a"/><text x="458" y="371" font-size="13" fill="#24292f">Adelaide Utd · 1.3k</text>
+    <circle cx="304" cy="419" r="6" fill="#57606a"/><text x="256" y="423" font-size="13" fill="#24292f" text-anchor="end">CC Mariners · 1.2k</text>
+    <circle cx="521" cy="441" r="6" fill="#cf222e"/><text x="533" y="445" font-size="13" fill="#24292f">Perth Glory · 662</text>
+    <circle cx="515" cy="455" r="7" fill="#cf222e"/><text x="527" y="475" font-size="13" fill="#24292f">Western Utd · 1.3k</text>
+    <circle cx="209" cy="480" r="6" fill="#cf222e"/><text x="221" y="484" font-size="13" fill="#24292f">Macarthur FC · 617</text>
+  </g>
+
+  <g font-size="14" fill="#24292f">
+    <text x="690" y="120" font-weight="bold">How to read this</text>
+    <text x="690" y="142" font-size="13">Right = safer choices.</text>
+    <text x="690" y="160" font-size="13">Down = better finishing.</text>
+    <text x="690" y="178" font-size="13">n per team labeled.</text>
+    <text x="690" y="206" font-weight="bold">Takeaway</text>
+    <text x="690" y="228" font-size="13">City chooses safe</text>
+    <text x="690" y="246" font-size="13">and finishes it. Auckland</text>
+    <text x="690" y="264" font-size="13">plays on the edge and pays.</text>
+    <text x="690" y="282" font-size="13">Perth chooses safe</text>
+    <text x="690" y="300" font-size="13">and still fails: execution.</text>
+  </g>
+</svg>

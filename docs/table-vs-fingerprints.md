@@ -13,9 +13,10 @@ The table tells you why, team by team:
 - **Brisbane finished 12th playing the safest balls in the league**
   (0.83 s). Caution bought nothing: safe balls arrived and died
   (32 scored).
-- **The bottom three all chose "safe"** (Brisbane 0.83, Perth 0.80)
-  and still finished bottom. Safe choices plus bad finishing is
-  relegation form, not solidity.
+- **The bottom two chose "safe" and still finished there** (Brisbane
+  0.83, Perth 0.80) — safe choices plus bad finishing is relegation
+  form, not solidity. Wellington (11th, 0.62) chose mid-range and
+  still went down with them: safety wasn't the differentiator.
 - **City is the exception that proves the split matters:** 2nd place
   with safe choices *and* good finishing (0.110 base). Western United
   finished 3rd with the *worst* base rate (0.200) — and outscored

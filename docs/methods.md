@@ -27,8 +27,13 @@ ranks = rank_outlets([1.9, 0.4, 1.2])  # margins per outlet, safest first
 Rank ordering transfers across pace; absolute levels don't. The women's
 game fails ~1.5x the men's rate at equal frozen-shape margin, so the
 same decile bin carries a higher risk there. Keep the fixed WC2022 edges
-and scale the rate: `decile_risk(decile, pace_k=1.5)` reproduces the
-observed shift without touching order.
+and scale the rate:
+
+```python
+from src.models.pressing.calibration import decile_risk
+decile_risk(1)          # 0.204 — WC2022 baseline
+decile_risk(1, pace_k=1.5)  # 0.306 — approximates the WWC2023 level
+```
 
 ## 3. Measure seconds where tracking exists
 

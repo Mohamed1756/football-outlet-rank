@@ -15,7 +15,8 @@ outcomes (20 A-League matches, SkillCorner Open Data).
 
 Score every outlet by its arrival cushion, rank them safest-first. The
 bottom decile fails at 20–27%; the top at 0.2–0.5% — monotone across all
-five datasets. Rank 0 fails at 0.02–0.05; failure rises every rank.
+six datasets. Separately, by play rank (not decile): rank 0 fails at
+0.02–0.05; failure rises every rank.
 Passers pick the safest outlet ~43% of the time.
 
 ![Margin decile vs incompletion, six datasets](docs/figs/fig1_decile_curves.png)
@@ -91,8 +92,10 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 - `src/physics/arrival_constants.py` — 8 arrival-race constants, single source.
 - `src/physics/biomechanics.py` — hip-pivot latency + angle wrap.
 - `src/core/geometry.py` — `PitchPoint`, pitch dimensions.
-- `arrival.md` — research note: values, novelty, deleted priors.
 - `docs/figs/fig1_decile_curves.png`, `docs/figs/fig2_rank_example.png` — figures.
+- `data/pooled/` — banked margins+labels (SkillCorner n=14,814,
+  IDSSE n=673): the broadcast sixth line and measured pool, no
+  tracking files needed. See `data/pooled/README.md`.
 
 ### Team fingerprints: decisions vs finishing
 
@@ -102,13 +105,11 @@ Right = safer choices (median attempted cushion), down = better finishing (base 
 
 Rank predicts arrival, not points: [`docs/table-vs-fingerprints.md`](docs/table-vs-fingerprints.md).
 
-- `data/pooled/` — banked margins+labels (SkillCorner n=14,814,
-  IDSSE n=673): the broadcast sixth line and measured pool, no
-  tracking files needed. See `data/pooled/README.md`.
-
 ## Why these sources
 
-Each dataset exists because the previous one hit a specific wall:
+The chain converges on one instrument: rank from frozen shape, levels
+per pace, seconds from measurement. Each dataset exists because the
+previous one hit a specific wall:
 
 - StatsBomb 360 (173,440 passes) gave the frozen gradient — rank orders
   risk at ~100x — but snapshots carry no velocities, so seconds stay
@@ -125,9 +126,6 @@ Each dataset exists because the previous one hit a specific wall:
   measured, ball speeds agree across both optical systems (~11-12 m/s),
   and the flight equation is bypassed with tracking truth where the
   frozen model strands 31% of real completions.
-
-The chain converges on one instrument: rank from frozen shape, levels
-per pace, seconds from measurement.
 
 Physics concepts are borrowed, values are assumed (see
 `src/physics/arrival_constants.py` for per-constant notes):

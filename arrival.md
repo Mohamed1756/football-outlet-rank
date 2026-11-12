@@ -1,5 +1,7 @@
 # Arrival Race
 
+(Research note for Football Outlet Rank — the mechanism behind the ranking.)
+
 Safety of a receiving outlet as a physical race, not a distance heuristic.
 
 `margin(j) = t_press(j) - t_ball(j)` — outlet `j` is viable iff margin > 0.

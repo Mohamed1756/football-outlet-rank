@@ -9,9 +9,9 @@
 <line x1="500" y1="455" x2="529" y2="381" stroke="#57606a" stroke-width="2" stroke-dasharray="8 5"/>
 <circle cx="500" cy="455" r="6" fill="#24292f"/>
 <text x="486" y="443" font-size="12" text-anchor="end" fill="#24292f">passer</text>
-<circle cx="500" cy="455" r="8" fill="none" stroke="#0969da" stroke-width="3"/>
-<text x="456" y="429" font-size="12" text-anchor="end" fill="#0969da">receiver</text>
-<line x1="460" y1="425" x2="492" y2="447" stroke="#0969da" stroke-width="1"/>
+<circle cx="572" cy="371" r="9" fill="none" stroke="#0969da" stroke-width="2.5" stroke-dasharray="4 3"/>
+<text x="556" y="352" font-size="12" text-anchor="middle" fill="#0969da">nearest mate 7.6 m out —</text>
+<text x="556" y="368" font-size="12" text-anchor="middle" fill="#0969da">the run arrives later</text>
 <g stroke="#24292f" stroke-width="2.5"><line x1="520" y1="372" x2="538" y2="390"/><line x1="538" y1="372" x2="520" y2="390"/></g>
 <circle cx="446" cy="362" r="5" fill="#0969da" opacity="0.55"/>
 <circle cx="452" cy="268" r="5" fill="#0969da" opacity="0.55"/>
@@ -35,7 +35,7 @@
 <text x="60" y="614" font-size="12" fill="#57606a">360 snapshot at pass moment. One of 173,440; its decile bin feeds fig1.</text>
 <text x="790" y="140" font-size="14" font-weight="bold" fill="#24292f">Legend</text>
 <circle cx="796" cy="166" r="6" fill="#24292f"/><text x="810" y="171" font-size="13" fill="#24292f">passer + ball path</text>
-<circle cx="796" cy="192" r="7" fill="none" stroke="#0969da" stroke-width="2.5"/><text x="810" y="197" font-size="13" fill="#24292f">receiver</text>
+<circle cx="796" cy="192" r="7" fill="none" stroke="#0969da" stroke-width="2.5" stroke-dasharray="3 2"/><text x="810" y="197" font-size="13" fill="#24292f">nearest mate (run arrives later)</text>
 <circle cx="796" cy="218" r="5" fill="#0969da" opacity="0.55"/><text x="810" y="223" font-size="13" fill="#24292f">teammates</text>
 <circle cx="796" cy="244" r="5" fill="none" stroke="#cf222e" stroke-width="2"/><text x="810" y="249" font-size="13" fill="#24292f">pressers</text>
 </svg>

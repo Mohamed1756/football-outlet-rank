@@ -5,7 +5,8 @@ to call and the evidence behind it.
 
 ## 1. Rank every outlet on one freeze
 
-![One real pass as a physical race](figs/fig4_freeze_example.svg)
+![Frozen vs live: the same pass, 0.96 s later](figs/fig5_frozen_vs_live.svg)
+![One frozen shape: the raw material behind fig1](figs/fig6_frozen_shape.svg)
 
 Score each outlet by its arrival cushion — `t_press - t_ball`, the time
 between the ball reaching the ball-to-runner intercept and the nearest

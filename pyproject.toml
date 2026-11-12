@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "football-outlet-rank"
+name = "football-passing-rank"
 version = "0.1.0"
 description = "Rank every passing outlet by its arrival cushion: margin = t_press - t_ball"
 requires-python = ">=3.10"

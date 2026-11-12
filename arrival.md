@@ -1,6 +1,6 @@
 # Arrival Race
 
-(Research note for Football Outlet Rank — the mechanism behind the ranking.)
+(Research note for Football Passing Rank — the mechanism behind the ranking.)
 
 Safety of a receiving outlet as a physical race, not a distance heuristic.
 

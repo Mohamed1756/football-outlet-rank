@@ -1,12 +1,9 @@
-# Football Outlet Rank
+# Football Passing Rank
 
 Safety of a receiving outlet as a physical race, not a distance heuristic.
 Both sides race to the ball-to-runner intercept.
 
 ![Frozen vs live: the same pass, 0.96 s later](docs/figs/fig5_frozen_vs_live.svg)
-
-Anyone can read this; analysts and researchers will get the most from
-it. Any player in possession can be the passer, not just the goalkeeper.
 
 ## What it says
 

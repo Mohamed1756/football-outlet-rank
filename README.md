@@ -32,6 +32,8 @@ arrival, not points (corr ≈ −0.25):
 
 ![Team decisions vs finishing, A-League](docs/figs/fig3_team_fingerprints.svg)
 
+Full story: [`docs/table-vs-fingerprints.md`](docs/table-vs-fingerprints.md).
+
 ## How to use it
 
 Three moves, full version in [`docs/methods.md`](docs/methods.md):
@@ -79,7 +81,16 @@ Modules: `models/pressing/` (arrival, calibration, readiness, types),
 `physics/` (constants, biomechanics), `core/geometry.py`,
 `io/` (metrica, skillcorner, idsse loaders). Research note:
 `arrival.md`. Pooled evidence: `data/pooled/`
-(SkillCorner n=14,814, IDSSE n=673).
+(SkillCorner n=14,814, IDSSE n=673). Reproduce every table:
+`python3 scripts/reproduce.py` (numpy + stdlib only, seconds).
+
+## Data & licence
+
+StatsBomb Open Data: github.com/statsbomb/open-data (360
+freeze-frames). Metrica sample: github.com/metrica-sports/sample-data.
+SkillCorner Open Data: github.com/SkillCorner/opendata (MIT). IDSSE:
+Hugging Face `pysport/idsse-data` (CC-BY 4.0, Bassek et al. 2025).
+Code is MIT — see LICENSE.
 
 ## Sources
 

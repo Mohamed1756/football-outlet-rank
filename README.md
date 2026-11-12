@@ -3,13 +3,13 @@
 Safety of a receiving outlet as a physical race, not a distance heuristic.
 Both sides race to the ball-to-runner intercept.
 
-**Who this is for:** football analysts and researchers who rank passing
-options under pressure. Any player in possession can be the passer, not
-just the goalkeeper. If you score outlets, pick passes, or study
-progression against a press, this is a tested unit for "does the ball arrive
-before the defender" — calibrated on 173,440 open-data passes across five
-tournaments, men's and women's, replicated on 14,814 broadcast-tracked
-passes with real outcomes (20 A-League matches, SkillCorner Open Data).
+Anyone can read this; analysts and researchers will get the most from
+it. Any player in possession can be the passer, not just the goalkeeper.
+If you score outlets, pick passes, or study progression against a press,
+this is a tested unit for "does the ball arrive before the defender" —
+calibrated on 173,440 open-data passes across five tournaments, men's
+and women's, replicated on 14,814 broadcast-tracked passes with real
+outcomes (20 A-League matches, SkillCorner Open Data).
 
 ## What it says
 
@@ -35,8 +35,9 @@ Rank answers which outlet is safest here. Decile answers how safe that margin is
 
 ![Worked example: rank is order on the play, decile is the fixed bin](docs/figs/fig2_rank_example.png)
 
-Same mechanism as above, one freeze instead of ten deciles.
+Same bin, higher level elsewhere: a decile-1 margin fails ~20% in men's ball, ~27% in women's (`pace_k` ≈ 1.5) — the bin stays fixed, the level doesn't.
 
+How to use it: [`docs/methods.md`](docs/methods.md) — rank, re-scale, measure.
 ## Quick Start
 
 ```bash

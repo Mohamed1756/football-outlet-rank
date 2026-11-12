@@ -34,8 +34,8 @@ observed shift without touching order.
 
 On 25 fps tracking with a ball track, arrival time is observed
 (release-to-reception), not modeled. Pass the measured intercept and
-flight time and skip the equation entirely — no stopping-distance trap,
-no strike assumption:
+flight time and skip the equation entirely — no stopping-distance
+trap, no strike assumption:
 
 ```python
 arrival_margin(receiver, opponents, passer_pos,
@@ -59,3 +59,7 @@ rediscover it:
   optimize something the margin doesn't see.
 - Seconds from the frozen model are inflated. Trust the ordering, not
   the clock — unless you measured the flight.
+- It does split teams. On 20 SkillCorner matches, base incompletion
+  (execution) spreads 2x across 13 clubs, median attempted cushion
+  (decision) spreads 2x, and tight-quintile failure under pressure
+  spreads 2x — Melbourne City leads all three.

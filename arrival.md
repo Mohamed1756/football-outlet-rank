@@ -122,10 +122,15 @@ Both sides race to the ball-to-runner intercept.
 - 7-match measured pool (n=1,160, live pressers, observed times): d1 0.40
   falling to d10 0.01, monotone except d2 dip and d6 bump. Shape holds at
   2x the earlier n; still too weak to refit deciles on.
-- Team fingerprints blocked: loaders key actors by file side (home/away),
-  not identity — per-team splits need a roster join the sample sizes
-  (1-2 matches per team) don't justify. SkillCorner's 20 same-league
-  matches are the right fingerprint data when run.
+- Team fingerprints, first positive cut (SkillCorner 20 matches, targeted
+  receivers, n≈13,000, live pressers): execution spreads 2x — Melbourne
+  City 0.110 and Western Sydney 0.111 base failure vs Macarthur 0.209
+  and Western United 0.200. Decision spreads too: Brisbane attempts
+  0.83 s median cushions vs Auckland 0.42 s. Tight-quintile failure
+  (pressure execution) runs Perth 0.318 and Western Utd 0.302 vs City
+  0.140 at the same tight shape. Base rate = execution, median margin =
+  decision, tight-quintile = execution under pressure. City is the model
+  on all three.
   Two-game Metrica gradient (G1+G2, n=864 reachable, joint intercept +
   live pressers + measured speed): d1 0.16 falling to d7 0.02 with a noisy
   tail (d8/d10 ~0.07-0.09, ~6 failures per bin — noise at this n). Shape

@@ -42,6 +42,7 @@ archive/
 docs/*
 !docs/figs/
 !docs/figs/**
+!docs/methods.md
 
 # Internal Agent Framework, Skills & Specifications
 .agents/

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img">
+<rect width="1000" height="560" fill="white"/>
+<text x="500" y="32" text-anchor="middle" font-size="22" fill="#24292f">One pass, one race: outlet margin 0.30 s</text>
+<text x="500" y="54" text-anchor="middle" font-size="14" fill="#57606a">Real Bundesliga freeze (IDSSE): dashed = ball path, blue = receiver run, red = pressers, cross = intercept</text>
+<rect x="70.0" y="60.0" width="890" height="430" fill="none" stroke="#d0d7de" stroke-width="1.5"/>
+<line x1="126" y1="60" x2="126" y2="490" stroke="#eef1f4" stroke-width="1"/>
+<line x1="265" y1="60" x2="265" y2="490" stroke="#eef1f4" stroke-width="1"/>
+<line x1="404" y1="60" x2="404" y2="490" stroke="#eef1f4" stroke-width="1"/>
+<line x1="543" y1="60" x2="543" y2="490" stroke="#eef1f4" stroke-width="1"/>
+<line x1="682" y1="60" x2="682" y2="490" stroke="#eef1f4" stroke-width="1"/>
+<line x1="821" y1="60" x2="821" y2="490" stroke="#eef1f4" stroke-width="1"/>
+<line x1="960" y1="60" x2="960" y2="490" stroke="#eef1f4" stroke-width="1"/>
+<line x1="427" y1="122" x2="590" y2="355" stroke="#57606a" stroke-width="2" stroke-dasharray="8 5"/>
+<circle cx="427" cy="122" r="6" fill="#24292f"/>
+<text x="415" y="126" font-size="13" text-anchor="end" fill="#24292f">passer</text>
+<g stroke="#24292f" stroke-width="2.5">
+<line x1="581" y1="346" x2="599" y2="364"/>
+<line x1="599" y1="346" x2="581" y2="364"/></g>
+<text x="604" y="359" font-size="13" fill="#24292f">intercept</text>
+<circle cx="525" cy="362" r="8" fill="none" stroke="#0969da" stroke-width="3"/>
+<line x1="525" y1="362" x2="552" y2="385" stroke="#0969da" stroke-width="2.5"/>
+<line x1="525" y1="362" x2="552" y2="385" stroke="#0969da" stroke-width="2.5"/>
+<text x="511" y="366" font-size="13" text-anchor="end" fill="#0969da">receiver 1.9 m/s</text>
+<g opacity="0.45"><circle cx="417" cy="174" r="7" fill="none" stroke="#cf222e" stroke-width="2.5"/>
+<line x1="417" y1="174" x2="474" y2="178" stroke="#cf222e" stroke-width="2"/></g>
+<g opacity="0.45"><circle cx="150" cy="272" r="7" fill="none" stroke="#cf222e" stroke-width="2.5"/>
+<line x1="150" y1="272" x2="220" y2="261" stroke="#cf222e" stroke-width="2"/></g>
+<g opacity="0.45"><circle cx="153" cy="119" r="7" fill="none" stroke="#cf222e" stroke-width="2.5"/>
+<line x1="153" y1="119" x2="205" y2="119" stroke="#cf222e" stroke-width="2"/></g>
+<g opacity="0.45"><circle cx="607" cy="85" r="7" fill="none" stroke="#cf222e" stroke-width="2.5"/>
+<line x1="607" y1="85" x2="647" y2="57" stroke="#cf222e" stroke-width="2"/></g>
+<g><circle cx="590" cy="234" r="7" fill="none" stroke="#cf222e" stroke-width="2.5"/>
+<line x1="590" y1="234" x2="618" y2="296" stroke="#cf222e" stroke-width="2"/></g>
+<text x="602" y="226" font-size="13" fill="#cf222e">best presser 4.8 m/s</text>
+<g opacity="0.45"><circle cx="378" cy="201" r="7" fill="none" stroke="#cf222e" stroke-width="2.5"/>
+<line x1="378" y1="201" x2="434" y2="233" stroke="#cf222e" stroke-width="2"/></g>
+<g opacity="0.45"><circle cx="474" cy="165" r="7" fill="none" stroke="#cf222e" stroke-width="2.5"/>
+<line x1="474" y1="165" x2="530" y2="193" stroke="#cf222e" stroke-width="2"/></g>
+<text x="125.625" y="538" font-size="14" fill="#24292f">t_ball 0.96 s &#183; t_press 1.26 s &#183; margin 0.30 s &#8212; decile 1, completed</text>
+<text x="125.625" y="556" font-size="13" fill="#57606a">Frozen snapshot at pass moment; runner + ball move, pressers frozen (documented ~1 m pro-receiver bias).</text>
+</svg>

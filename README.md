@@ -3,6 +3,8 @@
 Safety of a receiving outlet as a physical race, not a distance heuristic.
 Both sides race to the ball-to-runner intercept.
 
+![One real pass as a physical race](docs/figs/fig4_freeze_example.svg)
+
 Anyone can read this; analysts and researchers will get the most from
 it. Any player in possession can be the passer, not just the goalkeeper.
 If you score outlets, pick passes, or study progression against a press,

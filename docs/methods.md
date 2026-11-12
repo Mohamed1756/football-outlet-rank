@@ -5,6 +5,8 @@ to call and the evidence behind it.
 
 ## 1. Rank every outlet on one freeze
 
+![One real pass as a physical race](figs/fig4_freeze_example.svg)
+
 Score each outlet by its arrival cushion — `t_press - t_ball`, the time
 between the ball reaching the ball-to-runner intercept and the nearest
 presser reaching it — and sort safest-first. Rank 0 is the best outlet

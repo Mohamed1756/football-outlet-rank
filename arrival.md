@@ -91,10 +91,12 @@ Both sides race to the ball-to-runner intercept.
   `data/pooled/skillcorner_frozen_live.pkl`.
 - Nearest-to-end recipient heuristic caused a U-shape on first scoring;
   intended targets fix it: recipient identity loads the gradient, not
-  the geometry. Base rate 16% (open league + broadcast noise) vs 5%
-  elite — same shape, higher floor. Full 20-match targeted rerun
-  (n=14,822, `skillcorner_targeted_frozen_live.pkl`) reproduces d1 0.244
-  exactly: no retraction, heuristic version superseded.
+  the geometry. Head-to-head on one match: the two methods pick the
+  same receiver 2.5% of the time — the U-shape was misattribution, not
+  geometry. Full 20-match targeted rerun (n=14,822,
+  `skillcorner_targeted_frozen_live.pkl`) reproduces d1 0.244 exactly:
+  no retraction, heuristic version superseded. Base rate 16% (open
+  league + broadcast noise) vs 5% elite — same shape, higher floor.
 
 ## Open priors (fitted, not proven)
 

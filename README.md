@@ -77,8 +77,8 @@ print([(r.rank, rank_risk(r.rank)) for r in ranks])
 Modules: `models/pressing/` (arrival, calibration, readiness, types),
 `physics/` (constants, biomechanics), `core/geometry.py`,
 `io/` (metrica, skillcorner, idsse loaders). Research note:
-`arrival.md`. Pooled evidence: `data/pooled/`
-(SkillCorner n=14,814, IDSSE n=673). Reproduce every table:
+`arrival.md`. Pooled evidence: `data/pooled/` (deciles, team splits,
+drag rematch, value-added null — see its index README). Reproduce:
 `python3 scripts/reproduce.py` (numpy + stdlib only, seconds).
 
 ## Data & licence

@@ -22,6 +22,8 @@ safest-first, decile bins one margin against fixed WC2022 edges.
 parallel above men's: same ranking power, higher levels — so scale
 levels per pace environment (`pace_k` ≈ 1.5), not edges.
 
+![Same freeze, two paces](docs/figs/fig7_risk_surface.svg)
+
 **Decisions separate teams; finishing decides tables.** Base
 incompletion spreads 2x across 13 A-League clubs, median attempted
 cushion spreads 2x — Melbourne City leads both. But rank predicts

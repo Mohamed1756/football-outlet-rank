@@ -11,7 +11,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt
-      - run: pip install ruff mypy
+      - run: pip install "ruff==0.13.3" "mypy==2.4.1"
       - run: pytest -x -q
       - run: ruff check src/ tests/
       - run: ruff format --check src/ tests/

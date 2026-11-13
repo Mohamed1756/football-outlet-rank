@@ -1,6 +1,5 @@
 """Tests for the risk surface: structure, pace ordering, bounds."""
 
-
 from src.core.geometry import PitchPoint
 from src.models.pressing.types import PressingActor
 from src.models.risk_surface import risk_surface

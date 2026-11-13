@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img">
+<rect width="1000" height="560" fill="white"/>
+<text x="500" y="30" text-anchor="middle" font-size="20" fill="#24292f">Same freeze, two paces: rank orders, levels shift</text>
+<text x="500" y="52" text-anchor="middle" font-size="13" fill="#57606a">Left: WC2022 pace (k=1.0). Right: A-League pace (k=1.5). Same geometry, same ordering — hotter colors.</text>
+<text x="250" y="92" text-anchor="middle" font-size="14" fill="#24292f">k = 1.0 (calibration pace)</text>
+<rect x="50" y="110.0" width="400" height="390" fill="none" stroke="#d0d7de" stroke-width="1.5"/>
+<rect x="97" y="456" width="20" height="28" fill="#44c83c" opacity="0.55"/>
+<rect x="97" y="397" width="20" height="28" fill="#86c83c" opacity="0.55"/>
+<rect x="97" y="338" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="97" y="279" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="97" y="220" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="97" y="160" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="97" y="101" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="159" y="456" width="20" height="28" fill="#58c83c" opacity="0.55"/>
+<rect x="159" y="397" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="159" y="338" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="159" y="279" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="159" y="220" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="159" y="160" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="159" y="101" width="20" height="28" fill="#86c83c" opacity="0.55"/>
+<rect x="222" y="456" width="20" height="28" fill="#86c83c" opacity="0.55"/>
+<rect x="222" y="397" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="222" y="338" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="222" y="279" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="222" y="220" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="222" y="160" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="222" y="101" width="20" height="28" fill="#44c83c" opacity="0.55"/>
+<rect x="284" y="456" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="284" y="397" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="284" y="338" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="284" y="279" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="284" y="220" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="284" y="160" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="284" y="101" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="347" y="456" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="347" y="397" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="347" y="338" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="347" y="279" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="347" y="220" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="347" y="160" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="347" y="101" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="409" y="456" width="20" height="28" fill="#86c83c" opacity="0.55"/>
+<rect x="409" y="397" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="409" y="338" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<rect x="409" y="279" width="20" height="28" fill="#c1c83c" opacity="0.55"/>
+<rect x="409" y="220" width="20" height="28" fill="#86c83c" opacity="0.55"/>
+<rect x="409" y="160" width="20" height="28" fill="#86c83c" opacity="0.55"/>
+<rect x="409" y="101" width="20" height="28" fill="#faaf3c" opacity="0.55"/>
+<circle cx="211" cy="166" r="5" fill="#24292f"/>
+<g stroke="#24292f" stroke-width="2"><line x1="277" y1="371" x2="291" y2="385"/><line x1="291" y1="371" x2="277" y2="385"/></g>
+<text x="730" y="92" text-anchor="middle" font-size="14" fill="#24292f">k = 1.5 (broadcast pace)</text>
+<rect x="530" y="110.0" width="400" height="390" fill="none" stroke="#d0d7de" stroke-width="1.5"/>
+<rect x="577" y="456" width="20" height="28" fill="#59c83c" opacity="0.55"/>
+<rect x="577" y="397" width="20" height="28" fill="#bdc83c" opacity="0.55"/>
+<rect x="577" y="338" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="577" y="279" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="577" y="220" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="577" y="160" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="577" y="101" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="639" y="456" width="20" height="28" fill="#78c83c" opacity="0.55"/>
+<rect x="639" y="397" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="639" y="338" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="639" y="279" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="639" y="220" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="639" y="160" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="639" y="101" width="20" height="28" fill="#bdc83c" opacity="0.55"/>
+<rect x="702" y="456" width="20" height="28" fill="#bdc83c" opacity="0.55"/>
+<rect x="702" y="397" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="702" y="338" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="702" y="279" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="702" y="220" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="702" y="160" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="702" y="101" width="20" height="28" fill="#59c83c" opacity="0.55"/>
+<rect x="764" y="456" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="764" y="397" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="764" y="338" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="764" y="279" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="764" y="220" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="764" y="160" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="764" y="101" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="827" y="456" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="827" y="397" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="827" y="338" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="827" y="279" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="827" y="220" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="827" y="160" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="827" y="101" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="889" y="456" width="20" height="28" fill="#bdc83c" opacity="0.55"/>
+<rect x="889" y="397" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="889" y="338" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<rect x="889" y="279" width="20" height="28" fill="#fab53c" opacity="0.55"/>
+<rect x="889" y="220" width="20" height="28" fill="#bdc83c" opacity="0.55"/>
+<rect x="889" y="160" width="20" height="28" fill="#bdc83c" opacity="0.55"/>
+<rect x="889" y="101" width="20" height="28" fill="#fa573c" opacity="0.55"/>
+<circle cx="691" cy="166" r="5" fill="#24292f"/>
+<g stroke="#24292f" stroke-width="2"><line x1="757" y1="371" x2="771" y2="385"/><line x1="771" y1="371" x2="757" y2="385"/></g>
+<text x="500" y="538" text-anchor="middle" font-size="13" fill="#24292f">Reception cell: 20.4% risk at k=1.0, 30.6% at k=1.5 — same rank, hotter level. Completed.</text>
+</svg>

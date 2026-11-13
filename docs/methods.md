@@ -38,6 +38,8 @@ decile_risk(1)          # 0.204 — WC2022 baseline
 decile_risk(1, pace_k=1.5)  # 0.306 — approximates the WWC2023 level
 ```
 
+![Same freeze, two paces](figs/fig7_risk_surface.svg)
+
 ## 3. Measure seconds where tracking exists
 
 On 25 fps tracking with a ball track, arrival time is observed

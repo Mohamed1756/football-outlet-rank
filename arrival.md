@@ -97,6 +97,13 @@ Both sides race to the ball-to-runner intercept.
   `skillcorner_targeted_frozen_live.pkl`) reproduces d1 0.244 exactly:
   no retraction, heuristic version superseded. Base rate 16% (open
   league + broadcast noise) vs 5% elite — same shape, higher floor.
+- Related work, independent convergence: Carrasquilla et al. (Univ. del
+  Rosario 2026, Int J Sports Sci Coaching) define decision safety / OART
+  over intended-target option sets on WC2022 360 and find recipient
+  identity loads the gradient with small passer effects (ICC ~0.03-0.04,
+  9.8% in the most heterogeneous decile). Same question family, different
+  instrument (learned completion model vs arrival cushion); their low ICC
+  corroborates our passer-trait null (corr ~0.01) without confirming it.
 
 ## Open priors (fitted, not proven)
 

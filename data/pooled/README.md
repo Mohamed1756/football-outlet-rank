@@ -22,6 +22,7 @@ rule that bins everything (WC2022 edges) is the literal
 | `idsse_measured_live.pkl` | 673 (margin, outcome) | First-3-matches cut cited in earlier drafts |
 | `idsse_pooled7.pkl` | 631 (margin, outcome) | Same, alternate cut; kept for audit |
 | `value_choice_by_passer.pkl` | 124 passers: name → [n, rank0_choices, value_choices, completions, total_outlets] (51 with n≥5 drive the null: rank-0 choice 0.00–0.25, completion 0.60–1.00, value/completion corr 0.02) | Value-added null |
+| `league_table.json` | 13 clubs; only cited figures pinned (positions, 53 pts, 49/55/32 goals), rest null | table-vs-fingerprints points/goals |
 
 Superseded cuts are marked, not deleted: early notes cite their numbers.
 

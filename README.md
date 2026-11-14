@@ -107,8 +107,10 @@ Each dataset exists because the previous one hit a wall: StatsBomb 360
 (173,440 passes, frozen gradient) → Metrica (25 Hz velocities, no
 outcomes) → SkillCorner (20 matches, real outcomes, broadcast 10 fps)
 → IDSSE (Bassek et al. 2025, TRACAB 25 fps, measured receptions).
-The chain converges on one instrument: rank from frozen shape, levels
-per pace, seconds from measurement.
+Independent evidence is 5 360 leagues + 1 broadcast pool + 1 measured
+pool — the 13 banked files are cuts and re-binnings of those seven
+inputs, not thirteen studies. The chain converges on one instrument:
+rank from frozen shape, levels per pace, seconds from measurement.
 
 Physics concepts borrowed, values assumed (per-constant notes in
 `src/physics/arrival_constants.py`): Spearman et al. 2017

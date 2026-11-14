@@ -169,7 +169,11 @@ Both sides race to the ball-to-runner intercept.
   Edge, stated plainly: every trait here conditions on attempting. When
   or whether to pass is unobserved — no event+tracking dataset records
   the ball not played. The instrument ranks outlets given an attempt;
-  it cannot rank the decision to attempt.
+  it cannot rank the decision to attempt. And the calibration assumes
+  unobserved decision-making (rank-0 choice 0.41-0.44, no league
+  pattern): hand this to a bench and passers optimize the margin, the
+  behavior the rates were fit on changes, the rates drift. Recalibrate
+  on post-deployment choice sets before trusting levels in production.
 - 8 arrival-race constants (`arrival_constants.py`, plus hip-pivot, pitch
   and loader constants alongside), every one referenced. The old GK/CV
   video engine (match segmenter, gaze, cockpit) is not in this repo: the

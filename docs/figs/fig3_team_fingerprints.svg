@@ -2,7 +2,7 @@
   <title>Team fingerprints: decision vs execution</title>
   <desc>Scatter of 13 A-League teams: x is median attempted margin (decision), y is base incompletion rate (execution). Melbourne City sits alone in the safe-and-clinical corner.</desc>
   <text x="500" y="34" text-anchor="middle" font-size="22" fill="#24292f">Decisions vs finishing, by team</text>
-  <text x="500" y="58" text-anchor="middle" font-size="14" fill="#57606a">A-League 24/25, SkillCorner broadcast tracking, n=13,122 labeled passes · right = safer choices, down = better finishing</text>
+  <text x="500" y="58" text-anchor="middle" font-size="14" fill="#57606a">A-League 24/25, SkillCorner broadcast tracking, n=13,122 plotted labeled passes (team pool banks 14,822 live rows) · right = safer choices, down = better finishing</text>
 
   <rect x="90" y="90" width="560" height="420" fill="none" stroke="#d0d7de" stroke-width="1.5"/>
 

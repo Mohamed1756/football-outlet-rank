@@ -137,3 +137,18 @@ def test_assign_sides_picks_nearest():
     ]
     rec, opp = assign_sides(actors, PitchPoint(85, 34))
     assert [a.team_id for a in rec] == ["home"]
+
+
+def test_assign_sides_rejects_unusable_sides():
+    import pytest
+
+    from src.core.geometry import PitchPoint
+    from src.models.pressing.types import PressingActor
+
+    with pytest.raises(ValueError):
+        assign_sides([], PitchPoint(85, 34))
+    with pytest.raises(ValueError):
+        assign_sides(
+            [PressingActor(track_id=0, team_id="home", pos_m=PitchPoint(80, 34))],
+            PitchPoint(85, 34),
+        )

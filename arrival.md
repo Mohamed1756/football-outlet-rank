@@ -46,10 +46,12 @@ Both sides race to the ball-to-runner intercept.
 
 - Absolute frozen-shape seconds are inflated (standing starts both sides),
   so the honest unit is rank. Margin decile -> incompletion: 20.4% (bottom)
-  to 0.2% (top), monotone across all 10 deciles, ~100x gradient.
+  to 0.2% (top), monotone across all 10 deciles, ~93x gradient
+  (0.2044/0.0022 on n=41,561).
 - Gradient holds within short/mid/long pass-length terciles: not a proxy.
-- Passers choose the safest outlet 44% of the time; failure rises
-  monotonically with chosen rank (0.024 at rank 0 to ~0.21 at rank 6+).
+- Passers choose the safest outlet ~44% of the time (0.414-0.440 across
+  the five 360 leagues); failure rises with chosen rank (0.024 at rank 0
+  to ~0.23 at rank 6+, WC2022 rank 7 pooled 0.235 on n=260).
 - `src/models/pressing/calibration.py`: `rank_outlets`, `margin_decile`,
   `decile_risk`, `rank_risk`. Edges are sample-descriptive, not physics.
 - Unscorable by construction: 740 recipient-less passes (mostly failed).
@@ -57,9 +59,9 @@ Both sides race to the ball-to-runner intercept.
 
 ## Replication (Euro2020 33,761 + LaLiga 28,694, frozen WC2022 bins)
 
-- Euro2020: monotone 0.204 -> 0.004 (53x). LaLiga: monotone 0.205 -> 0.003
-  (65x). Rank-0 failure 0.024 on all three datasets; rank curves monotone
-  to rank 6, pooled tail (7+, n < 300 per set) noisy — LaLiga rank 7 dips
+- Euro2020: monotone 0.201 -> 0.004 (~49x). LaLiga: monotone 0.199 -> 0.003
+  (~80x). Rank-0 failure 0.024 on all three datasets; rank curves rise
+  to rank 6, rank-7+ tail noisy on small n — LaLiga rank 7 dips
   to 0.157 on n=210 before rank 9 spikes on n=8.
 - Verdict: the gradient is not a tournament artifact. Bottom-decile rate
   pins at 0.20 on all three; top-decile floor varies 0.002-0.004.
@@ -67,9 +69,9 @@ Both sides race to the ball-to-runner intercept.
 
 ## Cross-pace replication (Euro 2024 34,617 + WWC 2023 32,807, frozen bins)
 
-- Euro2024: monotone 0.214 -> 0.002 (121x). Closest comparator to Euro2020;
+- Euro2024: monotone 0.214 -> 0.002 (~112x). Closest comparator to Euro2020;
   bins hold across tournaments four years apart. Rank-0 failure 0.020.
-- WWC2023: monotone 0.273 -> 0.005 (52x) but the whole curve shifts up:
+- WWC2023: monotone 0.273 -> 0.005 (~52x) but the whole curve shifts up:
   bottom decile 0.27 (vs 0.20 men), rank-0 failure 0.048 (vs 0.020-0.024).
   Global incompletion 0.102 vs ~0.05-0.06 men.
 - Reading: rank ordering survives slower pace — the gradient is shape, not
@@ -82,21 +84,24 @@ Both sides race to the ball-to-runner intercept.
   WWC ~1.5x), not shifted edges: endpoint-proxy refit shows WWC edges
   coincide with WC2022 while rates sit uniformly higher. The ordering
   instrument is pace-free.
+## Broadcast replication (20 A-League matches, n=14,822, targeted receivers)
 
-## Broadcast replication (20 A-League matches, n=14,814, targeted receivers)
-
-- Sixth dataset, first with real outcomes at tracking scale: frozen d1
-  0.24 to d10 0.02 (14x), live d1 0.22 to d10 0.02 (10x), monotone
-  except d2-dip/d3-bump noise. Pooled margins banked in
-  `data/pooled/skillcorner_frozen_live.pkl`.
+- Sixth dataset, first with real outcomes at tracking scale (pooled
+  deciles — each pool's own tenths; frozen-edge table in reproduce.py
+  is the same pools on common ground, d1 0.225 there). Frozen d1
+  0.245 to d10 0.020 (~12x), live d1 0.221 to d10 0.024 (~9x);
+  monotone falling past the tight top (frozen from d3, live from d4),
+  with d2-dip/d3-bump noise where the tightest bins overlap. Pooled
+  margins banked in `data/pooled/skillcorner_targeted_frozen_live.pkl`
+  (canonical; the heuristic `skillcorner_frozen_live.pkl` cut, n=14,814,
+  is superseded but kept for the audit trail).
 - Nearest-to-end recipient heuristic caused a U-shape on first scoring;
   intended targets fix it: recipient identity loads the gradient, not
   the geometry. Head-to-head on one match: the two methods pick the
   same receiver 2.5% of the time — the U-shape was misattribution, not
-  geometry. Full 20-match targeted rerun (n=14,822,
-  `skillcorner_targeted_frozen_live.pkl`) reproduces d1 0.244 exactly:
-  no retraction, heuristic version superseded. Base rate 16% (open
-  league + broadcast noise) vs 5% elite — same shape, higher floor.
+  geometry (first-cut d1 0.225 on frozen edges, n=14,814, kept in
+  `skillcorner_frozen_live.pkl` for the audit trail). Base rate 16%
+  (open league + broadcast noise) vs 5% elite — same shape, higher floor.
 - Related work, independent convergence: Carrasquilla et al. (Univ. del
   Rosario 2026, Int J Sports Sci Coaching) define decision safety / OART
   over intended-target option sets on WC2022 360 and find recipient
@@ -132,8 +137,9 @@ Both sides race to the ball-to-runner intercept.
   strands 1% at 0.63 s. Coulomb-22 wins coverage and timing jointly,
   wrong physics and all. No flight model adopted; measured truth stands
   for tracking, Coulomb-22 stays the frozen estimator.
-- 7-match measured pool (n=1,160, live pressers, observed times): d1 0.40
-  falling to d10 0.01, monotone except d2 dip and d6 bump. Shape holds at
+- 7-match measured pool (n=1,160, live pressers, observed times, pooled
+  deciles): d1 0.40 falling to d10 0.01, monotone d1→d4 with a d5/d6
+  bump (0.10/0.12 on n=116 each), then falling. Shape holds at
   2x the earlier n; still too weak to refit deciles on.
 - Team fingerprints, first positive cut (SkillCorner 20 matches, targeted
   receivers, n≈13,000, live pressers): execution spreads 2x — Melbourne
@@ -155,9 +161,9 @@ Both sides race to the ball-to-runner intercept.
 - `outlet_value` (retention times forward progress) is a descriptive
   reordering aid: rank-0-by-value is the safest progressive ball, not a
   fitted outcome. Individual value-added fails as a trait on IDSSE
-  (51 passers, n>=5, full-pitch choice sets averaging 8.8 outlets):
-  rank-0 choice 0.00-0.20, value-choice vs completion corr 0.01-0.02.
-  Passers complete 70-100% while almost never taking the model's safest
+  (51 passers, n>=5, full-pitch choice sets averaging 8.7 outlets):
+  rank-0 choice 0.00-0.25, value-choice vs completion corr 0.02.
+  Passers complete 60-100% while almost never taking the model's safest
   outlet — they optimize something the margin doesn't see (receive-ability
   under specific marking, the next action, options the snapshot misses).
   Edge, stated plainly: every trait here conditions on attempting. When
@@ -165,5 +171,8 @@ Both sides race to the ball-to-runner intercept.
   the ball not played. The instrument ranks outlets given an attempt;
   it cannot rank the decision to attempt.
 - 8 arrival-race constants (`arrival_constants.py`, plus hip-pivot, pitch
-  and loader constants alongside), every one referenced. Full video engine
-  recoverable from tag `last-full-system`.
+  and loader constants alongside), every one referenced. The old GK/CV
+  video engine (match segmenter, gaze, cockpit) is not in this repo: the
+  `last-full-system` tag points at a valuation-only commit without
+  `src/cv/`, and the CV commits survive only as unreferenced objects.
+  Nothing to recover by tag — treat any v2 video work as new, not kept.

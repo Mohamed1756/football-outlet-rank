@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" role="img">
 <rect width="1000" height="620" fill="white"/>
-<text x="500" y="32" text-anchor="middle" font-size="22" fill="#24292f">Frozen vs live: the same pass, 0.96 s later</text>
-<text x="500" y="54" text-anchor="middle" font-size="14" fill="#57606a">Left: what the model sees (pressers frozen). Right: where everyone ended up (reception).</text>
+<text x="500" y="32" text-anchor="middle" font-size="22" fill="#24292f">Frozen vs live: one IDSSE pass, 0.96 s of flight</text>
+<text x="500" y="54" text-anchor="middle" font-size="14" fill="#57606a">Left: what the model sees (pressers frozen). Right: where everyone ended up (reception). Illustrative instance, not a result — 0.96 s is this pass's measured flight.</text>
 <text x="265" y="92" text-anchor="middle" font-size="16" fill="#24292f">t = 0 (pass moment)</text>
 <rect x="50" y="80.0" width="430" height="470" fill="none" stroke="#d0d7de" stroke-width="1.5"/>
 <line x1="222" y1="148" x2="301" y2="402" stroke="#57606a" stroke-width="2" stroke-dasharray="8 5"/>

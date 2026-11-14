@@ -5,7 +5,7 @@ to call and the evidence behind it.
 
 ## 1. Rank every outlet on one freeze
 
-![Frozen vs live: the same pass, 0.96 s later](figs/fig5_frozen_vs_live.svg)
+![Frozen vs live on one IDSSE pass (0.96 s measured flight, illustrative)](figs/fig5_frozen_vs_live.svg)
 ![One frozen shape: the raw material behind fig1](figs/fig6_frozen_shape.svg)
 
 Score each outlet by its arrival cushion — `t_press - t_ball`, the time
@@ -16,9 +16,11 @@ starts both sides), so rank is the portable unit: which outlets are
 tighter than which.
 
 Evidence: bottom decile fails at 20–27%, top at 0.2–0.5%, monotone
-across all five calibration datasets and the broadcast replication
-(`docs/figs/fig1_decile_curves.png`). Rank 0 fails at 0.02–0.05;
-failure rises every rank.
+falling across all ten deciles on each of the five 360 leagues on
+frozen WC2022 edges (`docs/figs/fig1_decile_curves.png`). Rank 0 fails
+at 0.02–0.05; failure rises with chosen rank to rank 6, tail pooled
+past noise. Tracking pools grade on pooled deciles — same shape,
+noisier tail; see `data/pooled/README.md` "Binning rule".
 
 ```python
 from src.models.pressing.calibration import rank_outlets, rank_risk
@@ -42,8 +44,9 @@ decile_risk(1, pace_k=1.5)  # 0.306 — approximates the WWC2023 level
 
 ## 3. Measure seconds where tracking exists
 
-On 25 fps tracking with a ball track, arrival time is observed
-(release-to-reception), not modeled. Pass the measured intercept and
+Where tracking carries a ball track, arrival time is observed
+(release-to-reception), not modeled — IDSSE at 25 fps, SkillCorner
+broadcast at 10 fps. Pass the measured intercept and
 flight time and skip the equation entirely — no stopping-distance
 trap, no strike assumption:
 

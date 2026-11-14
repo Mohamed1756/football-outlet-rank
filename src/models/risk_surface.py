@@ -6,10 +6,8 @@ is it safe to receive" in absolute risk, comparable across environments.
 Not rank: cells have no choice set, only margins.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 
 from src.core.geometry import PITCH_LENGTH_M, PITCH_WIDTH_M, PitchPoint
 from src.models.pressing.arrival import arrival_margin
@@ -22,7 +20,7 @@ class RiskCell:
     x_m: float
     y_m: float
     margin_s: float
-    risk: float
+    risk: Optional[float]  # None = unscorable cell (no valid presser)
 
 
 def risk_surface(
@@ -36,8 +34,10 @@ def risk_surface(
 
     Hypothetical receiver stands static at each cell center; pressers run
     the frozen snapshot. pace_k re-scales levels per environment
-    (1.0 = WC2022 calibration pace, ~1.5 = A-League broadcast pace).
-    Same freeze, different k: colors shift, ordering does not.
+    (1.0 = WC2022 calibration pace; WWC2023 ≈ 1.5). Same freeze,
+    different k: colors shift, ordering holds strictly below the 1.0
+    cap (at high k saturated top deciles tie). Cells with no valid
+    presser carry risk=None: unscorable, never displayed as safe.
     """
     cells: List[RiskCell] = []
     tid = 0
@@ -49,6 +49,7 @@ def risk_surface(
             tid += 1
             res = arrival_margin(probe, opponents, passer)
             if not res.margin_s > -99.0:
+                cells.append(RiskCell(x_m=x, y_m=y, margin_s=res.margin_s, risk=None))
                 continue
             dec = margin_decile(res.margin_s)
             cells.append(

@@ -12,7 +12,7 @@ def _actor(tid, x, y, team="opp"):
 def test_surface_covers_grid_and_bounds_risk():
     cells = risk_surface(PitchPoint(52.5, 34.0), [_actor(1, 70.0, 34.0)], nx=7, ny=4)
     assert len(cells) == 28
-    assert all(0.0 <= c.risk <= 1.0 for c in cells)
+    assert all(c.risk is not None and 0.0 <= c.risk <= 1.0 for c in cells)
     assert all(c.margin_s > -99.0 for c in cells)
 
 
@@ -30,6 +30,7 @@ def test_pace_k_shifts_levels_not_order():
     assert sum(f.risk for f in fast) >= sum(b.risk for b in base)
 
 
-def test_no_opponents_yields_zero_risk_everywhere():
+def test_no_opponents_yields_unscorable_not_safe():
     cells = risk_surface(PitchPoint(52.5, 34.0), [], nx=5, ny=3)
-    assert cells and all(c.risk <= 0.01 for c in cells)
+    assert cells and all(c.risk is None for c in cells)
+    assert all(c.margin_s == -99.0 for c in cells)

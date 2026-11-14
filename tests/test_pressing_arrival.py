@@ -124,7 +124,8 @@ def test_invalid_opponents_ignored():
     pressers = [_actor(1, 86.5, 25.5, valid=False)]
     res = arrival_margin(rec, pressers, passer)
     assert res.best_presser_id is None
-    assert res.t_press_s == 99.0
+    assert res.margin_s == -99.0  # unscorable, never the safest outlet
+    assert res.t_press_s == math.inf
 
 
 def test_margin_falls_as_presser_accelerates():

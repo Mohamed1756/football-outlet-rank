@@ -153,8 +153,18 @@ def assign_sides(
     Heuristic: the side with a player nearest the pass end position is
     the receiving side. Works because the recipient runs onto the ball;
     fails on interceptions (nearest man is a defender), so callers
-    scoring turnovers should pass sides explicitly instead.
+    scoring turnovers should pass sides explicitly instead. Raises
+    ValueError when sides are unusable: one side present, any side
+    "unknown", or an empty actor list — all would silently empty the
+    opponent list and score the pass as safe (arrival unscorable rule).
     """
+
+    sides = {a.team_id for a in actors}
+    if not sides or "unknown" in sides or len(sides) < 2:
+        raise ValueError(
+            f"assign_sides needs two known sides, got {sorted(sides)}: "
+            "nearest-to-end cannot run. Pass sides explicitly."
+        )
 
     def nearest(side: str) -> float:
         return min(
@@ -166,8 +176,7 @@ def assign_sides(
             default=math.inf,
         )
 
-    sides = {a.team_id for a in actors}
-    rec_side = min(sides, key=nearest, default="")
+    rec_side = min(sides, key=nearest)
     return (
         [a for a in actors if a.team_id == rec_side],
         [a for a in actors if a.team_id != rec_side],

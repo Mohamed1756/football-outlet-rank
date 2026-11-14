@@ -3,31 +3,41 @@
 Safety of a receiving outlet as a physical race, not a distance heuristic.
 Both sides race to the ball-to-runner intercept.
 
-![Frozen vs live: the same pass, 0.96 s later](docs/figs/fig5_frozen_vs_live.svg)
+![Frozen vs live on one IDSSE pass (0.96 s measured flight, illustrative)](docs/figs/fig5_frozen_vs_live.svg)
 
 ## What it says
 
 **Rank orders risk.** Bottom decile fails at 20–27%; the top at
-0.2–0.5% — monotone across all six datasets. Rank 0 fails at 0.02–0.05;
-failure rises every rank. Passers pick the safest outlet ~43% of the time.
+0.2–0.5% — monotone falling across all ten deciles on each of the
+five 360 leagues on frozen WC2022 edges (fig1). Rank 0 fails at
+0.02–0.05 on 360 choice sets (league range 0.020–0.048); failure
+rises with chosen rank to rank 6, tail pooled past noise. Passers
+pick the safest outlet 0.41–0.44 of the time (league range; WC2022
+0.44). No rank curve exists on tracking pools — no full choice sets
+scored there, so rank-0 has no tracking anchor.
 
-![Margin decile vs incompletion, six datasets](docs/figs/fig1_decile_curves.png)
+![Margin decile vs incompletion, five 360 leagues plus broadcast first cut](docs/figs/fig1_decile_curves.png)
 
 Absolute seconds are inflated (frozen shape, standing starts) — trust
 the ordering, not the clock. Decile 1 = tightest cushion, decile 10 =
 safest; play rank (`rank_outlets`) sorts outlets on one freeze
 safest-first, decile bins one margin against fixed WC2022 edges.
+Tracking pools (A-League targeted n=14,822, IDSSE measured n=1,160)
+grade on their own tenths — pooled deciles, same shape, noisier tail;
+`scripts/reproduce.py` prints them on frozen edges for common ground.
 
 **Levels shift with pace, order doesn't.** The women's curve runs
-parallel above men's: same ranking power, higher levels — so scale
-levels per pace environment (`pace_k` ≈ 1.5), not edges.
+parallel above men's: same ranking power, higher levels — WWC2023
+fails ~1.5x the WC2022 rate at equal frozen-shape margin, so one
+environment multiplier (`pace_k=1.5`) re-scales levels, not edges.
 
 ![Same freeze, two paces](docs/figs/fig7_risk_surface.svg)
 
 **Decisions separate teams; finishing decides tables.** Base
 incompletion spreads 2x across 13 A-League clubs, median attempted
 cushion spreads 2x — Melbourne City leads both. But rank predicts
-arrival, not points (corr ≈ −0.25):
+arrival, not points (points vs base incompletion −0.26; points vs
+median cushion −0.23 — neither worth naming):
 
 ![Team decisions vs finishing, A-League](docs/figs/fig3_team_fingerprints.svg)
 
@@ -68,13 +78,13 @@ res = arrival_margin(receiver, [presser], PitchPoint(100.0, 29.0))
 ready = receiver_readiness(receiver, PitchPoint(100.0, 29.0))
 print(res.margin_s, res.t_ball_s, res.t_press_s, res.best_presser_id)
 print(ready.reception_latency_s, ready.post_cushion_s(res.margin_s))
-print(ready.retention_prob(res.margin_s))
 
-# Rank outlets on raw arrival margin; retention is diagnostic only, never ranked on:
+# Rank outlets on raw arrival margin; retention is a monotone diagnostic
+# for reordering only — its absolute value is uncalibrated (assumed
+# 0.45 s touch + logistic, never fitted), so it is not printed bare:
 outlets = [1.9, 0.4, 1.2]  # margins per outlet
 ranks = rank_outlets(outlets)
 print([(r.rank, rank_risk(r.rank)) for r in ranks])
-```
 
 Modules: `models/pressing/` (arrival, calibration, readiness, types),
 `physics/` (constants, biomechanics), `core/geometry.py`,

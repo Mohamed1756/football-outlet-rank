@@ -208,8 +208,17 @@ def assign_sides(
     """Split actors into (receiving side, opposing side).
 
     Heuristic fallback when the targeted receiver is untracked. Fails on
-    interceptions (nearest man is a defender).
+    interceptions (nearest man is a defender). Raises ValueError when
+    sides are unusable: one side present, any side "unknown", or an
+    empty actor list — all would silently empty the opponent list and
+    score the pass as safe (arrival unscorable rule).
     """
+    sides = {a.team_id for a in actors}
+    if not sides or "unknown" in sides or len(sides) < 2:
+        raise ValueError(
+            f"assign_sides needs two known sides, got {sorted(sides)}: "
+            "nearest-to-end cannot run. Pass sides explicitly."
+        )
 
     def nearest(side: str) -> float:
         return min(
@@ -221,8 +230,7 @@ def assign_sides(
             default=math.inf,
         )
 
-    sides = {a.team_id for a in actors}
-    rec_side = min(sides, key=nearest, default="")
+    rec_side = min(sides, key=nearest)
     return (
         [a for a in actors if a.team_id == rec_side],
         [a for a in actors if a.team_id != rec_side],
@@ -261,7 +269,10 @@ def load_passes(
 
     The end position is the measured reception point (ball meets targeted
     runner within 1 s), not the event coordinates: DFL X-Source is the ball
-    origin. Passes with no observed reception are dropped.
+    origin. Passes with no observed reception are dropped — this
+    conditions the pool on the ball arriving (against long balls and the
+    very failures the gradient fits), so fitted rates are conditional on
+    reception, not unconditional pass risk.
     """
     length, width, teams, names = _load_roster(match_path)
     frames, ball, stamps = _read_tracking(tracking_path, teams, length, width)

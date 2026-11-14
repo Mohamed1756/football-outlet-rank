@@ -3,6 +3,13 @@
 Open (facing upfield, pass into stride) is ready now. Back-to-passer prices
 in a turn via the hip-pivot curve instead of a veto. Facing is pose or
 unknown; unknown notes, it does not discount through an unmeasured prior.
+
+Ordering instrument, not a clock: every latency here is an assumed profile
+(0.45 s touch, hip-pivot curve, 0.25 s floor — arrival_constants.py),
+never a fitted time. post_cushion_s preserves margin ordering exactly
+(one shared subtraction); retention_prob is a monotone diagnostic mapping
+for reordering aids like outlet_value — never a calibrated probability.
+Do not threshold or bet on its absolute value.
 """
 
 from __future__ import annotations
@@ -34,7 +41,14 @@ class ReadinessResult:
         return round(arrival_margin_s - self.reception_latency_s, 3)
 
     def retention_prob(self, arrival_margin_s: float) -> float:
-        """First-touch retention probability from post-receipt cushion."""
+        """Monotone diagnostic mapping of post-receipt cushion to (0, 1).
+
+        Same assumed logistic as ever (steepness 15, 50% at 0.15 s —
+        arrival_constants.py, not a fit). Preserves cushion ordering, so
+        it can reorder outlets; its absolute value is uncalibrated and
+        inherits the frozen-seconds inflation of its input. Never rank
+        passers, never threshold decisions on it.
+        """
         cushion = self.post_cushion_s(arrival_margin_s)
         return round(
             1.0

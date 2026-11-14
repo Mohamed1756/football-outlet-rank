@@ -13,7 +13,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: pip install "ruff==0.13.3" "mypy==2.4.1"
       - run: pytest -x -q
-      - run: ruff check src/ tests/
-      - run: ruff format --check src/ tests/
+      - run: ruff check src/ tests/ scripts/
+      - run: ruff format --check src/ tests/ scripts/
       - run: mypy --strict src/
       - run: python3 scripts/reproduce.py

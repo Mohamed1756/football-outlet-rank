@@ -121,3 +121,20 @@ def test_assign_sides_picks_nearest():
     ]
     rec, opp = assign_sides(actors, PitchPoint(85, 34))
     assert [a.team_id for a in rec] == ["home"]
+
+
+def test_assign_sides_rejects_unknown_sides():
+    import pytest
+
+    from src.core.geometry import PitchPoint
+    from src.models.pressing.types import PressingActor
+
+    actors = [
+        PressingActor(track_id=0, team_id="unknown", pos_m=PitchPoint(80, 34)),
+        PressingActor(track_id=1, team_id="unknown", pos_m=PitchPoint(50, 34)),
+    ]
+    with pytest.raises(ValueError):
+        # no match_path: every actor "unknown", opponents would be []
+        assign_sides(actors, PitchPoint(85, 34))
+    with pytest.raises(ValueError):
+        assign_sides([], PitchPoint(85, 34))

@@ -21,12 +21,29 @@ def test_rank_outlets_safest_first():
     assert ranks[1].margin_s == 2.5
 
 
+def test_rank_outlets_ties_break_by_input_order():
+    # Equal margins share no rank: first-listed takes the tighter rank.
+    ranks = rank_outlets([1.0, 1.0, 2.0])
+    assert [r.rank for r in ranks] == [1, 2, 0]
+
+
 def test_margin_decile_edges():
     assert margin_decile(-1.56) == 1
     assert margin_decile(1.01) == 1
     assert margin_decile(1.02) == 2
     assert margin_decile(5.13) == 10
     assert margin_decile(99.0) == 10
+
+
+def test_margin_decile_rejects_unscorable():
+    # -99.0 binned as decile 1 ("tightest, risk 0.204") would score
+    # missing tracking as the most dangerous real ball. Never bin it.
+    with pytest.raises(ValueError):
+        margin_decile(-99.0)
+    with pytest.raises(ValueError):
+        margin_decile(float("inf"))
+    with pytest.raises(ValueError):
+        margin_decile(float("nan"))
 
 
 def test_decile_risk_monotone_fitted_gradient():
@@ -58,14 +75,20 @@ def test_outlet_value_prefers_progressive_safety():
     assert outlet_value(0.99, 20.0) < outlet_value(0.8, 80.0)
 
 
-def test_outlet_value_clamps_off_pitch():
-    assert outlet_value(0.9, 200.0) == pytest.approx(0.9, abs=1e-4)
-    assert outlet_value(0.9, -10.0) == 0.0
+def test_outlet_value_reverse_attack_flips_progress():
+    # Same physical point, opposite attacking end: progress mirrors.
+    assert outlet_value(0.9, 80.0, -1.0) == pytest.approx(
+        outlet_value(0.9, 25.0, 1.0), abs=1e-4
+    )
+    with pytest.raises(ValueError):
+        outlet_value(0.9, 80.0, 0.0)
 
 
 def test_rank_risk_monotone_to_pool():
-    # Passers choose rank 0 44% of the time; failure rises with rank, 6+ pooled
+    # Rank 0 chosen ~44% (WC2022); failure rises with rank to rank 6,
+    # rank 7 pools ranks 7+ (0.235 on n=260 — pooled tail, not a rung).
     assert RANK_INCOMPLETION_RATE[0] == pytest.approx(0.024, abs=1e-3)
+    assert RANK_INCOMPLETION_RATE[7] == pytest.approx(0.235, abs=1e-3)
     for i in range(6):
         assert RANK_INCOMPLETION_RATE[i] < RANK_INCOMPLETION_RATE[i + 1]
     assert rank_risk(0) == RANK_INCOMPLETION_RATE[0]

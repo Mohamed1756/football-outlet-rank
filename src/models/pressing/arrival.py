@@ -186,6 +186,7 @@ def arrival_margin(
 
     marking_dist_m is the nearest opponent's frozen-snapshot distance to
     the intercept: context for display, never ranked or calibrated on.
+    margin_s=-99.0: unscorable, like no-ball — never the safest outlet.
     """
     rec_vel, _ = gate_tracking_velocity(receiver.vel_ms, receiver.speed_capped)
     if measured is not None:
@@ -230,9 +231,14 @@ def arrival_margin(
             best_presser = op.track_id
 
     if math.isinf(t_press):
-        t_press = 99.0
-    if math.isinf(marking):
-        marking = 99.0
+        return ArrivalResult(
+            receiver_track_id=receiver.track_id,
+            margin_s=-99.0,
+            t_ball_s=round(t_ball, 3),
+            t_press_s=math.inf,
+            best_presser_id=None,
+            marking_dist_m=round(marking, 2) if math.isfinite(marking) else 99.0,
+        )
     return ArrivalResult(
         receiver_track_id=receiver.track_id,
         margin_s=round(t_press - t_ball, 3),

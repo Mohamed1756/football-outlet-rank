@@ -136,3 +136,22 @@ def test_assign_sides_picks_nearest_to_end():
     rec, opp = assign_sides(actors, PitchPoint(85.0, 34.0))
     assert [a.team_id for a in rec] == ["home"]
     assert [a.team_id for a in opp] == ["away"]
+
+
+def test_assign_sides_rejects_unusable_sides():
+    import pytest
+
+    from src.core.geometry import PitchPoint
+    from src.io.metrica import assign_sides
+    from src.models.pressing.types import PressingActor
+
+    def actor(tid, team):
+        return PressingActor(track_id=tid, team_id=team, pos_m=PitchPoint(80, 34.0))
+
+    end = PitchPoint(85.0, 34.0)
+    with pytest.raises(ValueError):
+        assign_sides([], end)  # empty: no opponent list to score
+    with pytest.raises(ValueError):
+        assign_sides([actor(0, "home")], end)  # single side: opp would be []
+    with pytest.raises(ValueError):
+        assign_sides([actor(0, "unknown"), actor(1, "home")], end)
